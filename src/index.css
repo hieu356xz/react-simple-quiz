@@ -103,6 +103,15 @@ button {
   justify-items: center;
 }
 
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #b1b1b1;
+  border-radius: 8px;
+}
+
 [data-theme="dark"] {
   --primary-text-color: #e0e0e0;
   --secondary-text-color: #bdbdbd;
