@@ -1,10 +1,13 @@
 import Navbar from "../components/Navbar";
+import TestInfo from "../components/TestInfo";
 
 const HomePage = () => {
   return (
     <>
       <Navbar />
-      <div>HomePage</div>
+      <div className="Main">
+        <TestInfo />
+      </div>
     </>
   );
 };

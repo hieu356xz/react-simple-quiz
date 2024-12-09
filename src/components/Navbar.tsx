@@ -11,7 +11,7 @@ const Navbar = () => {
     <nav className="Navbar">
       <NavbarItem>
         <button className="BtnHamburger">
-          <FaBars color="var(--secondary-text-color)" />
+          <FaBars style={{ backgroundColor: "#00000000" }} />
         </button>
       </NavbarItem>
 
