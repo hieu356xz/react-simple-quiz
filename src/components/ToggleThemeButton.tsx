@@ -1,7 +1,7 @@
-import { CgDarkMode } from "react-icons/cg";
 import { ThemeContext } from "../contexts/ThemeProvider";
 import { useContext } from "react";
 import { saveThemeToLocal } from "../contexts/ThemeLocalStorage";
+import { MdOutlineDarkMode, MdOutlineLightMode } from "react-icons/md";
 
 const ToggleThemeButton = () => {
   const { theme, setTheme } = useContext(ThemeContext);
@@ -24,8 +24,11 @@ const ToggleThemeButton = () => {
 
   return (
     <button className="BtnToggleTheme" onClick={changeTheme}>
-      <span>{theme}</span>
-      <CgDarkMode size={"30px"} />
+      {theme == "light" ? (
+        <MdOutlineLightMode size={"24px"} style={{ background: "#00000000" }} />
+      ) : (
+        <MdOutlineDarkMode size={"24px"} style={{ background: "#00000000" }} />
+      )}
     </button>
   );
 };
