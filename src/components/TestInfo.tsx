@@ -1,8 +1,8 @@
 import { FiEdit } from "react-icons/fi";
 
-const TestInfo = () => {
+const TestInfo = (props: any) => {
   return (
-    <div className="TestInfo">
+    <div className={`TestInfo ${props.isSidebarOpen ? "shrink" : ""}`}>
       <table>
         <tr className="TestInfoTableName">
           <th colSpan={2}>Test</th>
