@@ -1,5 +1,6 @@
-import { createContext, useState, ReactNode } from "react";
+import { createContext, useState, useEffect, ReactNode } from "react";
 import Subject from "../data/Subject";
+import QueryDb from "../data/QueryDb";
 
 interface ICurrSubjectContext {
   currSubject: Subject | null;
@@ -12,11 +13,27 @@ export const CurrSubjectContext = createContext<ICurrSubjectContext>({
 });
 
 const CurrSubjectProvider = ({ children }: { children: ReactNode }) => {
-  const [currSubject, setCurrSubject] = useState({
-    ID: 1,
-    Name: "TES1231231311313123124124124T",
-    SemesterID: 1,
-  });
+  const [currSubject, setCurrSubject] = useState<Subject | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await QueryDb(`select *
+                                    from Subjects 
+                                    where SemesterID = (select ID 
+                                                        from Semesters 
+                                                        where ID = 6)
+                                    limit 1`);
+
+        const subject = new Subject(JSON.parse(data)[0]);
+        setCurrSubject(subject);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <CurrSubjectContext.Provider
