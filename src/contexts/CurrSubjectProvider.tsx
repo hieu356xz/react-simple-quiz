@@ -1,8 +1,8 @@
 import { createContext, useState, ReactNode } from "react";
-import ISubject from "../data/ISubject";
+import Subject from "../data/Subject";
 
 interface ICurrSubjectContext {
-  currSubject: ISubject | null;
+  currSubject: Subject | null;
   setCurrSubject: React.Dispatch<React.SetStateAction<any>>;
 }
 
