@@ -6,7 +6,6 @@ interface IQuestion {
   QuestionType: string;
   Cdr: number;
   Shuffleable: boolean;
-  IsConfirmedCorrect: number;
 }
 
 export default IQuestion;
