@@ -278,7 +278,7 @@ button {
   transition: transform 350ms ease, width 350ms ease;
 }
 
-@media screen and (min-width: 768px) {
+@media screen and not (max-width: 768px) {
   .TestInfo.shrink {
     transform: translateX(var(--sidebar-width));
     width: calc(100% - var(--sidebar-width));

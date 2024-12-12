@@ -10,7 +10,7 @@ const Navbar = () => {
   const { currSubject } = useContext(CurrSubjectContext);
   const { isSidebarOpen, setIsSidebarOpen } = useContext(SidebarOpenContext);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-  const screenMatches = useMediaQuery("screen and (min-width: 768px)");
+  const screenMatches = useMediaQuery("screen and (max-width: 768px)");
 
   const toggleSidebar = () => {
     setIsSidebarOpen((prev) => !prev);
@@ -36,7 +36,7 @@ const Navbar = () => {
         </button>
       </NavbarItem>
 
-      {screenMatches && (
+      {!screenMatches && (
         <>
           <NavbarItem>
             <span style={{ textWrap: "nowrap" }}>Môn học</span>
