@@ -2,29 +2,33 @@ import { useContext, useEffect, useState } from "react";
 import { FaBars, FaAngleRight } from "react-icons/fa6";
 import NavbarItem from "./NavbarItem";
 import { CurrSubjectContext } from "../contexts/CurrSubjectProvider";
+import { SidebarOpenContext } from "../contexts/SidebarOpenProvider";
 import ToggleThemeButton from "./ToggleThemeButton";
 
-const Navbar = (props: any) => {
+const Navbar = () => {
   const { currSubject } = useContext(CurrSubjectContext);
+  const { isSidebarOpen, setIsSidebarOpen } = useContext(SidebarOpenContext);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen((prev) => !prev);
+  };
 
   useEffect(() => {
     setIsButtonDisabled(() => true);
     setTimeout(() => setIsButtonDisabled(() => false), 350);
-  }, [props.isSidebarOpen]);
+  }, [isSidebarOpen]);
 
   return (
     <nav className="Navbar">
       <NavbarItem>
         <button
           className="BtnHamburger"
-          onClick={props.toggleSidebar}
+          onClick={toggleSidebar}
           disabled={isButtonDisabled}
         >
           <FaBars
-            className={`BtnHamburgerIcon ${
-              props.isSidebarOpen ? "active" : ""
-            }`}
+            className={`BtnHamburgerIcon ${isSidebarOpen ? "active" : ""}`}
             style={{ backgroundColor: "#00000000" }}
           />
         </button>

@@ -1,8 +1,11 @@
-const Sidebar = (props: any) => {
+import { SidebarOpenContext } from "../contexts/SidebarOpenProvider";
+import { useContext } from "react";
+
+const Sidebar = () => {
+  const { isSidebarOpen } = useContext(SidebarOpenContext);
+
   return (
-    <div className={`Sidebar ${props.isSidebarOpen ? "" : "hide"}`}>
-      Sidebar
-    </div>
+    <div className={`Sidebar ${isSidebarOpen ? "" : "hide"}`}>Sidebar</div>
   );
 };
 

@@ -2,22 +2,17 @@ import { useState } from "react";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import TestInfo from "../components/TestInfo";
+import SidebarOpenProvider from "../contexts/SidebarOpenProvider";
 
 const HomePage = () => {
-  const [isSidebarOpen, setIsSidenbarOpen] = useState(false);
-
-  const toggleSidebar = () => {
-    setIsSidenbarOpen((prev) => !prev);
-  };
-
   return (
-    <>
-      <Navbar isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+    <SidebarOpenProvider>
+      <Navbar />
       <div className="Main">
-        <Sidebar isSidebarOpen={isSidebarOpen} />
-        <TestInfo isSidebarOpen={isSidebarOpen} />
+        <Sidebar />
+        <TestInfo />
       </div>
-    </>
+    </SidebarOpenProvider>
   );
 };
 

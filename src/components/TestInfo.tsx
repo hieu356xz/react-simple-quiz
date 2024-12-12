@@ -1,8 +1,12 @@
 import { FiEdit } from "react-icons/fi";
+import { SidebarOpenContext } from "../contexts/SidebarOpenProvider";
+import { useContext } from "react";
 
-const TestInfo = (props: any) => {
+const TestInfo = () => {
+  const { isSidebarOpen } = useContext(SidebarOpenContext);
+
   return (
-    <div className={`TestInfo ${props.isSidebarOpen ? "shrink" : ""}`}>
+    <div className={`TestInfo ${isSidebarOpen ? "shrink" : ""}`}>
       <table>
         <tr className="TestInfoTableName">
           <th colSpan={2}>Test</th>
