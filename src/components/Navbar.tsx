@@ -35,7 +35,7 @@ const Navbar = () => {
       </NavbarItem>
 
       <NavbarItem>
-        <span>Môn học</span>
+        <span style={{ textWrap: "nowrap" }}>Môn học</span>
       </NavbarItem>
 
       <NavbarItem>

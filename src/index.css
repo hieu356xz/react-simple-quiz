@@ -148,13 +148,14 @@ button {
 
 .NavbarItem {
   display: flex;
-  width: fit-content;
+  width: auto;
   align-items: center;
   justify-content: center;
   text-transform: uppercase;
   font-size: 18px;
   font-weight: 700;
   padding: 4px;
+  text-wrap: balance;
 }
 
 .NavbarItem * {
