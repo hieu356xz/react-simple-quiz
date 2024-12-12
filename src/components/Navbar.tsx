@@ -4,11 +4,13 @@ import NavbarItem from "./NavbarItem";
 import { CurrSubjectContext } from "../contexts/CurrSubjectProvider";
 import { SidebarOpenContext } from "../contexts/SidebarOpenProvider";
 import ToggleThemeButton from "./ToggleThemeButton";
+import { useMediaQuery } from "@react-hook/media-query";
 
 const Navbar = () => {
   const { currSubject } = useContext(CurrSubjectContext);
   const { isSidebarOpen, setIsSidebarOpen } = useContext(SidebarOpenContext);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  const screenMatches = useMediaQuery("screen and (min-width: 768px)");
 
   const toggleSidebar = () => {
     setIsSidebarOpen((prev) => !prev);
@@ -34,17 +36,21 @@ const Navbar = () => {
         </button>
       </NavbarItem>
 
-      <NavbarItem>
-        <span style={{ textWrap: "nowrap" }}>Môn học</span>
-      </NavbarItem>
+      {screenMatches && (
+        <>
+          <NavbarItem>
+            <span style={{ textWrap: "nowrap" }}>Môn học</span>
+          </NavbarItem>
 
-      <NavbarItem>
-        <FaAngleRight color="var(--secondary-text-color)" />
-      </NavbarItem>
+          <NavbarItem>
+            <FaAngleRight color="var(--secondary-text-color)" />
+          </NavbarItem>
 
-      <NavbarItem>
-        <span>{currSubject && currSubject.Name}</span>
-      </NavbarItem>
+          <NavbarItem>
+            <span>{currSubject && currSubject.Name}</span>
+          </NavbarItem>
+        </>
+      )}
 
       <NavbarItem>
         <ToggleThemeButton />
