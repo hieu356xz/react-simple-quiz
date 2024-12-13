@@ -4,21 +4,45 @@ import { MdOutlineKeyboardArrowUp } from "react-icons/md";
 import { CurrSubjectContext } from "../contexts/CurrSubjectProvider";
 import { SidebarOpenContext } from "../contexts/SidebarOpenProvider";
 import Subject from "../data/Subject";
+import Test from "../data/Test";
+import QueryDb from "../data/QueryDb";
+import SidebarItem from "./SidebarItem";
 
 interface ISidebarGroupItemProps {
   subject: Subject;
-  key: number;
 }
 
 const SidebarGroupItem = (props: ISidebarGroupItemProps) => {
   const { currSubject, setCurrSubject } = useContext(CurrSubjectContext);
   const { setIsSidebarOpen } = useContext(SidebarOpenContext);
+
   const [isItemSelected, setIsItemSelected] = useState(false);
+  const [testList, setTestList] = useState<Test[]>([]);
+  const [currTest, setCurrTest] = useState<Test>(testList[0]);
+
   const screenMatches = useMediaQuery("screen and (max-width: 768px)");
 
   useEffect(() => {
     setIsItemSelected(currSubject?.ID == props.subject.ID);
   }, [currSubject]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await QueryDb(
+        `select *
+        from Tests
+        where SubjectID = ${props.subject.ID}`
+      );
+
+      const testList: Test[] = JSON.parse(data);
+      if (testList) {
+        setTestList(testList);
+        setCurrTest(testList[0]);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const changeSubject = () => {
     setCurrSubject(props.subject);
@@ -27,10 +51,7 @@ const SidebarGroupItem = (props: ISidebarGroupItemProps) => {
   };
 
   return (
-    <li
-      key={props.key}
-      className={`SidebarGroupItem ${isItemSelected ? "selected" : ""}`}
-    >
+    <li className={`SidebarGroupItem ${isItemSelected ? "selected" : ""}`}>
       <button onClick={changeSubject}>
         <div className="SidebarGroupItemContainer">
           <span>{props.subject.Name}</span>
@@ -40,6 +61,23 @@ const SidebarGroupItem = (props: ISidebarGroupItemProps) => {
           />
         </div>
       </button>
+
+      <div className={`SidebarItemsContainer ${isItemSelected ? "show" : ""}`}>
+        <ul>
+          {testList.map((test, index) => {
+            return (
+              <SidebarItem
+                key={index}
+                currTest={currTest}
+                setCurrTest={setCurrTest}
+                test={test}
+              >
+                {test.Name}
+              </SidebarItem>
+            );
+          })}
+        </ul>
+      </div>
     </li>
   );
 };

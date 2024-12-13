@@ -18,12 +18,14 @@ const CurrSubjectProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await QueryDb(`select *
-                                    from Subjects 
-                                    where SemesterID = (select ID 
-                                                        from Semesters 
-                                                        where ID = 6)
-                                    limit 1`);
+        const data = await QueryDb(
+          `select *
+          from Subjects 
+          where SemesterID = (select ID 
+                              from Semesters 
+                              where ID = 6)
+          limit 1`
+        );
 
         const subject = new Subject(JSON.parse(data)[0]);
         setCurrSubject(subject);
