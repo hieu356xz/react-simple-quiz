@@ -159,14 +159,14 @@ button {
   font-weight: 700;
   padding: 4px;
   text-wrap: balance;
-}
 
-.NavbarItem * {
-  color: var(--secondary-text-color);
-}
+  & * {
+    color: var(--secondary-text-color);
+  }
 
-.NavbarItem:last-child {
-  margin-left: auto;
+  &:last-child {
+    margin-left: auto;
+  }
 }
 
 .BtnHamburger {
@@ -183,10 +183,10 @@ button {
 
 .BtnHamburgerIcon {
   transition: transform 350ms ease;
-}
 
-.BtnHamburgerIcon.active {
-  transform: rotate(90deg);
+  &.active {
+    transform: rotate(90deg);
+  }
 }
 
 .BtnToggleTheme {
@@ -199,10 +199,10 @@ button {
   justify-content: center;
   background: var(--button-background-color);
   border-radius: 8px;
-}
 
-.BtnToggleTheme * {
-  padding: 2px;
+  & * {
+    padding: 2px;
+  }
 }
 
 .Main {
@@ -225,10 +225,10 @@ button {
   z-index: 2;
   border-right: 1px solid var(--box-border-color);
   padding-top: 10px;
-}
 
-.Sidebar.hide {
-  transform: translateX(calc(var(--sidebar-width) * -1));
+  &.hide {
+    transform: translateX(calc(var(--sidebar-width) * -1));
+  }
 }
 
 .SidebarGroupItem {
@@ -303,12 +303,12 @@ button {
   justify-content: center;
   align-items: center;
   transition: transform 350ms ease, width 350ms ease;
-}
 
-@media screen and not (max-width: 768px) {
-  .TestInfo.shrink {
-    transform: translateX(var(--sidebar-width));
-    width: calc(100% - var(--sidebar-width));
+  &.shrink {
+    @media screen and not (max-width: 768px) {
+      transform: translateX(var(--sidebar-width));
+      width: calc(100% - var(--sidebar-width));
+    }
   }
 }
 
@@ -319,17 +319,19 @@ button {
   padding: 10px;
 }
 
-.TestInfoTableRow th {
-  font-size: 14px;
-  padding: 10px;
-  font-weight: 500;
-  text-align: right;
-}
+.TestInfoTableRow {
+  & th {
+    font-size: 14px;
+    padding: 10px;
+    font-weight: 500;
+    text-align: right;
+  }
 
-.TestInfoTableRow td {
-  font-size: 14px;
-  padding: 10px;
-  text-align: left;
+  & td {
+    font-size: 14px;
+    padding: 10px;
+    text-align: left;
+  }
 }
 
 .BtnDoTest {
