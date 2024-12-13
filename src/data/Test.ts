@@ -15,6 +15,10 @@ class Test {
       this._Questions = value;
     }
   }
+
+  constructor(obj: Test) {
+    Object.assign(this, obj);
+  }
 }
 
 export default Test;
