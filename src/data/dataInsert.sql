@@ -8,4 +8,5 @@ VALUES
   (911, 'Marketing số-2-24 (K21.CNTT.D1.K2)', 6),
   (972, 'Phát triển ứng dụng Python-2-24 (K21.CNTT.D1.K2)', 6),
   (1005, 'Phương pháp phát triển phần mềm hướng đối tượng-2-24 (K21.CNTT.D1.K2)', 6),
-  (1018, 'Quản lý dự án CNTT-2-24 (K21.CNTT.D1.K2)', 6);
+  (1018, 'Quản lý dự án CNTT-2-24 (K21.CNTT.D1.K2)', 6),
+  (1034, 'Quản trị hệ thống-2-24 (K21.CNTT.D1.K2)', 6);
