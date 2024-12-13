@@ -4,8 +4,8 @@ import Test from "../data/Test";
 
 interface ISidebarItemProps {
   children: ReactNode;
-  currTest: Test;
-  setCurrTest: React.Dispatch<React.SetStateAction<Test>>;
+  currTest: Test | null;
+  setCurrTest: React.Dispatch<React.SetStateAction<Test | null>>;
   test: Test;
 }
 

@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { useMediaQuery } from "@react-hook/media-query";
 import { MdOutlineKeyboardArrowUp } from "react-icons/md";
 import { CurrSubjectContext } from "../contexts/CurrSubjectProvider";
+import { CurrTestContext } from "../contexts/CurrTestProvider";
 import { SidebarOpenContext } from "../contexts/SidebarOpenProvider";
 import Subject from "../data/Subject";
 import Test from "../data/Test";
@@ -14,11 +15,11 @@ interface ISidebarGroupItemProps {
 
 const SidebarGroupItem = (props: ISidebarGroupItemProps) => {
   const { currSubject, setCurrSubject } = useContext(CurrSubjectContext);
+  const { currTest, setCurrTest } = useContext(CurrTestContext);
   const { setIsSidebarOpen } = useContext(SidebarOpenContext);
 
   const [isItemSelected, setIsItemSelected] = useState(false);
   const [testList, setTestList] = useState<Test[]>([]);
-  const [currTest, setCurrTest] = useState<Test>(testList[0]);
 
   const screenMatches = useMediaQuery("screen and (max-width: 768px)");
 
