@@ -24,7 +24,7 @@ CREATE TABLE Tests (
     ID int PRIMARY KEY,
     Name nvarchar,
     SubjectID int NOT NULL, 
-    QuestionsID nvarchar,
+    Questions nvarchar,
     FOREIGN KEY (SubjectID) REFERENCES Subjects(ID)
 );
 
