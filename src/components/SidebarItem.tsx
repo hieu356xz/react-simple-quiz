@@ -13,7 +13,9 @@ const SidebarItem = ({ children, ...props }: ISidebarItemProps) => {
   const [isItemSelected, setIsItemSelected] = useState(false);
 
   useEffect(() => {
-    props.currTest && setIsItemSelected(props.currTest.ID == props.test.ID);
+    props.currTest
+      ? setIsItemSelected(props.currTest.ID == props.test.ID)
+      : setIsItemSelected(false);
   }, [props.currTest]);
 
   return (

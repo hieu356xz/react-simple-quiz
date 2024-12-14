@@ -35,10 +35,11 @@ const SidebarGroupItem = (props: ISidebarGroupItemProps) => {
         where SubjectID = ${props.subject.ID}`
       );
 
-      const testList: Test[] = JSON.parse(data);
+      const testList: Test[] = JSON.parse(data).map(
+        (test: Test) => new Test(test)
+      );
       if (testList) {
         setTestList(testList);
-        setCurrTest(testList[0]);
       }
     };
 
@@ -46,6 +47,7 @@ const SidebarGroupItem = (props: ISidebarGroupItemProps) => {
   }, []);
 
   const changeSubject = () => {
+    if (currSubject != props.subject) setCurrTest(null);
     setCurrSubject(props.subject);
     // Tự động đóng sidebar trên màn hình nhỏ
     screenMatches && setIsSidebarOpen(false);
