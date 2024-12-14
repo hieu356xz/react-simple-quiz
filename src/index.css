@@ -332,10 +332,13 @@ button {
     padding: 10px;
     text-align: left;
   }
+
+  &:has(.BtnDoTest) th {
+    text-align: center;
+  }
 }
 
 .BtnDoTest {
-  display: block;
   padding: 0px;
   width: 200px;
   height: 40px;
