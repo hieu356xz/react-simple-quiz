@@ -1,25 +1,28 @@
 import { useContext, useEffect, useState } from "react";
 import { MdOutlineKeyboardArrowUp } from "react-icons/md";
-import { CurrSubjectContext } from "../contexts/CurrSubjectProvider";
 import { CurrCourseContext } from "../contexts/CurrCourseProvider";
 import Subject from "../data/Subject";
 import Course from "../data/Course";
 import QueryDb from "../data/QueryDb";
 import SidebarItem from "./SidebarItem";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../redux/store";
+import { setCurrSubject } from "../redux/CurrSubjectSlice";
 
 interface ISidebarGroupItemProps {
   subject: Subject;
 }
 
 const SidebarGroupItem = (props: ISidebarGroupItemProps) => {
-  const { currSubject, setCurrSubject } = useContext(CurrSubjectContext);
+  const currSubject = useSelector((state: RootState) => state.currSubject);
   const { currCourse, setCurrCourse } = useContext(CurrCourseContext);
 
   const [isItemSelected, setIsItemSelected] = useState(false);
   const [courseList, setCourseList] = useState<Course[]>([]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    setIsItemSelected(currSubject?.ID == props.subject.ID);
+    setIsItemSelected(currSubject.subject?.ID == props.subject.ID);
   }, [currSubject]);
 
   useEffect(() => {
@@ -42,8 +45,8 @@ const SidebarGroupItem = (props: ISidebarGroupItemProps) => {
   }, []);
 
   const changeSubject = () => {
-    if (currSubject != props.subject) setCurrCourse(null);
-    setCurrSubject(props.subject);
+    if (currSubject.subject?.ID != props.subject.ID) setCurrCourse(null);
+    dispatch(setCurrSubject(props.subject));
   };
 
   return (

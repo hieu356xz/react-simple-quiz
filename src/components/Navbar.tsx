@@ -1,15 +1,14 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FaBars, FaAngleRight } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
 import { useMediaQuery } from "@react-hook/media-query";
 import NavbarItem from "./NavbarItem";
-import { CurrSubjectContext } from "../contexts/CurrSubjectProvider";
 import ToggleThemeButton from "./ToggleThemeButton";
 import { RootState } from "../redux/store";
 import { toggleSidebar } from "../redux/SidebarOpenSlice";
 
 const Navbar = () => {
-  const { currSubject } = useContext(CurrSubjectContext);
+  const currSubject = useSelector((state: RootState) => state.currSubject);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const isSidebarOpen = useSelector(
     (state: RootState) => state.sidebarOpen.sidebarOpen
@@ -48,7 +47,7 @@ const Navbar = () => {
           </NavbarItem>
 
           <NavbarItem>
-            <span>{currSubject && currSubject.Name}</span>
+            <span>{currSubject && currSubject.subject?.Name}</span>
           </NavbarItem>
         </>
       )}

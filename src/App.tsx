@@ -1,16 +1,13 @@
 import HomePage from "./pages/HomePage";
-import CurrSubjectProvider from "./contexts/CurrSubjectProvider";
 import CurrCourseProvider from "./contexts/CurrCourseProvider";
 import { useSelector } from "react-redux";
 import { RootState } from "./redux/store";
 
 const App = () => {
   return (
-    <CurrSubjectProvider>
-      <CurrCourseProvider>
-        <AppContent />
-      </CurrCourseProvider>
-    </CurrSubjectProvider>
+    <CurrCourseProvider>
+      <AppContent />
+    </CurrCourseProvider>
   );
 };
 

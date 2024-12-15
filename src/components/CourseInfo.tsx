@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from "react";
 import { FiEdit } from "react-icons/fi";
-import { CurrSubjectContext } from "../contexts/CurrSubjectProvider";
 import { CurrCourseContext } from "../contexts/CurrCourseProvider";
 import QueryDb from "../data/QueryDb";
 import Semester from "../data/Semester";
@@ -11,8 +10,10 @@ const CourseInfo = () => {
   const isSidebarOpen = useSelector(
     (state: RootState) => state.sidebarOpen.sidebarOpen
   );
+  const currSubject = useSelector(
+    (state: RootState) => state.currSubject.subject
+  );
   const { currCourse } = useContext(CurrCourseContext);
-  const { currSubject } = useContext(CurrSubjectContext);
   const [semester, setSemester] = useState<Semester | null>(null);
 
   useEffect(() => {
