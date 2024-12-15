@@ -1,23 +1,21 @@
 import HomePage from "./pages/HomePage";
 import CurrSubjectProvider from "./contexts/CurrSubjectProvider";
 import CurrCourseProvider from "./contexts/CurrCourseProvider";
-import ThemeProvider, { ThemeContext } from "./contexts/ThemeProvider";
-import { useContext } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "./redux/store";
 
 const App = () => {
   return (
-    <ThemeProvider>
-      <CurrSubjectProvider>
-        <CurrCourseProvider>
-          <AppContent />
-        </CurrCourseProvider>
-      </CurrSubjectProvider>
-    </ThemeProvider>
+    <CurrSubjectProvider>
+      <CurrCourseProvider>
+        <AppContent />
+      </CurrCourseProvider>
+    </CurrSubjectProvider>
   );
 };
 
 const AppContent = () => {
-  const { theme } = useContext(ThemeContext);
+  const theme = useSelector((state: RootState) => state.theme.theme);
 
   return (
     <div className="App" data-theme={theme}>

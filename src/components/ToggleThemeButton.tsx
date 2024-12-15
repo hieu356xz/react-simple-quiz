@@ -1,29 +1,14 @@
-import { ThemeContext } from "../contexts/ThemeProvider";
-import { useContext } from "react";
-import { saveThemeToLocal } from "../contexts/ThemeLocalStorage";
+import { useDispatch, useSelector } from "react-redux";
 import { MdOutlineDarkMode, MdOutlineLightMode } from "react-icons/md";
+import { RootState } from "../redux/store";
+import { switchTheme } from "../redux/ThemeSlice";
 
 const ToggleThemeButton = () => {
-  const { theme, setTheme } = useContext(ThemeContext);
-
-  const changeTheme = () => {
-    if (theme == "dark") {
-      setTheme(() => {
-        let curr = "light";
-        saveThemeToLocal(curr);
-        return curr;
-      });
-    } else {
-      setTheme(() => {
-        let curr = "dark";
-        saveThemeToLocal(curr);
-        return curr;
-      });
-    }
-  };
+  const theme = useSelector((state: RootState) => state.theme.theme);
+  const dispatch = useDispatch();
 
   return (
-    <button className="BtnToggleTheme" onClick={changeTheme}>
+    <button className="BtnToggleTheme" onClick={() => dispatch(switchTheme())}>
       {theme == "light" ? (
         <MdOutlineLightMode size={"24px"} style={{ background: "#00000000" }} />
       ) : (
