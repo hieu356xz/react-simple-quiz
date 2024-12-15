@@ -1,14 +1,14 @@
 import { FiEdit } from "react-icons/fi";
 import { SidebarOpenContext } from "../contexts/SidebarOpenProvider";
 import { CurrSubjectContext } from "../contexts/CurrSubjectProvider";
-import { CurrTestContext } from "../contexts/CurrTestProvider";
+import { CurrCourseContext } from "../contexts/CurrCourseProvider";
 import { useContext, useEffect, useState } from "react";
 import QueryDb from "../data/QueryDb";
 import Semester from "../data/Semester";
 
-const TestInfo = () => {
+const CourseInfo = () => {
   const { isSidebarOpen } = useContext(SidebarOpenContext);
-  const { currTest } = useContext(CurrTestContext);
+  const { currCourse } = useContext(CurrCourseContext);
   const { currSubject } = useContext(CurrSubjectContext);
   const [semester, setSemester] = useState<Semester | null>(null);
 
@@ -27,28 +27,28 @@ const TestInfo = () => {
   }, [currSubject]);
 
   return (
-    <div className={`TestInfo ${isSidebarOpen ? "shrink" : ""}`}>
-      {!currTest ? (
+    <div className={`CourseInfo ${isSidebarOpen ? "shrink" : ""}`}>
+      {!currCourse ? (
         <span>Hãy chọn một bài để bắt đầu</span>
       ) : (
         <table>
           <tbody>
-            <tr className="TestInfoTableName">
-              <th colSpan={2}>{currTest?.Name}</th>
+            <tr className="CourseInfoTableName">
+              <th colSpan={2}>{currCourse?.Name}</th>
             </tr>
-            <tr className="TestInfoTableRow">
+            <tr className="CourseInfoTableRow">
               <th>Học phần</th>
               <td>{currSubject?.Name}</td>
             </tr>
-            <tr className="TestInfoTableRow">
+            <tr className="CourseInfoTableRow">
               <th>Học kì</th>
               <td>{semester?.Name}</td>
             </tr>
-            <tr className="TestInfoTableRow">
+            <tr className="CourseInfoTableRow">
               <th>Số lượng câu hỏi</th>
-              <td>{currTest?.Questions.length}</td>
+              <td>{currCourse?.Questions.length}</td>
             </tr>
-            <tr className="TestInfoTableRow">
+            <tr className="CourseInfoTableRow">
               <th colSpan={2}>
                 <button className="BtnDoTest">
                   <FiEdit
@@ -58,7 +58,7 @@ const TestInfo = () => {
                     size={"15px"}
                     style={{ backgroundColor: "#00000000" }}
                   />
-                  Test
+                  Làm bài
                 </button>
               </th>
             </tr>
@@ -69,4 +69,4 @@ const TestInfo = () => {
   );
 };
 
-export default TestInfo;
+export default CourseInfo;

@@ -227,7 +227,7 @@ button {
   color: var(--blue-color-3);
 }
 
-.TestInfo {
+.CourseInfo {
   display: flex;
   height: 100%;
   width: 100%;
@@ -243,14 +243,14 @@ button {
   }
 }
 
-.TestInfoTableName * {
+.CourseInfoTableName * {
   text-transform: uppercase;
   font-size: 15px;
   font-weight: 700;
   padding: 10px;
 }
 
-.TestInfoTableRow {
+.CourseInfoTableRow {
   & th {
     font-size: 14px;
     padding: 10px;

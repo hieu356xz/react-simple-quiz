@@ -1,6 +1,6 @@
 import HomePage from "./pages/HomePage";
 import CurrSubjectProvider from "./contexts/CurrSubjectProvider";
-import CurrTestProvider from "./contexts/CurrTestProvider";
+import CurrCourseProvider from "./contexts/CurrCourseProvider";
 import ThemeProvider, { ThemeContext } from "./contexts/ThemeProvider";
 import { useContext } from "react";
 
@@ -8,9 +8,9 @@ const App = () => {
   return (
     <ThemeProvider>
       <CurrSubjectProvider>
-        <CurrTestProvider>
+        <CurrCourseProvider>
           <AppContent />
-        </CurrTestProvider>
+        </CurrCourseProvider>
       </CurrSubjectProvider>
     </ThemeProvider>
   );

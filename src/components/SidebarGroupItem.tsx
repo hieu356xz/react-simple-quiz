@@ -2,10 +2,10 @@ import { useContext, useEffect, useState } from "react";
 import { useMediaQuery } from "@react-hook/media-query";
 import { MdOutlineKeyboardArrowUp } from "react-icons/md";
 import { CurrSubjectContext } from "../contexts/CurrSubjectProvider";
-import { CurrTestContext } from "../contexts/CurrTestProvider";
+import { CurrCourseContext } from "../contexts/CurrCourseProvider";
 import { SidebarOpenContext } from "../contexts/SidebarOpenProvider";
 import Subject from "../data/Subject";
-import Test from "../data/Test";
+import Course from "../data/Course";
 import QueryDb from "../data/QueryDb";
 import SidebarItem from "./SidebarItem";
 
@@ -15,11 +15,11 @@ interface ISidebarGroupItemProps {
 
 const SidebarGroupItem = (props: ISidebarGroupItemProps) => {
   const { currSubject, setCurrSubject } = useContext(CurrSubjectContext);
-  const { currTest, setCurrTest } = useContext(CurrTestContext);
+  const { currCourse, setCurrCourse } = useContext(CurrCourseContext);
   const { setIsSidebarOpen } = useContext(SidebarOpenContext);
 
   const [isItemSelected, setIsItemSelected] = useState(false);
-  const [testList, setTestList] = useState<Test[]>([]);
+  const [courseList, setCourseList] = useState<Course[]>([]);
 
   const screenMatches = useMediaQuery("screen and (max-width: 768px)");
 
@@ -31,15 +31,15 @@ const SidebarGroupItem = (props: ISidebarGroupItemProps) => {
     const fetchData = async () => {
       const data = await QueryDb(
         `select *
-        from Tests
+        from Courses
         where SubjectID = ${props.subject.ID}`
       );
 
-      const testList: Test[] = JSON.parse(data).map(
-        (test: Test) => new Test(test)
+      const courseList: Course[] = JSON.parse(data).map(
+        (course: Course) => new Course(course)
       );
-      if (testList) {
-        setTestList(testList);
+      if (courseList) {
+        setCourseList(courseList);
       }
     };
 
@@ -47,7 +47,7 @@ const SidebarGroupItem = (props: ISidebarGroupItemProps) => {
   }, []);
 
   const changeSubject = () => {
-    if (currSubject != props.subject) setCurrTest(null);
+    if (currSubject != props.subject) setCurrCourse(null);
     setCurrSubject(props.subject);
     // Tự động đóng sidebar trên màn hình nhỏ
     screenMatches && setIsSidebarOpen(false);
@@ -67,15 +67,15 @@ const SidebarGroupItem = (props: ISidebarGroupItemProps) => {
 
       <div className={`SidebarItemsContainer ${isItemSelected ? "show" : ""}`}>
         <ul>
-          {testList.map((test, index) => {
+          {courseList.map((course, index) => {
             return (
               <SidebarItem
                 key={index}
-                currTest={currTest}
-                setCurrTest={setCurrTest}
-                test={test}
+                currCourse={currCourse}
+                setCurrCourse={setCurrCourse}
+                course={course}
               >
-                {test.Name}
+                {course.Name}
               </SidebarItem>
             );
           })}

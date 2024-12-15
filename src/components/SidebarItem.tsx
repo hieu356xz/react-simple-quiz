@@ -1,26 +1,26 @@
 import { ReactNode, useEffect, useState } from "react";
 import { PiDotOutlineFill } from "react-icons/pi";
-import Test from "../data/Test";
+import Course from "../data/Course";
 
 interface ISidebarItemProps {
   children: ReactNode;
-  currTest: Test | null;
-  setCurrTest: React.Dispatch<React.SetStateAction<Test | null>>;
-  test: Test;
+  currCourse: Course | null;
+  setCurrCourse: React.Dispatch<React.SetStateAction<Course | null>>;
+  course: Course;
 }
 
 const SidebarItem = ({ children, ...props }: ISidebarItemProps) => {
   const [isItemSelected, setIsItemSelected] = useState(false);
 
   useEffect(() => {
-    props.currTest
-      ? setIsItemSelected(props.currTest.ID == props.test.ID)
+    props.currCourse
+      ? setIsItemSelected(props.currCourse.ID == props.course.ID)
       : setIsItemSelected(false);
-  }, [props.currTest]);
+  }, [props.currCourse]);
 
   return (
     <li className={`SidebarItem ${isItemSelected ? "selected" : ""}`}>
-      <button onClick={() => props.setCurrTest(props.test)}>
+      <button onClick={() => props.setCurrCourse(props.course)}>
         <PiDotOutlineFill strokeWidth={"70px"} className="icon" /> {children}
       </button>
     </li>

@@ -1,6 +1,6 @@
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
-import TestInfo from "../components/TestInfo";
+import CourseInfo from "../components/CourseInfo";
 import SidebarOpenProvider from "../contexts/SidebarOpenProvider";
 
 const HomePage = () => {
@@ -9,7 +9,7 @@ const HomePage = () => {
       <Navbar />
       <div className="Main">
         <Sidebar />
-        <TestInfo />
+        <CourseInfo />
       </div>
     </SidebarOpenProvider>
   );

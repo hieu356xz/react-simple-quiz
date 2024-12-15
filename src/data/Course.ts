@@ -1,4 +1,4 @@
-class Test {
+class Course {
   ID!: number;
   Name!: string;
   SubjectID!: number;
@@ -16,9 +16,9 @@ class Test {
     }
   }
 
-  constructor(obj: Test) {
+  constructor(obj: Course) {
     Object.assign(this, obj);
   }
 }
 
-export default Test;
+export default Course;

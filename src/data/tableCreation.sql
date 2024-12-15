@@ -20,7 +20,7 @@ CREATE TABLE Questions (
     Shuffleable int
 );
 
-CREATE TABLE Tests (
+CREATE TABLE Courses (
     ID int PRIMARY KEY,
     Name nvarchar,
     SubjectID int NOT NULL, 
