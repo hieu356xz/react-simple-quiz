@@ -11,6 +11,8 @@ const store = configureStore({
     currSubject: CurrSubjectReducer,
     currCourse: CurrCourseReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({ serializableCheck: false }),
 });
 
 export default store;
