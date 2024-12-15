@@ -1,6 +1,5 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { MdOutlineKeyboardArrowUp } from "react-icons/md";
-import { CurrCourseContext } from "../contexts/CurrCourseProvider";
 import Subject from "../data/Subject";
 import Course from "../data/Course";
 import QueryDb from "../data/QueryDb";
@@ -8,21 +7,24 @@ import SidebarItem from "./SidebarItem";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import { setCurrSubject } from "../redux/CurrSubjectSlice";
+import { setCurrCourse } from "../redux/CurrCourseSlice";
 
 interface ISidebarGroupItemProps {
   subject: Subject;
 }
 
 const SidebarGroupItem = (props: ISidebarGroupItemProps) => {
-  const currSubject = useSelector((state: RootState) => state.currSubject);
-  const { currCourse, setCurrCourse } = useContext(CurrCourseContext);
+  const currSubject = useSelector(
+    (state: RootState) => state.currSubject.subject
+  );
+  const currCourse = useSelector((state: RootState) => state.currCourse.course);
 
   const [isItemSelected, setIsItemSelected] = useState(false);
   const [courseList, setCourseList] = useState<Course[]>([]);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    setIsItemSelected(currSubject.subject?.ID == props.subject.ID);
+    setIsItemSelected(currSubject?.ID == props.subject.ID);
   }, [currSubject]);
 
   useEffect(() => {
@@ -45,7 +47,7 @@ const SidebarGroupItem = (props: ISidebarGroupItemProps) => {
   }, []);
 
   const changeSubject = () => {
-    if (currSubject.subject?.ID != props.subject.ID) setCurrCourse(null);
+    if (currSubject?.ID != props.subject.ID) dispatch(setCurrCourse(null));
     dispatch(setCurrSubject(props.subject));
   };
 
@@ -65,12 +67,7 @@ const SidebarGroupItem = (props: ISidebarGroupItemProps) => {
         <ul>
           {courseList.map((course, index) => {
             return (
-              <SidebarItem
-                key={index}
-                currCourse={currCourse}
-                setCurrCourse={setCurrCourse}
-                course={course}
-              >
+              <SidebarItem key={index} currCourse={currCourse} course={course}>
                 {course.Name}
               </SidebarItem>
             );

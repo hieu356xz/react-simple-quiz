@@ -4,11 +4,11 @@ import { useDispatch } from "react-redux";
 import { PiDotOutlineFill } from "react-icons/pi";
 import Course from "../data/Course";
 import { setIsSidebarOpen } from "../redux/SidebarOpenSlice";
+import { setCurrCourse } from "../redux/CurrCourseSlice";
 
 interface ISidebarItemProps {
   children: ReactNode;
   currCourse: Course | null;
-  setCurrCourse: React.Dispatch<React.SetStateAction<Course | null>>;
   course: Course;
 }
 
@@ -25,7 +25,7 @@ const SidebarItem = ({ children, ...props }: ISidebarItemProps) => {
   }, [props.currCourse]);
 
   const changeCourse = () => {
-    props.setCurrCourse(props.course);
+    dispatch(setCurrCourse(props.course));
     // Tự động đóng sidebar trên màn hình nhỏ
     screenMatches && dispatch(setIsSidebarOpen(false));
   };

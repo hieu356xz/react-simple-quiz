@@ -1,6 +1,5 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FiEdit } from "react-icons/fi";
-import { CurrCourseContext } from "../contexts/CurrCourseProvider";
 import QueryDb from "../data/QueryDb";
 import Semester from "../data/Semester";
 import { useSelector } from "react-redux";
@@ -13,7 +12,7 @@ const CourseInfo = () => {
   const currSubject = useSelector(
     (state: RootState) => state.currSubject.subject
   );
-  const { currCourse } = useContext(CurrCourseContext);
+  const currCourse = useSelector((state: RootState) => state.currCourse.course);
   const [semester, setSemester] = useState<Semester | null>(null);
 
   useEffect(() => {
