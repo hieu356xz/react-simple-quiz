@@ -1,9 +1,7 @@
 import { useContext, useEffect, useState } from "react";
-import { useMediaQuery } from "@react-hook/media-query";
 import { MdOutlineKeyboardArrowUp } from "react-icons/md";
 import { CurrSubjectContext } from "../contexts/CurrSubjectProvider";
 import { CurrCourseContext } from "../contexts/CurrCourseProvider";
-import { SidebarOpenContext } from "../contexts/SidebarOpenProvider";
 import Subject from "../data/Subject";
 import Course from "../data/Course";
 import QueryDb from "../data/QueryDb";
@@ -16,12 +14,9 @@ interface ISidebarGroupItemProps {
 const SidebarGroupItem = (props: ISidebarGroupItemProps) => {
   const { currSubject, setCurrSubject } = useContext(CurrSubjectContext);
   const { currCourse, setCurrCourse } = useContext(CurrCourseContext);
-  const { setIsSidebarOpen } = useContext(SidebarOpenContext);
 
   const [isItemSelected, setIsItemSelected] = useState(false);
   const [courseList, setCourseList] = useState<Course[]>([]);
-
-  const screenMatches = useMediaQuery("screen and (max-width: 768px)");
 
   useEffect(() => {
     setIsItemSelected(currSubject?.ID == props.subject.ID);
@@ -49,8 +44,6 @@ const SidebarGroupItem = (props: ISidebarGroupItemProps) => {
   const changeSubject = () => {
     if (currSubject != props.subject) setCurrCourse(null);
     setCurrSubject(props.subject);
-    // Tự động đóng sidebar trên màn hình nhỏ
-    screenMatches && setIsSidebarOpen(false);
   };
 
   return (

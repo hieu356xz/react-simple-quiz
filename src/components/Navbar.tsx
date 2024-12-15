@@ -1,20 +1,21 @@
 import { useContext, useEffect, useState } from "react";
 import { FaBars, FaAngleRight } from "react-icons/fa6";
+import { useDispatch, useSelector } from "react-redux";
+import { useMediaQuery } from "@react-hook/media-query";
 import NavbarItem from "./NavbarItem";
 import { CurrSubjectContext } from "../contexts/CurrSubjectProvider";
-import { SidebarOpenContext } from "../contexts/SidebarOpenProvider";
 import ToggleThemeButton from "./ToggleThemeButton";
-import { useMediaQuery } from "@react-hook/media-query";
+import { RootState } from "../redux/store";
+import { toggleSidebar } from "../redux/SidebarOpenSlice";
 
 const Navbar = () => {
   const { currSubject } = useContext(CurrSubjectContext);
-  const { isSidebarOpen, setIsSidebarOpen } = useContext(SidebarOpenContext);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  const isSidebarOpen = useSelector(
+    (state: RootState) => state.sidebarOpen.sidebarOpen
+  );
   const screenMatches = useMediaQuery("screen and (max-width: 768px)");
-
-  const toggleSidebar = () => {
-    setIsSidebarOpen((prev) => !prev);
-  };
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setIsButtonDisabled(() => true);
@@ -26,7 +27,7 @@ const Navbar = () => {
       <NavbarItem>
         <button
           className="BtnHamburger"
-          onClick={toggleSidebar}
+          onClick={() => dispatch(toggleSidebar())}
           disabled={isButtonDisabled}
         >
           <FaBars

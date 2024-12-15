@@ -1,11 +1,14 @@
-import { SidebarOpenContext } from "../contexts/SidebarOpenProvider";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import SidebarGroupItem from "./SidebarGroupItem";
 import QueryDb from "../data/QueryDb";
 import Subject from "../data/Subject";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
 
 const Sidebar = () => {
-  const { isSidebarOpen } = useContext(SidebarOpenContext);
+  const isSidebarOpen = useSelector(
+    (state: RootState) => state.sidebarOpen.sidebarOpen
+  );
   const [subjects, setSubjects] = useState([]);
 
   useEffect(() => {

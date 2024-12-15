@@ -1,13 +1,16 @@
+import { useContext, useEffect, useState } from "react";
 import { FiEdit } from "react-icons/fi";
-import { SidebarOpenContext } from "../contexts/SidebarOpenProvider";
 import { CurrSubjectContext } from "../contexts/CurrSubjectProvider";
 import { CurrCourseContext } from "../contexts/CurrCourseProvider";
-import { useContext, useEffect, useState } from "react";
 import QueryDb from "../data/QueryDb";
 import Semester from "../data/Semester";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
 
 const CourseInfo = () => {
-  const { isSidebarOpen } = useContext(SidebarOpenContext);
+  const isSidebarOpen = useSelector(
+    (state: RootState) => state.sidebarOpen.sidebarOpen
+  );
   const { currCourse } = useContext(CurrCourseContext);
   const { currSubject } = useContext(CurrSubjectContext);
   const [semester, setSemester] = useState<Semester | null>(null);
