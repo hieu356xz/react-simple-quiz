@@ -3,6 +3,7 @@ import ThemeReducer from "./ThemeSlice";
 import SidebarOpenReducer from "./SidebarOpenSlice";
 import CurrSubjectReducer from "./CurrSubjectSlice";
 import CurrCourseReducer from "./CurrCourseSlice";
+import ActiveTestReducer from "./ActiveTestSlice";
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     sidebarOpen: SidebarOpenReducer,
     currSubject: CurrSubjectReducer,
     currCourse: CurrCourseReducer,
+    activeTest: ActiveTestReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ serializableCheck: false }),

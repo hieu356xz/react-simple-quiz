@@ -5,9 +5,13 @@ import { useEffect } from "react";
 import { setCurrSubject } from "./redux/CurrSubjectSlice";
 import QueryDb from "./data/QueryDb";
 import Subject from "./data/Subject";
+import TestPage from "./pages/TestPage";
 
 const App = () => {
   const theme = useSelector((state: RootState) => state.theme.theme);
+  const activeTest = useSelector(
+    (state: RootState) => state.activeTest.activeTest
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -35,7 +39,7 @@ const App = () => {
 
   return (
     <div className="App" data-theme={theme}>
-      <HomePage />
+      {activeTest ? <TestPage /> : <HomePage />}
     </div>
   );
 };

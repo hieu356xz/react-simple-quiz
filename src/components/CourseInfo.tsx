@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { FiEdit } from "react-icons/fi";
 import QueryDb from "../data/QueryDb";
 import Semester from "../data/Semester";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
+import { toggleActiveTest } from "../redux/ActiveTestSlice";
 
 const CourseInfo = () => {
   const isSidebarOpen = useSelector(
@@ -14,6 +15,7 @@ const CourseInfo = () => {
   );
   const currCourse = useSelector((state: RootState) => state.currCourse.course);
   const [semester, setSemester] = useState<Semester | null>(null);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -53,7 +55,10 @@ const CourseInfo = () => {
             </tr>
             <tr className="CourseInfoTableRow">
               <th colSpan={2}>
-                <button className="BtnDoTest">
+                <button
+                  className="BtnDoTest"
+                  onClick={() => dispatch(toggleActiveTest())}
+                >
                   <FiEdit
                     className="icon"
                     stroke="#e0e0e0"
