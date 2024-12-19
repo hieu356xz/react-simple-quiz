@@ -1,5 +1,11 @@
+import TestNavbar from "../components/TestNavbar";
+
 const TestPage = () => {
-  return <div>TestPage</div>;
+  return (
+    <>
+      <TestNavbar />
+    </>
+  );
 };
 
 export default TestPage;
