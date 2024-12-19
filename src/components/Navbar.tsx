@@ -8,7 +8,9 @@ import { RootState } from "../redux/store";
 import { toggleSidebar } from "../redux/SidebarOpenSlice";
 
 const Navbar = () => {
-  const currSubject = useSelector((state: RootState) => state.currSubject);
+  const currSubject = useSelector(
+    (state: RootState) => state.currSubject.subject
+  );
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const isSidebarOpen = useSelector(
     (state: RootState) => state.sidebarOpen.sidebarOpen
@@ -36,21 +38,23 @@ const Navbar = () => {
         </button>
       </NavbarItem>
 
-      {!screenMatches && (
-        <>
-          <NavbarItem>
-            <span style={{ textWrap: "nowrap" }}>Môn học</span>
-          </NavbarItem>
+      <div className="SubjectNameContainer">
+        {!screenMatches && (
+          <>
+            <NavbarItem>
+              <span style={{ textWrap: "nowrap" }}>Môn học</span>
+            </NavbarItem>
 
-          <NavbarItem>
-            <FaAngleRight color="var(--secondary-text-color)" />
-          </NavbarItem>
+            <NavbarItem>
+              <FaAngleRight color="var(--secondary-text-color)" />
+            </NavbarItem>
 
-          <NavbarItem>
-            <span>{currSubject && currSubject.subject?.Name}</span>
-          </NavbarItem>
-        </>
-      )}
+            <NavbarItem>
+              <span>{currSubject && currSubject?.Name}</span>
+            </NavbarItem>
+          </>
+        )}
+      </div>
 
       <NavbarItem>
         <ToggleThemeButton />

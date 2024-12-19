@@ -78,6 +78,11 @@ button {
   padding: 16px 8px;
   box-shadow: 0 2px var(--box-shadow-color);
   z-index: 3;
+
+  & .SubjectNameContainer {
+    display: flex;
+    width: 100%;
+  }
 }
 
 .NavbarItem {
@@ -93,10 +98,6 @@ button {
 
   & * {
     color: var(--secondary-text-color);
-  }
-
-  &:last-child {
-    margin-left: auto;
   }
 }
 

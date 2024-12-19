@@ -1,7 +1,16 @@
 import { ReactNode } from "react";
 
-const NavbarItem = ({ children }: { children: ReactNode }) => {
-  return <div className="NavbarItem">{children}</div>;
+interface INavbarItemProps {
+  children: ReactNode;
+  className?: string;
+}
+
+const NavbarItem = ({ children, ...props }: INavbarItemProps) => {
+  return (
+    <div className={`NavbarItem ${props.className ? props.className : ""}`}>
+      {children}
+    </div>
+  );
 };
 
 export default NavbarItem;
