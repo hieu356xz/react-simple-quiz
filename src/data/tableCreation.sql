@@ -1,47 +1,47 @@
-CREATE TABLE Semesters (
-    ID int PRIMARY KEY,
-    Name nvarchar
+CREATE TABLE Semester (
+    id int PRIMARY KEY,
+    name nvarchar
 );
 
-CREATE TABLE Subjects (
-    ID int PRIMARY KEY,
-    Name nvarchar,
-    SemesterID int NOT NULL,
-    FOREIGN KEY (SemesterID) REFERENCES Semesters(ID)
+CREATE TABLE Subject (
+    id int PRIMARY KEY,
+    name nvarchar,
+    semester_id int NOT NULL,
+    FOREIGN KEY (semester_id) REFERENCES Semester(id)
 );
 
-CREATE TABLE Questions (
-    ID int PRIMARY KEY,
-    QuestionText nvarchar,
-    AnswerOptions nvarchar,
-    CorrectAnswers nvarchar,
-    QuestionType nvarchar,
-    Cdr int,
-    Shuffleable int
+CREATE TABLE Question (
+    id int PRIMARY KEY,
+    question_direction nvarchar,
+    question_type nvarchar,
+    answer_option nvarchar,
+    correct_answer nvarchar,
+    cdr int,
+    shuffleable int
 );
 
-CREATE TABLE Courses (
-    ID int PRIMARY KEY,
-    Name nvarchar,
-    SubjectID int NOT NULL, 
-    Questions nvarchar,
-    FOREIGN KEY (SubjectID) REFERENCES Subjects(ID)
+CREATE TABLE Course (
+    id int PRIMARY KEY,
+    name nvarchar,
+    subject_id int NOT NULL, 
+    questions nvarchar,
+    FOREIGN KEY (subject_id) REFERENCES Subject(id)
 );
 
-CREATE TRIGGER Questions_QuestionType_Check_Insert
-BEFORE INSERT ON Questions
+CREATE TRIGGER Question_QuestionType_Check_Insert
+BEFORE INSERT ON Question
 BEGIN
     SELECT
-        CASE WHEN NEW.QuestionType != 'checkbox' OR NEW.QuestionType != 'radio' THEN
-            RAISE (ABORT, 'QuestionType can only be checkbox or radio')
+        CASE WHEN NEW.question_type != 'checkbox' AND NEW.question_type != 'radio' THEN
+            RAISE (ABORT, 'question_type can only be checkbox or radio')
         END;
 END;
 
-CREATE TRIGGER Questions_QuestionType_Check_Update
-BEFORE UPDATE ON Questions
+CREATE TRIGGER Question_question_type_Check_Update
+BEFORE UPDATE ON Question
 BEGIN
     SELECT
-        CASE WHEN NEW.QuestionType != 'checkbox' OR NEW.QuestionType != 'radio' THEN
+        CASE WHEN NEW.question_type != 'checkbox' AND NEW.question_type != 'radio' THEN
             RAISE (ABORT, 'QuestionType can only be checkbox or radio')
         END;
 END;

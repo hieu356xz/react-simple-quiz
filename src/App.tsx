@@ -19,10 +19,10 @@ const App = () => {
       try {
         const data = await QueryDb(
           `select *
-            from Subjects 
-            where SemesterID = (select ID 
-                                from Semesters 
-                                where ID = 6)
+            from Subject 
+            where semester_id = (select id 
+                                from Semester 
+                                where id = 6)
             limit 1`
         );
 

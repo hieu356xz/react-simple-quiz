@@ -20,7 +20,7 @@ const SidebarItem = ({ children, ...props }: ISidebarItemProps) => {
 
   useEffect(() => {
     props.currCourse
-      ? setIsItemSelected(props.currCourse.ID == props.course.ID)
+      ? setIsItemSelected(props.currCourse.id == props.course.id)
       : setIsItemSelected(false);
   }, [props.currCourse]);
 

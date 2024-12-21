@@ -24,15 +24,15 @@ const SidebarGroupItem = (props: ISidebarGroupItemProps) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    setIsItemSelected(currSubject?.ID == props.subject.ID);
+    setIsItemSelected(currSubject?.id == props.subject.id);
   }, [currSubject]);
 
   useEffect(() => {
     const fetchData = async () => {
       const data = await QueryDb(
         `select *
-        from Courses
-        where SubjectID = ${props.subject.ID}`
+        from Course
+        where subject_id = ${props.subject.id}`
       );
 
       const courseList: Course[] = JSON.parse(data).map(
@@ -47,7 +47,7 @@ const SidebarGroupItem = (props: ISidebarGroupItemProps) => {
   }, []);
 
   const changeSubject = () => {
-    if (currSubject?.ID != props.subject.ID) dispatch(setCurrCourse(null));
+    if (currSubject?.id != props.subject.id) dispatch(setCurrCourse(null));
     dispatch(setCurrSubject(props.subject));
   };
 
@@ -55,7 +55,7 @@ const SidebarGroupItem = (props: ISidebarGroupItemProps) => {
     <li className={`SidebarGroupItem ${isItemSelected ? "selected" : ""}`}>
       <button onClick={changeSubject}>
         <div className="SidebarGroupItemContainer">
-          <span>{props.subject.Name}</span>
+          <span>{props.subject.name}</span>
           <MdOutlineKeyboardArrowUp
             className="icon"
             style={{ minWidth: "20px", minHeight: "20px" }}
@@ -68,7 +68,7 @@ const SidebarGroupItem = (props: ISidebarGroupItemProps) => {
           {courseList.map((course, index) => {
             return (
               <SidebarItem key={index} currCourse={currCourse} course={course}>
-                {course.Name}
+                {course.name}
               </SidebarItem>
             );
           })}

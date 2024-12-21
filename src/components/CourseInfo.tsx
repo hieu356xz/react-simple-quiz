@@ -21,8 +21,8 @@ const CourseInfo = () => {
     const fetchData = async () => {
       const data = await QueryDb(
         `select *
-        from Semesters
-        where ID = ${currSubject?.SemesterID}`
+        from Semester
+        where id = ${currSubject?.semester_id}`
       );
 
       setSemester(JSON.parse(data)[0]);
@@ -39,19 +39,19 @@ const CourseInfo = () => {
         <table>
           <tbody>
             <tr className="CourseInfoTableName">
-              <th colSpan={2}>{currCourse?.Name}</th>
+              <th colSpan={2}>{currCourse?.name}</th>
             </tr>
             <tr className="CourseInfoTableRow">
               <th>Học phần</th>
-              <td>{currSubject?.Name}</td>
+              <td>{currSubject?.name}</td>
             </tr>
             <tr className="CourseInfoTableRow">
               <th>Học kì</th>
-              <td>{semester?.Name}</td>
+              <td>{semester?.name}</td>
             </tr>
             <tr className="CourseInfoTableRow">
               <th>Số lượng câu hỏi</th>
-              <td>{currCourse?.Questions.length}</td>
+              <td>{currCourse?.questions.length}</td>
             </tr>
             <tr className="CourseInfoTableRow">
               <th colSpan={2}>

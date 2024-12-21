@@ -1,33 +1,55 @@
 class Question {
-  ID!: number;
-  QuestionText!: string;
-  private _AnswerOptions?: AnswerOption[];
-  CorrectAnswers!: string;
-  QuestionType!: string;
-  Cdr!: number;
-  private _Shuffleable?: boolean;
+  id!: number;
+  question_direction!: string;
+  question_type!: string;
+  private _answer_option?: AnswerOption[];
+  private _correct_answer?: number[];
+  cdr!: number;
+  private _shuffleable?: boolean;
 
-  get AnwserOptions() {
-    return this._AnswerOptions ?? [];
+  get answer_option(): AnswerOption[] {
+    return this._answer_option ?? [];
   }
 
-  set AnwserOptions(value: string | AnswerOption[]) {
+  set answer_option(value: string | AnswerOption[]) {
     if (typeof value === "string") {
-      this._AnswerOptions = JSON.parse(value);
+      this._answer_option = JSON.parse(value).map(
+        (answerOption: AnswerOption) => answerOption
+      );
     } else {
-      this._AnswerOptions = value;
+      this._answer_option = value;
     }
   }
 
-  get Shuffleable() {
-    return this._Shuffleable ?? false;
+  get correct_answer(): number[] {
+    return this._correct_answer ?? [];
   }
 
-  set Shuffleable(value: boolean | number) {
+  set correct_answer(value: number | string | number[]) {
     if (typeof value === "number") {
-      this._Shuffleable = value === 0 ? false : true;
+      this._correct_answer = [value];
+    } else if (typeof value === "string") {
+      const parsedValue = JSON.parse(value);
+
+      if (typeof parsedValue === "number") {
+        this._correct_answer = [parsedValue];
+      } else {
+        this._correct_answer = JSON.parse(value);
+      }
     } else {
-      this._Shuffleable = value;
+      this._correct_answer = value;
+    }
+  }
+
+  get shuffleable(): boolean {
+    return this._shuffleable ?? false;
+  }
+
+  set shuffleable(value: boolean | number) {
+    if (typeof value === "number") {
+      this._shuffleable = value === 0 ? false : true;
+    } else {
+      this._shuffleable = value;
     }
   }
 
@@ -36,9 +58,10 @@ class Question {
   }
 }
 
-type AnswerOption = {
-  ID: number;
-  Value: string;
-};
+interface AnswerOption {
+  id: number;
+  value: string;
+}
 
+export type { AnswerOption };
 export default Question;

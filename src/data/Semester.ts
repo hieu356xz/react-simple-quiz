@@ -1,6 +1,6 @@
 class Semester {
-  ID!: number;
-  Name!: string;
+  id!: number;
+  name!: string;
 
   constructor(obj: Semester) {
     Object.assign(this, obj);

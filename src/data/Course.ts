@@ -1,18 +1,18 @@
 class Course {
-  ID!: number;
-  Name!: string;
-  SubjectID!: number;
-  private _Questions?: number[];
+  id!: number;
+  name!: string;
+  subject_id!: number;
+  private _questions?: number[];
 
-  get Questions() {
-    return this._Questions ?? [];
+  get questions(): number[] {
+    return this._questions ?? [];
   }
 
-  set Questions(value: number[] | string) {
+  set questions(value: number[] | string) {
     if (typeof value === "string") {
-      this._Questions = JSON.parse(value);
+      this._questions = JSON.parse(value);
     } else {
-      this._Questions = value;
+      this._questions = value;
     }
   }
 

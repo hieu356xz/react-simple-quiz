@@ -17,7 +17,7 @@ const TestNavbar = () => {
       <div className="TestNavbarContainer">
         {!screenMatches && (
           <NavbarItem>
-            <span>{currSubject && currSubject?.Name}</span>
+            <span>{currSubject && currSubject?.name}</span>
           </NavbarItem>
         )}
         <NavbarItem className="BtnSubmitTestContainer">

@@ -50,7 +50,7 @@ const Navbar = () => {
             </NavbarItem>
 
             <NavbarItem>
-              <span>{currSubject && currSubject?.Name}</span>
+              <span>{currSubject && currSubject?.name}</span>
             </NavbarItem>
           </>
         )}

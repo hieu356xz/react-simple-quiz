@@ -13,7 +13,7 @@ const Sidebar = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await QueryDb("select * from Subjects");
+      const data = await QueryDb("select * from Subject");
       setSubjects(JSON.parse(data));
     };
 
