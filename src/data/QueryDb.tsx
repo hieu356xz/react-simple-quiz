@@ -1,7 +1,10 @@
-import workerUrl from "sql.js-httpvfs/dist/sqlite.worker.js?url";
-import wasmUrl from "sql.js-httpvfs/dist/sql-wasm.wasm?url";
-import dbUrl from "./database.sqlite3?url";
 import { createDbWorker } from "sql.js-httpvfs";
+
+const workerUrl = new URL(
+  "sql.js-httpvfs/dist/sqlite.worker.js",
+  import.meta.url
+);
+const wasmUrl = new URL("sql.js-httpvfs/dist/sql-wasm.wasm", import.meta.url);
 
 let dbWorker: any = null;
 
@@ -13,7 +16,7 @@ const initializeDbWorker = async () => {
           from: "inline",
           config: {
             serverMode: "full",
-            url: dbUrl,
+            url: "/database.sqlite3",
             requestChunkSize: 4096,
           },
         },
