@@ -12,7 +12,8 @@ body {
   --background-color: #f8f9fa;
   --box-shadow-color: #eae9e9;
   --button-background-color: #e9e9e9;
-  --box-border-color: #bbbbbb;
+  --box-border-color: #d1d1d1;
+  --answer-border-color: #bbbbbb;
 
   --blue-color-1: #4680ff;
   --blue-color-2: #1c76da;
@@ -25,6 +26,7 @@ body {
 
   --sidebar-width: min(380px, 100vw);
   --navbar-height: 60px;
+  --test-container-width: 1200px;
 }
 
 * {
@@ -58,6 +60,7 @@ button {
   --box-shadow-color: #141414;
   --button-background-color: #2b2b2b;
   --box-border-color: #2e2e2e;
+  --answer-border-color: #3f3f3f;
 }
 
 .App,
@@ -89,7 +92,7 @@ button {
   display: flex;
   margin-left: auto;
   margin-right: auto;
-  width: 1200px;
+  width: var(--test-container-width);
 
   & .BtnSubmitTestContainer {
     margin-left: auto;
@@ -102,7 +105,7 @@ button {
     padding: 0px;
     width: 120px;
     height: 46px;
-    color: #e0e0e0;
+    color: #ffffff;
     background: var(--green-color-1);
     border-radius: 4px;
   }
@@ -165,8 +168,7 @@ button {
   display: flex;
   flex-direction: row;
   width: 100%;
-  height: calc(100vh - var(--navbar-height));
-  top: var(--navbar-height);
+  padding-top: var(--navbar-height);
   z-index: 0;
 }
 
@@ -253,7 +255,7 @@ button {
 
 .CourseInfo {
   display: flex;
-  height: 100%;
+  height: calc(100vh - var(--navbar-height));
   width: 100%;
   justify-content: center;
   align-items: center;
@@ -305,4 +307,76 @@ button {
 .icon {
   vertical-align: middle;
   margin: 6px;
+}
+
+.TestContainer {
+  margin-left: auto;
+  margin-right: auto;
+  width: var(--test-container-width);
+}
+
+.QuestionContainer {
+  display: flex;
+  flex-direction: column;
+  font-size: 16px;
+  margin: 32px 20px;
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--box-border-color);
+  min-height: 360px;
+
+  & .QuestionContainerDirection {
+    padding: 20px;
+
+    & span {
+      color: inherit !important;
+      background-color: inherit !important;
+    }
+  }
+
+  & .QuestionContainerNumber {
+    font-weight: 700;
+    line-height: 2.2;
+  }
+}
+
+.AnswerOptions {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: auto;
+  padding: 20px;
+}
+
+.RadioAnswerOption {
+  display: flex;
+  flex-basis: 50%;
+  align-items: baseline;
+  padding: 10px 24px 10px 0px;
+  gap: 8px;
+
+  & label {
+    display: flex;
+    align-items: baseline;
+    padding: 20px;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    border-radius: 6px;
+    border: 1px solid var(--answer-border-color);
+  }
+}
+
+.AnswerOptionBullet {
+  font-weight: 700;
+  margin: 12px;
+}
+
+.AnswerOptionText {
+  padding-left: 16px;
+  font-size: 15px;
+
+  & span {
+    color: inherit !important;
+    background-color: inherit !important;
+  }
 }
