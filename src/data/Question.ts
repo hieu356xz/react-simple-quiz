@@ -1,11 +1,19 @@
 class Question {
   id!: number;
-  question_direction!: string;
+  private _question_direction?: string;
   question_type!: string;
   private _answer_option?: AnswerOption[];
   private _correct_answer?: number[];
   cdr!: number;
   private _shuffleable?: boolean;
+
+  get question_direction(): string {
+    return this._question_direction ?? "";
+  }
+
+  set question_direction(value: string) {
+    this._question_direction = value.replace(/\\"/g, '"');
+  }
 
   get answer_option(): AnswerOption[] {
     return this._answer_option ?? [];
@@ -13,9 +21,7 @@ class Question {
 
   set answer_option(value: string | AnswerOption[]) {
     if (typeof value === "string") {
-      this._answer_option = JSON.parse(value).map(
-        (answerOption: AnswerOption) => answerOption
-      );
+      this._answer_option = JSON.parse(value);
     } else {
       this._answer_option = value;
     }
