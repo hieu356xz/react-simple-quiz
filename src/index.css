@@ -364,6 +364,12 @@ button {
     border-radius: 6px;
     border: 1px solid var(--answer-border-color);
   }
+
+  @media screen and (max-width: 900px) {
+    & {
+      flex-basis: 100%;
+    }
+  }
 }
 
 .AnswerOptionBullet {
