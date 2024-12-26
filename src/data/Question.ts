@@ -65,7 +65,7 @@ class Question {
 }
 
 interface AnswerOption {
-  id: number;
+  id: string;
   value: string;
 }
 

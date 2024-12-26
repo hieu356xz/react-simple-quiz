@@ -4,6 +4,9 @@ import SidebarOpenReducer from "./SidebarOpenSlice";
 import CurrSubjectReducer from "./CurrSubjectSlice";
 import CurrCourseReducer from "./CurrCourseSlice";
 import ActiveTestReducer from "./ActiveTestSlice";
+import TestQuestionReducer from "./TestQuestionSlice";
+import UserAnswerReducer from "./UserAnswerSlice";
+import TestResultReducer from "./TestResultSlice";
 
 const store = configureStore({
   reducer: {
@@ -12,6 +15,9 @@ const store = configureStore({
     currSubject: CurrSubjectReducer,
     currCourse: CurrCourseReducer,
     activeTest: ActiveTestReducer,
+    testQuestion: TestQuestionReducer,
+    userAnswer: UserAnswerReducer,
+    testResult: TestResultReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ serializableCheck: false }),

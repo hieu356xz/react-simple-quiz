@@ -1,5 +1,5 @@
 class Subject {
-  id!: number;
+  id!: string;
   name!: string;
   semester_id!: number;
 
