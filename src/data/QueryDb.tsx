@@ -5,6 +5,7 @@ const workerUrl = new URL(
   import.meta.url
 );
 const wasmUrl = new URL("sql.js-httpvfs/dist/sql-wasm.wasm", import.meta.url);
+const dbUrl = new URL("/database.sqlite3", import.meta.url).toString();
 
 let dbWorker: any = null;
 
@@ -16,7 +17,7 @@ const initializeDbWorker = async () => {
           from: "inline",
           config: {
             serverMode: "full",
-            url: "/database.sqlite3",
+            url: dbUrl,
             requestChunkSize: 4096,
           },
         },
