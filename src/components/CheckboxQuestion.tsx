@@ -33,7 +33,7 @@ const CheckboxQuestion = ({ question, index }: ICheckboxQuestionItemProps) => {
           return (
             <CheckboxAnswerOption
               answerOption={answerOption}
-              questionID={question.id}
+              question={question}
               answerOptionBullet={answerOptionBullets[index]}
               index={index}
               selectedValue={selectedValue}

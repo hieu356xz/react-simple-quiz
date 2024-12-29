@@ -28,7 +28,7 @@ const RadioQuestion = ({ question, index }: IRadioQuestionItemProps) => {
           return (
             <RadioAnswerOption
               answerOption={answerOption}
-              questionID={question.id}
+              question={question}
               answerOptionBullet={answerOptionBullets[index]}
               selectedValue={selectedValue}
               setSelectedValue={setSelectedValue}

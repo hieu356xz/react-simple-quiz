@@ -1,5 +1,5 @@
-import { ChangeEvent } from "react";
-import { AnswerOption } from "../data/Question";
+import { ChangeEvent, useEffect, useState } from "react";
+import Question, { AnswerOption } from "../data/Question";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addUserAnswer,
@@ -8,42 +8,70 @@ import {
 import { RootState } from "../redux/store";
 
 interface IRadioQuestionOptionItemProps {
-  className?: string;
   answerOption: AnswerOption;
-  questionID: number;
+  question: Question;
   answerOptionBullet: string;
   selectedValue: string;
   setSelectedValue: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const RadioQuestionOption = ({
-  className = "",
   answerOption,
-  questionID,
+  question,
   answerOptionBullet,
   selectedValue,
   setSelectedValue,
 }: IRadioQuestionOptionItemProps) => {
+  const [answerOptionStatus, setAnswerOptionStatus] = useState("");
   const isTestFininshed = useSelector(
     (state: RootState) => state.testResult.isTestFininshed
   );
+  const userAnswers = useSelector(
+    (state: RootState) => state.userAnswer.answers
+  );
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!isTestFininshed) return;
+
+    const answerOptionId = Number.parseInt(answerOption.id);
+
+    if (
+      !userAnswers[question.id] ||
+      (userAnswers[question.id] && userAnswers[question.id].length == 0)
+    ) {
+      if (question.correct_answer.includes(answerOptionId)) {
+        setAnswerOptionStatus(" unanswer");
+      }
+      return;
+    }
+
+    if (userAnswers[question.id].includes(answerOptionId)) {
+      if (!question.correct_answer.includes(answerOptionId)) {
+        setAnswerOptionStatus(" incorrect");
+      }
+    }
+
+    if (question.correct_answer.includes(answerOptionId)) {
+      setAnswerOptionStatus(" correct");
+    }
+  }, [isTestFininshed]);
 
   const onInputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     if (isTestFininshed) return;
 
     setSelectedValue(e.target.value);
-    dispatch(removeAllUserAnswerById(questionID));
-    dispatch(addUserAnswer({ id: questionID, answer: answerOption.id }));
+    dispatch(removeAllUserAnswerById(question.id));
+    dispatch(addUserAnswer({ id: question.id, answer: answerOption.id }));
   };
 
   return (
-    <div className={`RadioAnswerOption ${className}`}>
+    <div className={`RadioAnswerOption ${answerOptionStatus}`}>
       <span className="AnswerOptionBullet">{answerOptionBullet}</span>
       <label>
         <input
           type="radio"
-          name={`question_${questionID}`}
+          name={`question_${question.id}`}
           checked={selectedValue === answerOption.id}
           value={answerOption.id}
           onChange={onInputChangeHandler}
