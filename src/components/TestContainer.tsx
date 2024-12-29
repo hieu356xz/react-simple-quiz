@@ -8,7 +8,6 @@ import { setTestQuestion } from "../redux/TestQuestionSlice";
 import CheckboxQuestion from "./CheckboxQuestion";
 
 const TestContainer = () => {
-  //Test
   const testQuestions = useSelector(
     (state: RootState) => state.testQuestion.questions
   );

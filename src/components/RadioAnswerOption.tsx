@@ -1,12 +1,14 @@
 import { ChangeEvent } from "react";
 import { AnswerOption } from "../data/Question";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   addUserAnswer,
   removeAllUserAnswerById,
 } from "../redux/UserAnswerSlice";
+import { RootState } from "../redux/store";
 
 interface IRadioQuestionOptionItemProps {
+  className?: string;
   answerOption: AnswerOption;
   questionID: number;
   answerOptionBullet: string;
@@ -15,22 +17,28 @@ interface IRadioQuestionOptionItemProps {
 }
 
 const RadioQuestionOption = ({
+  className = "",
   answerOption,
   questionID,
   answerOptionBullet,
   selectedValue,
   setSelectedValue,
 }: IRadioQuestionOptionItemProps) => {
+  const isTestFininshed = useSelector(
+    (state: RootState) => state.testResult.isTestFininshed
+  );
   const dispatch = useDispatch();
 
   const onInputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    if (isTestFininshed) return;
+
     setSelectedValue(e.target.value);
     dispatch(removeAllUserAnswerById(questionID));
     dispatch(addUserAnswer({ id: questionID, answer: answerOption.id }));
   };
 
   return (
-    <div className="RadioAnswerOption">
+    <div className={`RadioAnswerOption ${className}`}>
       <span className="AnswerOptionBullet">{answerOptionBullet}</span>
       <label>
         <input
@@ -39,6 +47,7 @@ const RadioQuestionOption = ({
           checked={selectedValue === answerOption.id}
           value={answerOption.id}
           onChange={onInputChangeHandler}
+          hidden={isTestFininshed}
         ></input>
         <span
           className="AnswerOptionText"

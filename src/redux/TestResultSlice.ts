@@ -2,8 +2,8 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const initialState = {
   isTestFininshed: false,
-  correctAnswerCount: 0,
-  wrongAnswerCount: 0,
+  correctAnswers: [] as number[],
+  wrongAnswers: [] as number[],
 };
 
 const TestResultSlice = createSlice({
@@ -14,17 +14,17 @@ const TestResultSlice = createSlice({
       state.isTestFininshed = action.payload;
     },
 
-    addCorrectAnswerCount: (state) => {
-      state.correctAnswerCount++;
+    addCorrectAnswer: (state, action: PayloadAction<number>) => {
+      state.correctAnswers.push(action.payload);
     },
 
-    addWrongAnswerCount: (state) => {
-      state.wrongAnswerCount++;
+    addWrongAnswer: (state, action: PayloadAction<number>) => {
+      state.wrongAnswers.push(action.payload);
     },
   },
 });
 
 const TestResultReducer = TestResultSlice.reducer;
-export const { addCorrectAnswerCount, addWrongAnswerCount, setIsTestFinished } =
+export const { addCorrectAnswer, addWrongAnswer, setIsTestFinished } =
   TestResultSlice.actions;
 export default TestResultReducer;

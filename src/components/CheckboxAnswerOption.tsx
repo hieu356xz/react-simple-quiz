@@ -1,8 +1,10 @@
 import { AnswerOption } from "../data/Question";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addUserAnswer, removeUserAnswer } from "../redux/UserAnswerSlice";
+import { RootState } from "../redux/store";
 
 interface ICheckboxQuestionOptionItemProps {
+  className?: string;
   answerOption: AnswerOption;
   questionID: number;
   answerOptionBullet: string;
@@ -12,6 +14,7 @@ interface ICheckboxQuestionOptionItemProps {
 }
 
 const CheckboxQuestionOption = ({
+  className = "",
   answerOption,
   questionID,
   answerOptionBullet,
@@ -19,9 +22,14 @@ const CheckboxQuestionOption = ({
   selectedValue,
   setSelectedValue,
 }: ICheckboxQuestionOptionItemProps) => {
+  const isTestFininshed = useSelector(
+    (state: RootState) => state.testResult.isTestFininshed
+  );
   const dispatch = useDispatch();
 
   const onInputChangeHandler = () => {
+    if (isTestFininshed) return;
+
     if (selectedValue[index]) {
       dispatch(removeUserAnswer({ id: questionID, answer: answerOption.id }));
     } else {
@@ -36,7 +44,7 @@ const CheckboxQuestionOption = ({
   };
 
   return (
-    <div className="CheckboxAnswerOption">
+    <div className={`CheckboxAnswerOption ${className}`}>
       <span className="AnswerOptionBullet">{answerOptionBullet}</span>
       <label>
         <input
@@ -44,6 +52,7 @@ const CheckboxQuestionOption = ({
           name={`question_${questionID}_${index}`}
           checked={selectedValue[index]}
           onChange={onInputChangeHandler}
+          hidden={isTestFininshed}
         ></input>
         <span
           className="AnswerOptionText"
