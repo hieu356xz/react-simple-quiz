@@ -4,6 +4,7 @@ const initialState = {
   isTestFininshed: false,
   correctAnswers: [] as number[],
   wrongAnswers: [] as number[],
+  score: 0,
 };
 
 const TestResultSlice = createSlice({
@@ -21,10 +22,13 @@ const TestResultSlice = createSlice({
     addWrongAnswer: (state, action: PayloadAction<number>) => {
       state.wrongAnswers.push(action.payload);
     },
+    setScore: (state, action: PayloadAction<number>) => {
+      state.score = action.payload;
+    },
   },
 });
 
 const TestResultReducer = TestResultSlice.reducer;
-export const { addCorrectAnswer, addWrongAnswer, setIsTestFinished } =
+export const { addCorrectAnswer, addWrongAnswer, setIsTestFinished, setScore } =
   TestResultSlice.actions;
 export default TestResultReducer;

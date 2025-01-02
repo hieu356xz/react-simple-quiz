@@ -8,10 +8,14 @@ import {
   addCorrectAnswer,
   addWrongAnswer,
   setIsTestFinished,
+  setScore,
 } from "../redux/TestResultSlice";
-import { useState } from "react";
 
-const TestNavbar = () => {
+interface ITestNavbarProps {
+  setHidePopup: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const TestNavbar = ({ setHidePopup }: ITestNavbarProps) => {
   const currSubject = useSelector(
     (state: RootState) => state.currSubject.subject
   );
@@ -25,8 +29,6 @@ const TestNavbar = () => {
   const dispatch = useDispatch();
 
   const screenMatches = useMediaQuery("screen and (max-width: 768px)");
-
-  const [score, setScore] = useState("");
 
   const calculateScore = () => {
     let correctAnswersCount = 0;
@@ -46,9 +48,13 @@ const TestNavbar = () => {
       } else {
         dispatch(addWrongAnswer(question.id));
       }
+
+      const score = parseFloat(
+        ((correctAnswersCount / testQuestions.length) * 10).toFixed(2)
+      );
+      dispatch(setScore(score));
     });
 
-    setScore(((correctAnswersCount / testQuestions.length) * 10).toFixed(2));
     dispatch(setIsTestFinished(true));
   };
 
@@ -62,8 +68,11 @@ const TestNavbar = () => {
         )}
         {testResult.isTestFininshed ? (
           <NavbarItem className="ScoreBoxContainer">
-            <button className="ScoreBoxBtn">
-              <div>Điểm: {score}</div>
+            <button
+              className="ScoreBoxBtn"
+              onClick={() => setHidePopup((prev) => !prev)}
+            >
+              <div>Điểm: {testResult.score}</div>
               <div>
                 Kết quả: {testResult.correctAnswers.length}/
                 {testQuestions.length}

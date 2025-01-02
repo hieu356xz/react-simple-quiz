@@ -1,12 +1,17 @@
+import { useState } from "react";
 import TestContainer from "../components/TestContainer";
 import TestNavbar from "../components/TestNavbar";
+import TestResultPopup from "../components/TestResultPopup";
 
 const TestPage = () => {
+  const [hidePopup, setHidePopup] = useState(true);
+
   return (
     <>
-      <TestNavbar />
+      <TestNavbar setHidePopup={setHidePopup} />
       <div className="Main">
-        <TestContainer></TestContainer>
+        <TestContainer />
+        <TestResultPopup hidePopup={hidePopup} setHidePopup={setHidePopup} />
       </div>
     </>
   );
