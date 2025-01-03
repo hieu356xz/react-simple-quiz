@@ -3,6 +3,7 @@ import NavbarItem from "./NavbarItem";
 import { RootState } from "../redux/store";
 import ToggleThemeButton from "./ToggleThemeButton";
 import { FiEdit } from "react-icons/fi";
+import { FaRedo } from "react-icons/fa";
 import { useMediaQuery } from "@react-hook/media-query";
 import {
   addCorrectAnswer,
@@ -66,33 +67,45 @@ const TestNavbar = ({ setHidePopup }: ITestNavbarProps) => {
             <span>{currSubject && currSubject?.name}</span>
           </NavbarItem>
         )}
-        {testResult.isTestFininshed ? (
-          <NavbarItem className="ScoreBoxContainer">
-            <button
-              className="ScoreBoxBtn"
-              onClick={() => setHidePopup((prev) => !prev)}
-            >
-              <div>Điểm: {testResult.score}</div>
-              <div>
-                Kết quả: {testResult.correctAnswers.length}/
-                {testQuestions.length}
-              </div>
-            </button>
-          </NavbarItem>
-        ) : (
-          <NavbarItem className="BtnSubmitTestContainer">
-            <button className="BtnSubmitTest" onClick={calculateScore}>
-              <FiEdit
-                className="icon"
-                stroke="#e0e0e0"
-                strokeWidth={3}
-                size={"17px"}
-                style={{ backgroundColor: "#00000000" }}
-              />
-              Nộp bài
-            </button>
-          </NavbarItem>
-        )}
+        <div className="TestNavBarRightSide">
+          {testResult.isTestFininshed ? (
+            <>
+              <NavbarItem>
+                <button
+                  className="RetryDoBtn"
+                  onClick={() => dispatch(setIsTestFinished(false))}
+                >
+                  <FaRedo />
+                </button>
+              </NavbarItem>
+              <NavbarItem>
+                <button
+                  className="ScoreBoxBtn"
+                  onClick={() => setHidePopup((prev) => !prev)}
+                >
+                  <div>Điểm: {testResult.score}</div>
+                  <div>
+                    Kết quả: {testResult.correctAnswers.length}/
+                    {testQuestions.length}
+                  </div>
+                </button>
+              </NavbarItem>
+            </>
+          ) : (
+            <NavbarItem>
+              <button className="BtnSubmitTest" onClick={calculateScore}>
+                <FiEdit
+                  className="icon"
+                  stroke="#e0e0e0"
+                  strokeWidth={3}
+                  size={"17px"}
+                  style={{ backgroundColor: "#00000000" }}
+                />
+                Nộp bài
+              </button>
+            </NavbarItem>
+          )}
+        </div>
       </div>
 
       <NavbarItem>
