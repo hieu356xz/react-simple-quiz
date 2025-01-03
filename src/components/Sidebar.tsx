@@ -4,6 +4,7 @@ import QueryDb from "../data/QueryDb";
 import Subject from "../data/Subject";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
+import LoadingView from "./LoadingView";
 
 const Sidebar = () => {
   const isSidebarOpen = useSelector(
@@ -22,11 +23,15 @@ const Sidebar = () => {
 
   return (
     <div className={`Sidebar ${isSidebarOpen ? "" : "hide"}`}>
-      <ul>
-        {subjects.map((subject: Subject, index) => {
-          return <SidebarGroupItem subject={subject} key={index} />;
-        })}
-      </ul>
+      {!subjects || subjects.length == 0 ? (
+        <LoadingView />
+      ) : (
+        <ul>
+          {subjects.map((subject: Subject, index) => {
+            return <SidebarGroupItem subject={subject} key={index} />;
+          })}
+        </ul>
+      )}
     </div>
   );
 };

@@ -157,6 +157,7 @@ button {
   display: flex;
   flex-direction: row;
   width: 100%;
+  min-height: 100vh;
   padding-top: var(--navbar-height);
   z-index: 0;
 }
@@ -493,4 +494,12 @@ button {
   height: 0;
   opacity: 0;
   transition: height 0s ease 300ms, opacity 300ms ease;
+}
+
+.LoadingView {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
 }

@@ -5,7 +5,7 @@ import Semester from "../data/Semester";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import { toggleActiveTest } from "../redux/ActiveTestSlice";
-import { Oval } from "react-loader-spinner";
+import LoadingView from "./LoadingView";
 
 const CourseInfo = () => {
   const isSidebarOpen = useSelector(
@@ -35,7 +35,7 @@ const CourseInfo = () => {
   return (
     <div className={`CourseInfo ${isSidebarOpen ? "shrink" : ""}`}>
       {!(currSubject && semester) ? (
-        <Oval color="var(--blue-color-2)" secondaryColor="#193266" />
+        <LoadingView />
       ) : !currCourse ? (
         <span>Hãy chọn một bài để bắt đầu</span>
       ) : (

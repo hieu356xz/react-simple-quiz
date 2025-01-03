@@ -3,11 +3,11 @@ import QueryDb from "../data/QueryDb";
 import Question from "../data/Question";
 import RadioQuestion from "./RadioQuestion";
 import { useDispatch, useSelector } from "react-redux";
-import { Oval } from "react-loader-spinner";
 import { RootState } from "../redux/store";
 import { setTestQuestion } from "../redux/TestQuestionSlice";
 import CheckboxQuestion from "./CheckboxQuestion";
 import _ from "lodash";
+import LoadingView from "./LoadingView";
 
 const TestContainer = () => {
   const testQuestions = useSelector(
@@ -49,8 +49,8 @@ const TestContainer = () => {
 
   return (
     <div className="TestContainer">
-      {!testQuestions ? (
-        <Oval color="var(--blue-color-2)" secondaryColor="#193266" />
+      {!testQuestions || testQuestions.length == 0 ? (
+        <LoadingView />
       ) : (
         testQuestions.map((question, index) => {
           if (question.question_type === "radio") {
