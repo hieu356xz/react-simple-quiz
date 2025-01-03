@@ -8,7 +8,10 @@ const ToggleThemeButton = () => {
   const dispatch = useDispatch();
 
   return (
-    <button className="BtnToggleTheme" onClick={() => dispatch(switchTheme())}>
+    <button
+      className="BtnToggleTheme IconBtn"
+      onClick={() => dispatch(switchTheme())}
+    >
       {theme == "light" ? (
         <MdOutlineLightMode size={"24px"} style={{ background: "#00000000" }} />
       ) : (

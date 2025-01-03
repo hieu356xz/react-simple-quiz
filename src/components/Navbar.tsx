@@ -27,7 +27,7 @@ const Navbar = () => {
     <nav className="Navbar">
       <NavbarItem>
         <button
-          className="BtnHamburger"
+          className="BtnHamburger IconBtn"
           onClick={() => dispatch(toggleSidebar())}
           disabled={isButtonDisabled}
         >

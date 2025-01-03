@@ -2,8 +2,10 @@ import { useDispatch, useSelector } from "react-redux";
 import NavbarItem from "./NavbarItem";
 import { RootState } from "../redux/store";
 import ToggleThemeButton from "./ToggleThemeButton";
+import { toggleActiveTest } from "../redux/ActiveTestSlice";
 import { FiEdit } from "react-icons/fi";
 import { FaRedo } from "react-icons/fa";
+import { TbArrowBackUp } from "react-icons/tb";
 import { useMediaQuery } from "@react-hook/media-query";
 import {
   addCorrectAnswer,
@@ -61,6 +63,14 @@ const TestNavbar = ({ setHidePopup }: ITestNavbarProps) => {
 
   return (
     <nav className="Navbar">
+      <NavbarItem>
+        <button
+          className="IconBtn"
+          onClick={() => dispatch(toggleActiveTest())}
+        >
+          <TbArrowBackUp size={"24px"}></TbArrowBackUp>
+        </button>
+      </NavbarItem>
       <div className="TestNavbarContainer">
         {!screenMatches && (
           <NavbarItem>
@@ -72,7 +82,7 @@ const TestNavbar = ({ setHidePopup }: ITestNavbarProps) => {
             <>
               <NavbarItem>
                 <button
-                  className="RetryDoBtn"
+                  className="IconBtn"
                   onClick={() => dispatch(setIsTestFinished(false))}
                 >
                   <FaRedo />
