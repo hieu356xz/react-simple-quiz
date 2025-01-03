@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import { setTestQuestion } from "../redux/TestQuestionSlice";
 import CheckboxQuestion from "./CheckboxQuestion";
+import _ from "lodash";
 
 const TestContainer = () => {
   const testQuestions = useSelector(
@@ -23,7 +24,14 @@ const TestContainer = () => {
                       where Course.id = ${currCourse?.id})`);
 
       const questionList: Question[] = JSON.parse(data).map(
-        (question: Question) => new Question(question)
+        (question: Question) => {
+          const newQuestion = new Question(question);
+          if (newQuestion.shuffleable) {
+            newQuestion.answer_option = _.shuffle(newQuestion.answer_option);
+          }
+
+          return newQuestion;
+        }
       );
 
       dispatch(setTestQuestion(questionList));
