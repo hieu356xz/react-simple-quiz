@@ -57,7 +57,7 @@ button {
 .App,
 .Navbar,
 .Sidebar,
-.Main {
+.Main .TestContainer {
   color: var(--primary-text-color);
   background-color: var(--background-color);
   transition: color 150ms ease, background-color 150ms ease;
@@ -394,6 +394,11 @@ button {
     border-radius: 6px;
     border: 1px solid var(--answer-border-color);
     transition: border-color 300ms ease;
+  }
+
+  input[type="radio"] {
+    min-width: 13px;
+    min-height: 13px;
   }
 
   @media screen and (max-width: 900px) {
