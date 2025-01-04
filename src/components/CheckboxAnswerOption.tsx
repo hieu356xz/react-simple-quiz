@@ -3,6 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { addUserAnswer, removeUserAnswer } from "../redux/UserAnswerSlice";
 import { RootState } from "../redux/store";
 import { useEffect, useState } from "react";
+import parse from "html-react-parser";
+import DOMPurify from "dompurify";
+import HTMLPaserImageOptions from "../utils";
 
 interface ICheckboxQuestionOptionItemProps {
   answerOption: AnswerOption;
@@ -29,6 +32,10 @@ const CheckboxQuestionOption = ({
     (state: RootState) => state.userAnswer.answers
   );
   const dispatch = useDispatch();
+
+  const cleanHTML = DOMPurify.sanitize(answerOption.value, {
+    USE_PROFILES: { html: true },
+  });
 
   useEffect(() => {
     if (!isTestFininshed) return;
@@ -83,10 +90,9 @@ const CheckboxQuestionOption = ({
           onChange={onInputChangeHandler}
           hidden={isTestFininshed}
         ></input>
-        <span
-          className="AnswerOptionText"
-          dangerouslySetInnerHTML={{ __html: answerOption.value }}
-        ></span>
+        <span className="AnswerOptionText">
+          {parse(cleanHTML, HTMLPaserImageOptions)}
+        </span>
       </label>
     </div>
   );

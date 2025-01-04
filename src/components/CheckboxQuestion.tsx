@@ -1,6 +1,9 @@
 import { useState } from "react";
 import Question from "../data/Question";
 import CheckboxAnswerOption from "./CheckboxAnswerOption";
+import parse from "html-react-parser";
+import DOMPurify from "dompurify";
+import HTMLPaserImageOptions from "../utils";
 
 interface ICheckboxQuestionItemProps {
   question: Question;
@@ -16,17 +19,17 @@ const CheckboxQuestion = ({ question, index }: ICheckboxQuestionItemProps) => {
     false,
   ]);
 
+  const cleanHTML = DOMPurify.sanitize(question.question_direction, {
+    USE_PROFILES: { html: true },
+  });
+
   return (
     <div className="CheckboxQuestion">
       <div className="QuestionContainerDirection">
         <p className="QuestionContainerNumber">
           {`Câu ${index + 1}: (ID-${question.id})`}
         </p>
-        <div
-          dangerouslySetInnerHTML={{
-            __html: question.question_direction,
-          }}
-        ></div>
+        <div>{parse(cleanHTML, HTMLPaserImageOptions)}</div>
       </div>
       <div className="AnswerOptions">
         {question.answer_option.map((answerOption, index) => {

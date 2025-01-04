@@ -6,6 +6,9 @@ import {
   removeAllUserAnswerById,
 } from "../redux/UserAnswerSlice";
 import { RootState } from "../redux/store";
+import parse from "html-react-parser";
+import DOMPurify from "dompurify";
+import HTMLPaserImageOptions from "../utils";
 
 interface IRadioQuestionOptionItemProps {
   answerOption: AnswerOption;
@@ -30,6 +33,10 @@ const RadioQuestionOption = ({
     (state: RootState) => state.userAnswer.answers
   );
   const dispatch = useDispatch();
+
+  const cleanHTML = DOMPurify.sanitize(answerOption.value, {
+    USE_PROFILES: { html: true },
+  });
 
   useEffect(() => {
     if (!isTestFininshed) return;
@@ -77,10 +84,9 @@ const RadioQuestionOption = ({
           onChange={onInputChangeHandler}
           hidden={isTestFininshed}
         ></input>
-        <span
-          className="AnswerOptionText"
-          dangerouslySetInnerHTML={{ __html: answerOption.value }}
-        ></span>
+        <span className="AnswerOptionText">
+          {parse(cleanHTML, HTMLPaserImageOptions)}
+        </span>
       </label>
     </div>
   );
