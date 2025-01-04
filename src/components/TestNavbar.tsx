@@ -10,6 +10,7 @@ import { useMediaQuery } from "@react-hook/media-query";
 import {
   addCorrectAnswer,
   addWrongAnswer,
+  resetTestResut,
   setIsTestFinished,
   setScore,
 } from "../redux/TestResultSlice";
@@ -33,7 +34,12 @@ const TestNavbar = ({ setHidePopup }: ITestNavbarProps) => {
 
   const screenMatches = useMediaQuery("screen and (max-width: 768px)");
 
-  const calculateScore = () => {
+  const onBackBtnClick = () => {
+    dispatch(toggleActiveTest());
+    dispatch(resetTestResut());
+  };
+
+  const onSubmitTest = () => {
     let correctAnswersCount = 0;
 
     testQuestions.forEach((question) => {
@@ -64,10 +70,7 @@ const TestNavbar = ({ setHidePopup }: ITestNavbarProps) => {
   return (
     <nav className="Navbar">
       <NavbarItem>
-        <button
-          className="IconBtn"
-          onClick={() => dispatch(toggleActiveTest())}
-        >
+        <button className="IconBtn" onClick={onBackBtnClick}>
           <TbArrowBackUp size={"24px"}></TbArrowBackUp>
         </button>
       </NavbarItem>
@@ -103,7 +106,7 @@ const TestNavbar = ({ setHidePopup }: ITestNavbarProps) => {
             </>
           ) : (
             <NavbarItem>
-              <button className="BtnSubmitTest" onClick={calculateScore}>
+              <button className="BtnSubmitTest" onClick={onSubmitTest}>
                 <FiEdit
                   className="icon"
                   stroke="#e0e0e0"

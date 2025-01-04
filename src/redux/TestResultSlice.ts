@@ -25,10 +25,16 @@ const TestResultSlice = createSlice({
     setScore: (state, action: PayloadAction<number>) => {
       state.score = action.payload;
     },
+    resetTestResut: () => initialState,
   },
 });
 
 const TestResultReducer = TestResultSlice.reducer;
-export const { addCorrectAnswer, addWrongAnswer, setIsTestFinished, setScore } =
-  TestResultSlice.actions;
+export const {
+  addCorrectAnswer,
+  addWrongAnswer,
+  setIsTestFinished,
+  setScore,
+  resetTestResut,
+} = TestResultSlice.actions;
 export default TestResultReducer;
