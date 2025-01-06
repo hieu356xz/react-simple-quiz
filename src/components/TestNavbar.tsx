@@ -35,6 +35,14 @@ const TestNavbar = ({ setHidePopup }: ITestNavbarProps) => {
   const screenMatches = useMediaQuery("screen and (max-width: 768px)");
 
   const onBackBtnClick = () => {
+    if (!testResult.isTestFininshed) {
+      const confirmation = window.confirm(
+        "Bài kiểm tra chưa hoàn thành. Bạn có muốn chắc chắn muốn thoát không?"
+      );
+      if (!confirmation) {
+        return;
+      }
+    }
     dispatch(toggleActiveTest());
     dispatch(resetTestResut());
   };
