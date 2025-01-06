@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import Course from "../data/Course";
 import QueryDb from "../data/QueryDb";
 
@@ -33,8 +33,38 @@ const getCourseFromLocal = async () => {
   return null;
 };
 
-const initialState = {
-  course: await getCourseFromLocal(),
+const loadCurrCourse = createAsyncThunk(
+  "currCourse/loadCurrCourse",
+
+  async (_, { rejectWithValue }) => {
+    try {
+      const course = await getCourseFromLocal();
+
+      if (course) {
+        return course;
+      } else {
+        return rejectWithValue("No course found in local storage");
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        return rejectWithValue(error.message);
+      } else {
+        return rejectWithValue(String(error));
+      }
+    }
+  }
+);
+
+interface CurrCourseState {
+  course: Course | null;
+  loading: boolean;
+  error: string | null;
+}
+
+const initialState: CurrCourseState = {
+  course: null,
+  loading: false,
+  error: null,
 };
 
 const CurrCourseSlice = createSlice({
@@ -50,8 +80,24 @@ const CurrCourseSlice = createSlice({
       }
     },
   },
+  extraReducers: (builder) => {
+    builder
+      .addCase(loadCurrCourse.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(loadCurrCourse.fulfilled, (state, action) => {
+        state.course = action.payload;
+        state.loading = false;
+      })
+      .addCase(loadCurrCourse.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      });
+  },
 });
 
 const CurrCourseReducer = CurrCourseSlice.reducer;
 export const { setCurrCourse } = CurrCourseSlice.actions;
+export { loadCurrCourse };
 export default CurrCourseReducer;

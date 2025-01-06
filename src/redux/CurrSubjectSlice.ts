@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import Subject from "../data/Subject";
 import QueryDb from "../data/QueryDb";
 
@@ -33,8 +33,37 @@ const getSubjectFromLocal = async () => {
   return null;
 };
 
-const initialState = {
-  subject: await getSubjectFromLocal(),
+const loadCurrSubject = createAsyncThunk(
+  "currSubject/loadCurrSubject",
+
+  async (_, { rejectWithValue }) => {
+    try {
+      const subject = await getSubjectFromLocal();
+      if (subject) {
+        return subject;
+      } else {
+        return rejectWithValue("No subject found in local storage");
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        return rejectWithValue(error.message);
+      } else {
+        return rejectWithValue(String(error));
+      }
+    }
+  }
+);
+
+interface CurrSubjectSlice {
+  subject: Subject | null;
+  loading: boolean;
+  error: string | null;
+}
+
+const initialState: CurrSubjectSlice = {
+  subject: null,
+  loading: false,
+  error: null,
 };
 
 const CurrSubjectSlice = createSlice({
@@ -46,8 +75,24 @@ const CurrSubjectSlice = createSlice({
       localStorage.setItem("SubjectId", action.payload.id);
     },
   },
+  extraReducers: (builder) => {
+    builder
+      .addCase(loadCurrSubject.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(loadCurrSubject.fulfilled, (state, action) => {
+        state.subject = action.payload;
+        state.loading = false;
+      })
+      .addCase(loadCurrSubject.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      });
+  },
 });
 
 const CurrSubjectReducer = CurrSubjectSlice.reducer;
 export const { setCurrSubject } = CurrSubjectSlice.actions;
+export { loadCurrSubject };
 export default CurrSubjectReducer;
