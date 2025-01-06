@@ -11,10 +11,8 @@ const CourseInfo = () => {
   const isSidebarOpen = useSelector(
     (state: RootState) => state.sidebarOpen.sidebarOpen
   );
-  const currSubject = useSelector(
-    (state: RootState) => state.currSubject.subject
-  );
-  const currCourse = useSelector((state: RootState) => state.currCourse.course);
+  const currSubject = useSelector((state: RootState) => state.currSubject);
+  const currCourse = useSelector((state: RootState) => state.currCourse);
   const [semester, setSemester] = useState<Semester | null>(null);
   const dispatch = useDispatch();
 
@@ -23,30 +21,30 @@ const CourseInfo = () => {
       const data = await QueryDb(
         `select *
         from Semester
-        where id = ${currSubject?.semester_id}`
+        where id = ${currSubject.subject?.semester_id}`
       );
 
       setSemester(JSON.parse(data)[0]);
     };
 
-    currSubject && fetchData();
-  }, [currSubject]);
+    currSubject.subject && fetchData();
+  }, [currSubject.subject]);
 
   return (
     <div className={`CourseInfo ${isSidebarOpen ? "shrink" : ""}`}>
-      {!(currSubject && currCourse) ? (
-        <span>Hãy chọn một bài để bắt đầu</span>
-      ) : !semester ? (
+      {!semester || currCourse.loading || currSubject.loading ? (
         <LoadingView />
+      ) : !(currSubject.subject && currCourse.course) ? (
+        <span>Hãy chọn một bài để bắt đầu</span>
       ) : (
         <table>
           <tbody>
             <tr className="CourseInfoTableName">
-              <th colSpan={2}>{currCourse?.name}</th>
+              <th colSpan={2}>{currCourse.course?.name}</th>
             </tr>
             <tr className="CourseInfoTableRow">
               <th>Học phần</th>
-              <td>{currSubject?.name}</td>
+              <td>{currSubject.subject?.name}</td>
             </tr>
             <tr className="CourseInfoTableRow">
               <th>Học kì</th>
@@ -54,7 +52,7 @@ const CourseInfo = () => {
             </tr>
             <tr className="CourseInfoTableRow">
               <th>Số lượng câu hỏi</th>
-              <td>{currCourse?.questions.length}</td>
+              <td>{currCourse.course?.questions.length}</td>
             </tr>
             <tr className="CourseInfoTableRow">
               <th colSpan={2}>
