@@ -45,13 +45,17 @@ const Navbar = () => {
               <span style={{ textWrap: "nowrap" }}>Môn học</span>
             </NavbarItem>
 
-            <NavbarItem>
-              <FaAngleRight color="var(--secondary-text-color)" />
-            </NavbarItem>
+            {currSubject && (
+              <>
+                <NavbarItem>
+                  <FaAngleRight color="var(--secondary-text-color)" />
+                </NavbarItem>
 
-            <NavbarItem>
-              <span>{currSubject && currSubject?.name}</span>
-            </NavbarItem>
+                <NavbarItem>
+                  <span>{currSubject?.name}</span>
+                </NavbarItem>
+              </>
+            )}
           </>
         )}
       </div>

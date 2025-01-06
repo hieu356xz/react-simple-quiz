@@ -34,10 +34,10 @@ const CourseInfo = () => {
 
   return (
     <div className={`CourseInfo ${isSidebarOpen ? "shrink" : ""}`}>
-      {!(currSubject && semester) ? (
-        <LoadingView />
-      ) : !currCourse ? (
+      {!(currSubject && currCourse) ? (
         <span>Hãy chọn một bài để bắt đầu</span>
+      ) : !semester ? (
+        <LoadingView />
       ) : (
         <table>
           <tbody>
