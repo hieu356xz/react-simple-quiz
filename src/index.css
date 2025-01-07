@@ -254,6 +254,7 @@ button {
 
 .CourseInfo {
   display: flex;
+  flex-direction: column;
   height: calc(100vh - var(--navbar-height));
   width: 100%;
   justify-content: center;
@@ -268,7 +269,7 @@ button {
   }
 }
 
-.CourseInfoTableName * {
+.CourseInfoTableHeader * {
   text-transform: uppercase;
   font-size: 15px;
   font-weight: 700;

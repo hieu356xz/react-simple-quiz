@@ -17,6 +17,7 @@ const TestContainer = () => {
     (state: RootState) => state.testResult.isTestFininshed
   );
   const currCourse = useSelector((state: RootState) => state.currCourse.course);
+  const { shuffleAnswer } = useSelector((state: RootState) => state.testConfig);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -33,7 +34,7 @@ const TestContainer = () => {
       const questionList: Question[] = JSON.parse(data).map(
         (question: Question) => {
           const newQuestion = new Question(question);
-          if (newQuestion.shuffleable) {
+          if (shuffleAnswer && newQuestion.shuffleable) {
             newQuestion.answer_option = _.shuffle(newQuestion.answer_option);
           }
 

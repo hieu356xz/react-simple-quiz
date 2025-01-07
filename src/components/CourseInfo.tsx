@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import { toggleActiveTest } from "../redux/ActiveTestSlice";
 import LoadingView from "./LoadingView";
+import { Checkbox } from "@mui/material";
+import { toggleShuffleAnswer } from "../redux/TestConfigSlice";
 
 const CourseInfo = () => {
   const isSidebarOpen = useSelector(
@@ -13,6 +15,7 @@ const CourseInfo = () => {
   );
   const currSubject = useSelector((state: RootState) => state.currSubject);
   const currCourse = useSelector((state: RootState) => state.currCourse);
+  const { shuffleAnswer } = useSelector((state: RootState) => state.testConfig);
   const [semester, setSemester] = useState<Semester | null>(null);
   const dispatch = useDispatch();
 
@@ -39,7 +42,7 @@ const CourseInfo = () => {
       ) : (
         <table>
           <tbody>
-            <tr className="CourseInfoTableName">
+            <tr className="CourseInfoTableHeader">
               <th colSpan={2}>{currCourse.course?.name}</th>
             </tr>
             <tr className="CourseInfoTableRow">
@@ -51,8 +54,26 @@ const CourseInfo = () => {
               <td>{semester?.name}</td>
             </tr>
             <tr className="CourseInfoTableRow">
-              <th>Số lượng câu hỏi</th>
+              <th>Số lượng câu hỏi hiện có</th>
               <td>{currCourse.course?.questions.length}</td>
+            </tr>
+            <tr className="CourseInfoTableHeader">
+              <th colSpan={2}>Tùy chỉnh</th>
+            </tr>
+            <tr className="CourseInfoTableRow">
+              <th>Đảo đáp án</th>
+              <td>
+                <Checkbox
+                  sx={{
+                    padding: "4px",
+                    margin: "-4px",
+                    color: "var(--secondary-text-color)",
+                  }}
+                  checked={shuffleAnswer}
+                  onClick={() => dispatch(toggleShuffleAnswer())}
+                  inputProps={{ "aria-label": "controlled" }}
+                ></Checkbox>
+              </td>
             </tr>
             <tr className="CourseInfoTableRow">
               <th colSpan={2}>

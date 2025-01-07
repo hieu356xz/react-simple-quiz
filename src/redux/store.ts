@@ -8,6 +8,7 @@ import TestQuestionReducer from "./TestQuestionSlice";
 import UserAnswerReducer from "./UserAnswerSlice";
 import TestResultReducer from "./TestResultSlice";
 import { useDispatch } from "react-redux";
+import TestConfigReducer from "./TestConfigSlice";
 
 const store = configureStore({
   reducer: {
@@ -19,6 +20,7 @@ const store = configureStore({
     testQuestion: TestQuestionReducer,
     userAnswer: UserAnswerReducer,
     testResult: TestResultReducer,
+    testConfig: TestConfigReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ serializableCheck: false }),
