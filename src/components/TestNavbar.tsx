@@ -14,6 +14,7 @@ import {
   setIsTestFinished,
   setScore,
 } from "../redux/TestResultSlice";
+import { resetUserAnwser } from "../redux/UserAnswerSlice";
 
 interface ITestNavbarProps {
   setHidePopup: React.Dispatch<React.SetStateAction<boolean>>;
@@ -45,6 +46,13 @@ const TestNavbar = ({ setHidePopup }: ITestNavbarProps) => {
     }
     dispatch(toggleActiveTest());
     dispatch(resetTestResut());
+    dispatch(resetUserAnwser());
+  };
+
+  const onRedoBtnClick = () => {
+    dispatch(setIsTestFinished(false));
+    dispatch(resetTestResut());
+    dispatch(resetUserAnwser());
   };
 
   const onSubmitTest = () => {
@@ -92,10 +100,7 @@ const TestNavbar = ({ setHidePopup }: ITestNavbarProps) => {
           {testResult.isTestFininshed ? (
             <>
               <NavbarItem>
-                <button
-                  className="IconBtn"
-                  onClick={() => dispatch(setIsTestFinished(false))}
-                >
+                <button className="IconBtn" onClick={onRedoBtnClick}>
                   <FaRedo />
                 </button>
               </NavbarItem>

@@ -43,10 +43,18 @@ const UserAnswerSlice = createSlice({
         state.answers[action.payload] = [];
       }
     },
+
+    resetUserAnwser: (state) => {
+      state.answers = {};
+    },
   },
 });
 
 const UserAnswerReducer = UserAnswerSlice.reducer;
-export const { addUserAnswer, removeUserAnswer, removeAllUserAnswerById } =
-  UserAnswerSlice.actions;
+export const {
+  addUserAnswer,
+  removeUserAnswer,
+  removeAllUserAnswerById,
+  resetUserAnwser,
+} = UserAnswerSlice.actions;
 export default UserAnswerReducer;
