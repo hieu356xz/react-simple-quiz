@@ -47,13 +47,15 @@ const CourseInfo = () => {
   );
   const currSubject = useSelector((state: RootState) => state.currSubject);
   const currCourse = useSelector((state: RootState) => state.currCourse);
-  const { shuffleAnswer, questionCount } = useSelector(
-    (state: RootState) => state.testConfig
+  const shuffleAnswer = useSelector(
+    (state: RootState) => state.testConfig.shuffleAnswer
   );
   const [semester, setSemester] = useState<Semester | null>(null);
   const [questionCountOptions, setQuestionCountOptions] = useState<ReactNode[]>(
     []
   );
+  // State từ redux không đồng bồ với state cục bộ (?) nên cần tạo state cục bộ
+  const [localQuestionCount, setLocalQuestionCount] = useState("");
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -101,7 +103,7 @@ const CourseInfo = () => {
     };
 
     createQuestionCountOptions();
-  }, []);
+  }, [currCourse.course]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -120,12 +122,14 @@ const CourseInfo = () => {
   useEffect(() => {
     if (currCourse.course) {
       const defaultQuestionCount = currCourse.course.question_per_test;
+      setLocalQuestionCount(defaultQuestionCount.toString());
       dispatch(setQuestionCount(defaultQuestionCount.toString()));
     }
   }, [currCourse.course]);
 
   const handleQuestionCountChange = (event: SelectChangeEvent) => {
     const value = event.target.value;
+    setLocalQuestionCount(value);
     dispatch(setQuestionCount(value));
   };
 
@@ -176,7 +180,7 @@ const CourseInfo = () => {
               <td>
                 <FormControl sx={{ m: 0, minWidth: 120 }} size="small">
                   <Select
-                    value={questionCount}
+                    value={localQuestionCount}
                     onChange={handleQuestionCountChange}
                     displayEmpty
                     inputProps={{ "aria-label": "Without label" }}
