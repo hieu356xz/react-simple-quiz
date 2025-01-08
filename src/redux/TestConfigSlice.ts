@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const initialState = {
   shuffleAnswer: true,
-  questionCount: 15,
+  questionCount: "15",
 };
 
 const TestConfigSlice = createSlice({
@@ -12,7 +12,7 @@ const TestConfigSlice = createSlice({
     toggleShuffleAnswer: (state) => {
       state.shuffleAnswer = !state.shuffleAnswer;
     },
-    setQuestionCount: (state, action: PayloadAction<number>) => {
+    setQuestionCount: (state, action: PayloadAction<string>) => {
       state.questionCount = action.payload;
     },
   },

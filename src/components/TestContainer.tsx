@@ -17,7 +17,9 @@ const TestContainer = () => {
     (state: RootState) => state.testResult.isTestFininshed
   );
   const currCourse = useSelector((state: RootState) => state.currCourse.course);
-  const { shuffleAnswer } = useSelector((state: RootState) => state.testConfig);
+  const { shuffleAnswer, questionCount } = useSelector(
+    (state: RootState) => state.testConfig
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -33,20 +35,38 @@ const TestContainer = () => {
 
       const questionList: Question[] = JSON.parse(data).map(
         (question: Question) => {
-          const newQuestion = new Question(question);
-          if (shuffleAnswer && newQuestion.shuffleable) {
-            newQuestion.answer_option = _.shuffle(newQuestion.answer_option);
-          }
-
-          return newQuestion;
+          return new Question(question);
         }
       );
 
-      dispatch(setTestQuestion(questionList));
+      const shuffledQuestions = handleShuffleQuestion(questionList);
+      hanldeShuffleAnswer(shuffledQuestions);
+      dispatch(setTestQuestion(shuffledQuestions));
     };
 
     fetchData();
   }, [isTestFininshed]);
+
+  const hanldeShuffleAnswer = (questions: Question[]) => {
+    questions.map((question) => {
+      if (shuffleAnswer && question.shuffleable) {
+        return _.shuffle(question.answer_option);
+      }
+    });
+  };
+
+  const handleShuffleQuestion = (questions: Question[]) => {
+    const shuffledQuestions = _.shuffle(questions);
+    shuffledQuestions.sort((a, b) => a.cdr - b.cdr);
+    if (
+      questionCount === "all" ||
+      Number.isNaN(Number.parseInt(questionCount))
+    ) {
+      return shuffledQuestions;
+    } else {
+      return shuffledQuestions.slice(0, Number.parseInt(questionCount));
+    }
+  };
 
   return (
     <div className="TestContainer">

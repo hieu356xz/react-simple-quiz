@@ -120,13 +120,13 @@ const CourseInfo = () => {
   useEffect(() => {
     if (currCourse.course) {
       const defaultQuestionCount = currCourse.course.question_per_test;
-      dispatch(setQuestionCount(defaultQuestionCount));
+      dispatch(setQuestionCount(defaultQuestionCount.toString()));
     }
   }, [currCourse.course]);
 
   const handleQuestionCountChange = (event: SelectChangeEvent) => {
     const value = event.target.value;
-    dispatch(setQuestionCount(Number.parseInt(value)));
+    dispatch(setQuestionCount(value));
   };
 
   return (
@@ -176,7 +176,7 @@ const CourseInfo = () => {
               <td>
                 <FormControl sx={{ m: 0, minWidth: 120 }} size="small">
                   <Select
-                    value={questionCount.toString()}
+                    value={questionCount}
                     onChange={handleQuestionCountChange}
                     displayEmpty
                     inputProps={{ "aria-label": "Without label" }}
