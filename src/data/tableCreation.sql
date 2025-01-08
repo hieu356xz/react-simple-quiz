@@ -25,6 +25,7 @@ CREATE TABLE Course (
     name nvarchar,
     subject_id int NOT NULL, 
     questions nvarchar,
+    question_per_test int,
     FOREIGN KEY (subject_id) REFERENCES Subject(id)
 );
 

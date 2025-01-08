@@ -3,6 +3,7 @@ class Course {
   name!: string;
   subject_id!: number;
   private _questions?: number[];
+  question_per_test!: number;
 
   get questions(): number[] {
     return this._questions ?? [];

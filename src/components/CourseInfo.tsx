@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { FiEdit } from "react-icons/fi";
 import QueryDb from "../data/QueryDb";
 import Semester from "../data/Semester";
@@ -6,18 +6,102 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import { toggleActiveTest } from "../redux/ActiveTestSlice";
 import LoadingView from "./LoadingView";
-import { Checkbox } from "@mui/material";
-import { toggleShuffleAnswer } from "../redux/TestConfigSlice";
+import {
+  Checkbox,
+  FormControl,
+  MenuItem,
+  OutlinedInput,
+  Select,
+  SelectChangeEvent,
+  styled,
+} from "@mui/material";
+import {
+  setQuestionCount,
+  toggleShuffleAnswer,
+} from "../redux/TestConfigSlice";
+
+const BootstrapInput = styled(OutlinedInput)(() => ({
+  "& .MuiInputBase-input": {
+    borderRadius: 4,
+    fontSize: 14,
+    paddingTop: 10,
+    paddingBottom: 10,
+    color: "var(--primary-text-color)",
+  },
+  "&:hover .MuiOutlinedInput-notchedOutline": {
+    borderColor: "var(--blue-color-2)",
+  },
+  "& .MuiOutlinedInput-notchedOutline": {
+    height: "100%",
+    border: "2px solid var(--secondary-text-color)",
+  },
+  "& .MuiSvgIcon-root": {
+    color: "var(--secondary-text-color)",
+  },
+}));
 
 const CourseInfo = () => {
+  const theme = useSelector((state: RootState) => state.theme.theme);
   const isSidebarOpen = useSelector(
     (state: RootState) => state.sidebarOpen.sidebarOpen
   );
   const currSubject = useSelector((state: RootState) => state.currSubject);
   const currCourse = useSelector((state: RootState) => state.currCourse);
-  const { shuffleAnswer } = useSelector((state: RootState) => state.testConfig);
+  const { shuffleAnswer, questionCount } = useSelector(
+    (state: RootState) => state.testConfig
+  );
   const [semester, setSemester] = useState<Semester | null>(null);
+  const [questionCountOptions, setQuestionCountOptions] = useState<ReactNode[]>(
+    []
+  );
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    const createQuestionCountOptions = () => {
+      const presets = [10, 15, 20, 30, 40, 50, 60, 100, 150];
+      const MenuItemList: ReactNode[] = [];
+      let isDefaultValueAdded = false;
+
+      presets.forEach((value) => {
+        if (
+          currCourse.course &&
+          value >= currCourse.course?.question_per_test
+        ) {
+          if (!isDefaultValueAdded) {
+            const defaultValue = currCourse.course?.question_per_test;
+
+            MenuItemList.push(
+              <MenuItem
+                value={defaultValue}
+                sx={{ fontSize: 14 }}
+                key={defaultValue}
+              >
+                {defaultValue}
+              </MenuItem>
+            );
+            isDefaultValueAdded = true;
+          }
+          return;
+        }
+
+        MenuItemList.push(
+          <MenuItem value={value} key={value} sx={{ fontSize: 14 }}>
+            {value}
+          </MenuItem>
+        );
+      });
+
+      MenuItemList.push(
+        <MenuItem value="all" sx={{ fontSize: 14 }} key={"all"}>
+          Tất cả
+        </MenuItem>
+      );
+
+      setQuestionCountOptions(MenuItemList);
+    };
+
+    createQuestionCountOptions();
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,6 +116,18 @@ const CourseInfo = () => {
 
     currSubject.subject && fetchData();
   }, [currSubject.subject]);
+
+  useEffect(() => {
+    if (currCourse.course) {
+      const defaultQuestionCount = currCourse.course.question_per_test;
+      dispatch(setQuestionCount(defaultQuestionCount));
+    }
+  }, [currCourse.course]);
+
+  const handleQuestionCountChange = (event: SelectChangeEvent) => {
+    const value = event.target.value;
+    dispatch(setQuestionCount(Number.parseInt(value)));
+  };
 
   return (
     <div className={`CourseInfo ${isSidebarOpen ? "shrink" : ""}`}>
@@ -73,6 +169,32 @@ const CourseInfo = () => {
                   onClick={() => dispatch(toggleShuffleAnswer())}
                   inputProps={{ "aria-label": "controlled" }}
                 ></Checkbox>
+              </td>
+            </tr>
+            <tr className="CourseInfoTableRow">
+              <th>Số lượng câu hỏi</th>
+              <td>
+                <FormControl sx={{ m: 0, minWidth: 120 }} size="small">
+                  <Select
+                    value={questionCount.toString()}
+                    onChange={handleQuestionCountChange}
+                    displayEmpty
+                    inputProps={{ "aria-label": "Without label" }}
+                    input={<BootstrapInput />}
+                    MenuProps={{
+                      PaperProps: {
+                        sx: {
+                          backgroundColor: "var(--background-color)",
+                          fontSize: 14,
+                          color: "var(--primary-text-color)",
+                        },
+                        "data-theme": theme,
+                      },
+                    }}
+                  >
+                    {questionCountOptions}
+                  </Select>
+                </FormControl>
               </td>
             </tr>
             <tr className="CourseInfoTableRow">
