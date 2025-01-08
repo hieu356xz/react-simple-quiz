@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import parse from "html-react-parser";
 import DOMPurify from "dompurify";
 import HTMLPaserImageOptions from "../utils";
+import { Checkbox } from "@mui/material";
 
 interface ICheckboxQuestionOptionItemProps {
   answerOption: AnswerOption;
@@ -83,13 +84,16 @@ const CheckboxQuestionOption = ({
     <div className={`CheckboxAnswerOption${answerOptionStatus}`}>
       <span className="AnswerOptionBullet">{answerOptionBullet}</span>
       <label>
-        <input
-          type="checkbox"
+        <Checkbox
           name={`question_${question.id}_${index}`}
           checked={selectedValue[index]}
           onChange={onInputChangeHandler}
-          hidden={isTestFininshed}
-        ></input>
+          sx={{
+            color: "var(--secondary-text-color)",
+            padding: "8px",
+            margin: "-8px",
+          }}
+        ></Checkbox>
         <span className="AnswerOptionText">
           {parse(cleanHTML, HTMLPaserImageOptions)}
         </span>

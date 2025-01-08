@@ -9,6 +9,7 @@ import { RootState } from "../redux/store";
 import parse from "html-react-parser";
 import DOMPurify from "dompurify";
 import HTMLPaserImageOptions from "../utils";
+import { Radio } from "@mui/material";
 
 interface IRadioQuestionOptionItemProps {
   answerOption: AnswerOption;
@@ -76,14 +77,17 @@ const RadioQuestionOption = ({
     <div className={`RadioAnswerOption ${answerOptionStatus}`}>
       <span className="AnswerOptionBullet">{answerOptionBullet}</span>
       <label>
-        <input
-          type="radio"
+        <Radio
           name={`question_${question.id}`}
           checked={selectedValue === answerOption.id}
           value={answerOption.id}
           onChange={onInputChangeHandler}
-          hidden={isTestFininshed}
-        ></input>
+          sx={{
+            color: "var(--secondary-text-color)",
+            padding: "8px",
+            margin: "-8px",
+          }}
+        ></Radio>
         <span className="AnswerOptionText">
           {parse(cleanHTML, HTMLPaserImageOptions)}
         </span>
