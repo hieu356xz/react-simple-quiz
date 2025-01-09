@@ -355,6 +355,12 @@ button {
     font-weight: 700;
     line-height: 2.2;
   }
+
+  @media screen and (max-width: 768px) {
+    margin-left: 8px;
+    margin-right: 8px;
+    padding: 12px;
+  }
 }
 
 .AnswerOptions {
@@ -363,13 +369,18 @@ button {
   margin-top: auto;
   padding: 20px;
   padding-top: 40px;
+
+  @media screen and (max-width: 768px) {
+    padding-left: 4px;
+    padding-right: 4px;
+  }
 }
 
 .RadioAnswerOption,
 .CheckboxAnswerOption {
   display: flex;
   flex-basis: 50%;
-  align-items: baseline;
+  align-items: start;
   padding: 10px 24px 10px 0px;
   gap: 8px;
 
@@ -383,11 +394,37 @@ button {
     border-radius: 6px;
     border: 1px solid var(--answer-border-color);
     transition: border-color 300ms ease;
+    gap: 16px;
+  }
+
+  .AnswerOptionBullet {
+    font-weight: 700;
+    margin: 22px 12px auto;
+  }
+
+  .AnswerOptionText {
+    font-size: 15px;
+
+    & span {
+      color: inherit !important;
+      background-color: inherit !important;
+    }
   }
 
   @media screen and (max-width: 900px) {
     & {
       flex-basis: 100%;
+      padding-right: 8px;
+    }
+
+    .AnswerOptionBullet {
+      margin-left: 6px;
+      margin-right: 6px;
+    }
+
+    & label {
+      padding: 20px 12px;
+      gap: 12px;
     }
   }
 
@@ -411,21 +448,6 @@ button {
     border-color: var(--yellow-color) !important;
     border-width: 3px;
     padding: 18px;
-  }
-}
-
-.AnswerOptionBullet {
-  font-weight: 700;
-  margin: 12px;
-}
-
-.AnswerOptionText {
-  padding-left: 16px;
-  font-size: 15px;
-
-  & span {
-    color: inherit !important;
-    background-color: inherit !important;
   }
 }
 
