@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import parse from "html-react-parser";
 import DOMPurify from "dompurify";
 import HTMLPaserImageOptions from "../utils";
-import { Checkbox } from "@mui/material";
+import Checkbox from "@mui/material/Checkbox";
 
 interface ICheckboxQuestionOptionItemProps {
   answerOption: AnswerOption;

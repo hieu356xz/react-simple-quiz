@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import { setTestQuestion } from "../redux/TestQuestionSlice";
 import CheckboxQuestion from "./CheckboxQuestion";
-import _ from "lodash";
+import shuffle from "lodash/shuffle";
 import LoadingView from "./LoadingView";
 
 const TestContainer = () => {
@@ -50,13 +50,13 @@ const TestContainer = () => {
   const hanldeShuffleAnswer = (questions: Question[]) => {
     questions.map((question) => {
       if (shuffleAnswer && question.shuffleable) {
-        return _.shuffle(question.answer_option);
+        return shuffle(question.answer_option);
       }
     });
   };
 
   const handleShuffleQuestion = (questions: Question[]) => {
-    const shuffledQuestions = _.shuffle(questions);
+    const shuffledQuestions = shuffle(questions);
     shuffledQuestions.sort((a, b) => a.cdr - b.cdr);
     if (
       questionCount === "all" ||

@@ -9,7 +9,7 @@ import { RootState } from "../redux/store";
 import parse from "html-react-parser";
 import DOMPurify from "dompurify";
 import HTMLPaserImageOptions from "../utils";
-import { Radio } from "@mui/material";
+import Radio from "@mui/material/Radio";
 
 interface IRadioQuestionOptionItemProps {
   answerOption: AnswerOption;

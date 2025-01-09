@@ -6,15 +6,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import { toggleActiveTest } from "../redux/ActiveTestSlice";
 import LoadingView from "./LoadingView";
-import {
-  Checkbox,
-  FormControl,
-  MenuItem,
-  OutlinedInput,
-  Select,
-  SelectChangeEvent,
-  styled,
-} from "@mui/material";
+import Checkbox from "@mui/material/Checkbox";
+import FormControl from "@mui/material/FormControl";
+import MenuItem from "@mui/material/MenuItem";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import { styled } from "@mui/material/styles";
 import {
   setQuestionCount,
   toggleShuffleAnswer,
