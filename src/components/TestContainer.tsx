@@ -79,7 +79,7 @@ const TestContainer = () => {
               <RadioQuestion
                 question={question}
                 index={index}
-                key={index}
+                key={question.id}
               ></RadioQuestion>
             );
           } else {
@@ -87,7 +87,7 @@ const TestContainer = () => {
               <CheckboxQuestion
                 question={question}
                 index={index}
-                key={index}
+                key={question.id}
               ></CheckboxQuestion>
             );
           }

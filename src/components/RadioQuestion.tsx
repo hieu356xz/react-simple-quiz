@@ -1,5 +1,5 @@
-import { useState } from "react";
-import Question from "../data/Question";
+import { memo, useCallback, useMemo, useState } from "react";
+import Question, { AnswerOption } from "../data/Question";
 import RadioAnswerOption from "./RadioAnswerOption";
 import parse from "html-react-parser";
 import DOMPurify from "dompurify";
@@ -10,16 +10,38 @@ interface IRadioQuestionItemProps {
   index: number;
 }
 
-const RadioQuestion = ({ question, index }: IRadioQuestionItemProps) => {
+const RadioQuestion = memo(({ question, index }: IRadioQuestionItemProps) => {
   const answerOptionBullets = ["A", "B", "C", "D"];
   const [selectedValue, setSelectedValue] = useState("0");
 
-  const className = `RadioQuestion${
-    question.correct_answer.includes(0) ? " noAnswer" : ""
-  }`;
-  const cleanHTML = DOMPurify.sanitize(question.question_direction, {
-    USE_PROFILES: { html: true },
-  });
+  const className = useMemo(() => {
+    return `RadioQuestion${
+      question.correct_answer.includes(0) ? " noAnswer" : ""
+    }`;
+  }, [question.correct_answer]);
+  const questionDirection = useMemo(() => {
+    const cleanHTML = DOMPurify.sanitize(question.question_direction, {
+      USE_PROFILES: { html: true },
+    });
+
+    return parse(cleanHTML, HTMLPaserImageOptions);
+  }, [question.question_direction]);
+
+  const renderRadioOption = useCallback(
+    (answerOption: AnswerOption) => {
+      return (
+        <RadioAnswerOption
+          answerOption={answerOption}
+          question={question}
+          answerOptionBullet={answerOptionBullets[index]}
+          selectedValue={selectedValue}
+          setSelectedValue={setSelectedValue}
+          key={`${question.id}_${answerOption.id}`}
+        ></RadioAnswerOption>
+      );
+    },
+    [selectedValue]
+  );
 
   return (
     <div className={className}>
@@ -27,24 +49,13 @@ const RadioQuestion = ({ question, index }: IRadioQuestionItemProps) => {
         <p className="QuestionContainerNumber">
           {`Câu ${index + 1}: (ID-${question.id})`}
         </p>
-        <div>{parse(cleanHTML, HTMLPaserImageOptions)}</div>
+        <div>{questionDirection}</div>
       </div>
       <div className="AnswerOptions">
-        {question.answer_option.map((answerOption, index) => {
-          return (
-            <RadioAnswerOption
-              answerOption={answerOption}
-              question={question}
-              answerOptionBullet={answerOptionBullets[index]}
-              selectedValue={selectedValue}
-              setSelectedValue={setSelectedValue}
-              key={index}
-            ></RadioAnswerOption>
-          );
-        })}
+        {question.answer_option.map(renderRadioOption)}
       </div>
     </div>
   );
-};
+});
 
 export default RadioQuestion;

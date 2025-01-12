@@ -1,5 +1,5 @@
-import { useState } from "react";
-import Question from "../data/Question";
+import { memo, useCallback, useMemo, useState } from "react";
+import Question, { AnswerOption } from "../data/Question";
 import CheckboxAnswerOption from "./CheckboxAnswerOption";
 import parse from "html-react-parser";
 import DOMPurify from "dompurify";
@@ -10,47 +10,60 @@ interface ICheckboxQuestionItemProps {
   index: number;
 }
 
-const CheckboxQuestion = ({ question, index }: ICheckboxQuestionItemProps) => {
-  const answerOptionBullets = ["A", "B", "C", "D"];
-  const [selectedValue, setSelectedValue] = useState<boolean[]>([
-    false,
-    false,
-    false,
-    false,
-  ]);
+const CheckboxQuestion = memo(
+  ({ question, index }: ICheckboxQuestionItemProps) => {
+    const answerOptionBullets = ["A", "B", "C", "D"];
+    const [selectedValue, setSelectedValue] = useState<boolean[]>([
+      false,
+      false,
+      false,
+      false,
+    ]);
 
-  const className = `CheckboxQuestion${
-    question.correct_answer.includes(0) ? " noAnswer" : ""
-  }`;
-  const cleanHTML = DOMPurify.sanitize(question.question_direction, {
-    USE_PROFILES: { html: true },
-  });
+    const className = useMemo(() => {
+      return `CheckboxQuestion${
+        question.correct_answer.includes(0) ? " noAnswer" : ""
+      }`;
+    }, [question.correct_answer]);
+    const questionDirection = useMemo(() => {
+      const cleanHTML = DOMPurify.sanitize(question.question_direction, {
+        USE_PROFILES: { html: true },
+      });
 
-  return (
-    <div className={className}>
-      <div className="QuestionContainerDirection">
-        <p className="QuestionContainerNumber">
-          {`Câu ${index + 1}: (ID-${question.id})`}
-        </p>
-        <div>{parse(cleanHTML, HTMLPaserImageOptions)}</div>
+      return parse(cleanHTML, HTMLPaserImageOptions);
+    }, [question.question_direction]);
+
+    const renderAnswerOption = useCallback(
+      (answerOption: AnswerOption) => {
+        return (
+          <CheckboxAnswerOption
+            answerOption={answerOption}
+            question={question}
+            answerOptionBullet={answerOptionBullets[index]}
+            index={index}
+            selectedValue={selectedValue}
+            setSelectedValue={setSelectedValue}
+            key={`${question.id}_${answerOption.id}`}
+          ></CheckboxAnswerOption>
+        );
+      },
+      [selectedValue]
+    );
+
+    return (
+      <div className={className}>
+        <div className="QuestionContainerDirection">
+          <p className="QuestionContainerNumber">
+            {`Câu ${index + 1}: (ID-${question.id})`}
+          </p>
+          <div>{questionDirection}</div>
+        </div>
+        <div className="AnswerOptions">
+          {question.answer_option.map(renderAnswerOption)}
+        </div>
       </div>
-      <div className="AnswerOptions">
-        {question.answer_option.map((answerOption, index) => {
-          return (
-            <CheckboxAnswerOption
-              answerOption={answerOption}
-              question={question}
-              answerOptionBullet={answerOptionBullets[index]}
-              index={index}
-              selectedValue={selectedValue}
-              setSelectedValue={setSelectedValue}
-              key={index}
-            ></CheckboxAnswerOption>
-          );
-        })}
-      </div>
-    </div>
-  );
-};
+    );
+  }
+);
 
 export default CheckboxQuestion;
