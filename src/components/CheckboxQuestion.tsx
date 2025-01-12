@@ -19,12 +19,15 @@ const CheckboxQuestion = ({ question, index }: ICheckboxQuestionItemProps) => {
     false,
   ]);
 
+  const className = `CheckboxQuestion${
+    question.correct_answer.includes(0) ? " noAnswer" : ""
+  }`;
   const cleanHTML = DOMPurify.sanitize(question.question_direction, {
     USE_PROFILES: { html: true },
   });
 
   return (
-    <div className="CheckboxQuestion">
+    <div className={className}>
       <div className="QuestionContainerDirection">
         <p className="QuestionContainerNumber">
           {`Câu ${index + 1}: (ID-${question.id})`}

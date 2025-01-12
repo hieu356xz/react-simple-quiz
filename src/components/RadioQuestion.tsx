@@ -14,12 +14,15 @@ const RadioQuestion = ({ question, index }: IRadioQuestionItemProps) => {
   const answerOptionBullets = ["A", "B", "C", "D"];
   const [selectedValue, setSelectedValue] = useState("0");
 
+  const className = `RadioQuestion${
+    question.correct_answer.includes(0) ? " noAnswer" : ""
+  }`;
   const cleanHTML = DOMPurify.sanitize(question.question_direction, {
     USE_PROFILES: { html: true },
   });
 
   return (
-    <div className="RadioQuestion">
+    <div className={className}>
       <div className="QuestionContainerDirection">
         <p className="QuestionContainerNumber">
           {`Câu ${index + 1}: (ID-${question.id})`}
