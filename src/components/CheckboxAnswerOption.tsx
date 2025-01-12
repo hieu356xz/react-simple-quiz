@@ -31,7 +31,7 @@ const CheckboxAnswerOption = memo(
       (state: RootState) => state.testResult.isTestFininshed
     );
     const userAnswers = useSelector(
-      (state: RootState) => state.userAnswer.answers
+      (state: RootState) => state.userAnswer.answers[question.id]
     );
     const dispatch = useDispatch();
 
@@ -48,17 +48,14 @@ const CheckboxAnswerOption = memo(
 
       const answerOptionId = Number.parseInt(answerOption.id);
 
-      if (
-        !userAnswers[question.id] ||
-        (userAnswers[question.id] && userAnswers[question.id].length == 0)
-      ) {
+      if (!userAnswers || userAnswers.length == 0) {
         if (question.correct_answer.includes(answerOptionId)) {
           setAnswerOptionStatus(" unanswer");
         }
         return;
       }
 
-      if (userAnswers[question.id].includes(answerOptionId)) {
+      if (userAnswers && userAnswers.includes(answerOptionId)) {
         if (!question.correct_answer.includes(answerOptionId)) {
           setAnswerOptionStatus(" incorrect");
         }
