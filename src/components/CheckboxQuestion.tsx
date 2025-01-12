@@ -12,7 +12,6 @@ interface ICheckboxQuestionItemProps {
 
 const CheckboxQuestion = memo(
   ({ question, index }: ICheckboxQuestionItemProps) => {
-    const answerOptionBullets = ["A", "B", "C", "D"];
     const [selectedValue, setSelectedValue] = useState<boolean[]>([
       false,
       false,
@@ -33,13 +32,19 @@ const CheckboxQuestion = memo(
       return parse(cleanHTML, HTMLPaserImageOptions);
     }, [question.question_direction]);
 
+    const getAnswerOptionBullet = (index: number) => {
+      // Giới hạn giá trị trong khoảng [65, 90] tức giá trị A - Z
+      const charCode = Math.min(Math.max(65, index + 65), 90);
+      return String.fromCharCode(charCode);
+    };
+
     const renderAnswerOption = useCallback(
-      (answerOption: AnswerOption) => {
+      (answerOption: AnswerOption, index: number) => {
         return (
           <CheckboxAnswerOption
             answerOption={answerOption}
             question={question}
-            answerOptionBullet={answerOptionBullets[index]}
+            answerOptionBullet={getAnswerOptionBullet(index)}
             index={index}
             selectedValue={selectedValue}
             setSelectedValue={setSelectedValue}

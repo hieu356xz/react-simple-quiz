@@ -11,7 +11,6 @@ interface IRadioQuestionItemProps {
 }
 
 const RadioQuestion = memo(({ question, index }: IRadioQuestionItemProps) => {
-  const answerOptionBullets = ["A", "B", "C", "D"];
   const [selectedValue, setSelectedValue] = useState("0");
 
   const className = useMemo(() => {
@@ -27,13 +26,19 @@ const RadioQuestion = memo(({ question, index }: IRadioQuestionItemProps) => {
     return parse(cleanHTML, HTMLPaserImageOptions);
   }, [question.question_direction]);
 
+  const getAnswerOptionBullet = (index: number) => {
+    // Giới hạn giá trị trong khoảng [65, 90] tức giá trị A - Z
+    const charCode = Math.min(Math.max(65, index + 65), 90);
+    return String.fromCharCode(charCode);
+  };
+
   const renderRadioOption = useCallback(
-    (answerOption: AnswerOption) => {
+    (answerOption: AnswerOption, index: number) => {
       return (
         <RadioAnswerOption
           answerOption={answerOption}
           question={question}
-          answerOptionBullet={answerOptionBullets[index]}
+          answerOptionBullet={getAnswerOptionBullet(index)}
           selectedValue={selectedValue}
           setSelectedValue={setSelectedValue}
           key={`${question.id}_${answerOption.id}`}
