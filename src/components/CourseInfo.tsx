@@ -47,7 +47,10 @@ const CourseInfo = () => {
   const shuffleAnswer = useSelector(
     (state: RootState) => state.testConfig.shuffleAnswer
   );
-  const [semester, setSemester] = useState<Semester | null>(null);
+  const [semester, setSemester] = useState({
+    semester: null as Semester | null,
+    loading: false,
+  });
   const [questionCountOptions, setQuestionCountOptions] = useState<ReactNode[]>(
     []
   );
@@ -104,13 +107,14 @@ const CourseInfo = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      setSemester({ ...semester, loading: true });
       const data = await QueryDb(
         `select *
         from Semester
         where id = ${currSubject.subject?.semester_id}`
       );
 
-      setSemester(JSON.parse(data)[0]);
+      setSemester({ semester: JSON.parse(data)[0], loading: false });
     };
 
     currSubject.subject && fetchData();
@@ -132,7 +136,7 @@ const CourseInfo = () => {
 
   return (
     <div className={`CourseInfo ${isSidebarOpen ? "shrink" : ""}`}>
-      {!semester || currCourse.loading || currSubject.loading ? (
+      {semester.loading || currCourse.loading || currSubject.loading ? (
         <LoadingView />
       ) : !(currSubject.subject && currCourse.course) ? (
         <span>Hãy chọn một bài để bắt đầu</span>
@@ -148,7 +152,7 @@ const CourseInfo = () => {
             </tr>
             <tr className="CourseInfoTableRow">
               <th>Học kì</th>
-              <td>{semester?.name}</td>
+              <td>{semester.semester?.name}</td>
             </tr>
             <tr className="CourseInfoTableRow">
               <th>Số lượng câu hỏi hiện có</th>
