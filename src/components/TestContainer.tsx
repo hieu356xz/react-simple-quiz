@@ -48,9 +48,9 @@ const TestContainer = () => {
   }, [isTestFininshed]);
 
   const hanldeShuffleAnswer = (questions: Question[]) => {
-    questions.map((question) => {
+    questions.forEach((question) => {
       if (shuffleAnswer && question.shuffleable) {
-        return shuffle(question.answer_option);
+        question.answer_option = shuffle(question.answer_option);
       }
     });
   };
@@ -79,16 +79,14 @@ const TestContainer = () => {
               <RadioQuestion
                 question={question}
                 index={index}
-                key={question.id}
-              ></RadioQuestion>
+                key={question.id}></RadioQuestion>
             );
           } else {
             return (
               <CheckboxQuestion
                 question={question}
                 index={index}
-                key={question.id}
-              ></CheckboxQuestion>
+                key={question.id}></CheckboxQuestion>
             );
           }
         })
