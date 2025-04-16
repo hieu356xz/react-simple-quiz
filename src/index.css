@@ -439,19 +439,19 @@ button {
   &.correct label {
     border-color: var(--green-color-2) !important;
     border-width: 3px;
-    padding: 18px;
+    margin: -2px;
   }
 
   &.incorrect label {
     border-color: var(--red-color-1) !important;
     border-width: 3px;
-    padding: 18px;
+    margin: -2px;
   }
 
   &.unanswer label {
     border-color: var(--yellow-color) !important;
     border-width: 3px;
-    padding: 18px;
+    margin: -2px;
   }
 }
 
