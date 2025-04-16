@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import NavbarItem from "./NavbarItem";
-import { RootState } from "../redux/store";
+import store, { RootState } from "../redux/store";
 import ToggleThemeButton from "./ToggleThemeButton";
 import { toggleActiveTest } from "../redux/ActiveTestSlice";
 import { FiEdit } from "react-icons/fi";
@@ -26,9 +26,6 @@ const TestNavbar = ({ setHidePopup }: ITestNavbarProps) => {
   );
   const testQuestions = useSelector(
     (state: RootState) => state.testQuestion.questions
-  );
-  const userAnswers = useSelector(
-    (state: RootState) => state.userAnswer.answers
   );
   const testResult = useSelector((state: RootState) => state.testResult);
   const dispatch = useDispatch();
@@ -56,6 +53,8 @@ const TestNavbar = ({ setHidePopup }: ITestNavbarProps) => {
   };
 
   const onSubmitTest = () => {
+    const state = store.getState();
+    const userAnswers = state.userAnswer.answers;
     let correctAnswersCount = 0;
 
     testQuestions.forEach((question) => {
@@ -107,8 +106,7 @@ const TestNavbar = ({ setHidePopup }: ITestNavbarProps) => {
               <NavbarItem>
                 <button
                   className="ScoreBoxBtn"
-                  onClick={() => setHidePopup((prev) => !prev)}
-                >
+                  onClick={() => setHidePopup((prev) => !prev)}>
                   <div>Điểm: {testResult.score}</div>
                   <div>
                     Kết quả: {testResult.correctAnswers.length}/
