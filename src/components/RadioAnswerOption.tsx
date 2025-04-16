@@ -34,6 +34,9 @@ const RadioAnswerOption = memo(
     const userAnswers = useSelector(
       (state: RootState) => state.userAnswer.answers[question.id]
     );
+    const showAnwserOnChosen = useSelector(
+      (state: RootState) => state.testConfig.showAnswerOnChose
+    );
     const dispatch = useDispatch();
 
     const answerOptionText = useMemo(() => {
@@ -67,6 +70,25 @@ const RadioAnswerOption = memo(
       }
     }, [isTestFininshed]);
 
+    useEffect(() => {
+      if (!showAnwserOnChosen) return;
+
+      setAnswerOptionStatus("");
+
+      if (!userAnswers || userAnswers.length == 0) return;
+      const answerOptionId = Number.parseInt(answerOption.id);
+
+      if (userAnswers && userAnswers.includes(answerOptionId)) {
+        if (!question.correct_answer.includes(answerOptionId)) {
+          setAnswerOptionStatus(" incorrect");
+        }
+      }
+
+      if (question.correct_answer.includes(answerOptionId)) {
+        setAnswerOptionStatus(" correct");
+      }
+    }, [showAnwserOnChosen, userAnswers]);
+
     const onInputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
       if (isTestFininshed) return;
 
@@ -76,7 +98,7 @@ const RadioAnswerOption = memo(
     };
 
     return (
-      <div className={`RadioAnswerOption ${answerOptionStatus}`}>
+      <div className={`RadioAnswerOption${answerOptionStatus}`}>
         <span className="AnswerOptionBullet">{answerOptionBullet}</span>
         <label>
           <Radio
@@ -88,8 +110,7 @@ const RadioAnswerOption = memo(
               color: "var(--secondary-text-color)",
               padding: "8px",
               margin: "-8px",
-            }}
-          ></Radio>
+            }}></Radio>
           <span className="AnswerOptionText">{answerOptionText}</span>
         </label>
       </div>

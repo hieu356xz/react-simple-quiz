@@ -14,6 +14,7 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { styled } from "@mui/material/styles";
 import {
   setQuestionCount,
+  toggleShowAnswerOnChosen,
   toggleShuffleAnswer,
 } from "../redux/TestConfigSlice";
 
@@ -47,6 +48,9 @@ const CourseInfo = () => {
   const shuffleAnswer = useSelector(
     (state: RootState) => state.testConfig.shuffleAnswer
   );
+  const showAnswerOnChosen = useSelector(
+    (state: RootState) => state.testConfig.showAnswerOnChose
+  );
   const [semester, setSemester] = useState({
     semester: null as Semester | null,
     loading: false,
@@ -76,8 +80,7 @@ const CourseInfo = () => {
               <MenuItem
                 value={defaultValue}
                 sx={{ fontSize: 14 }}
-                key={defaultValue}
-              >
+                key={defaultValue}>
                 {defaultValue}
               </MenuItem>
             );
@@ -172,8 +175,21 @@ const CourseInfo = () => {
                   }}
                   checked={shuffleAnswer}
                   onClick={() => dispatch(toggleShuffleAnswer())}
-                  inputProps={{ "aria-label": "controlled" }}
-                ></Checkbox>
+                  inputProps={{ "aria-label": "controlled" }}></Checkbox>
+              </td>
+            </tr>
+            <tr className="CourseInfoTableRow">
+              <th>Hiện đáp án ngay sau khi chọn</th>
+              <td>
+                <Checkbox
+                  sx={{
+                    padding: "4px",
+                    margin: "-4px",
+                    color: "var(--secondary-text-color)",
+                  }}
+                  checked={showAnswerOnChosen}
+                  onClick={() => dispatch(toggleShowAnswerOnChosen())}
+                  inputProps={{ "aria-label": "controlled" }}></Checkbox>
               </td>
             </tr>
             <tr className="CourseInfoTableRow">
@@ -195,8 +211,7 @@ const CourseInfo = () => {
                         },
                         "data-theme": theme,
                       },
-                    }}
-                  >
+                    }}>
                     {questionCountOptions}
                   </Select>
                 </FormControl>
@@ -206,8 +221,7 @@ const CourseInfo = () => {
               <th colSpan={2}>
                 <button
                   className="BtnDoTest"
-                  onClick={() => dispatch(toggleActiveTest())}
-                >
+                  onClick={() => dispatch(toggleActiveTest())}>
                   <FiEdit
                     className="icon"
                     stroke="#e0e0e0"

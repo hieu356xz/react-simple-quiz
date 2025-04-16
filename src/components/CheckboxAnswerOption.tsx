@@ -33,6 +33,9 @@ const CheckboxAnswerOption = memo(
     const userAnswers = useSelector(
       (state: RootState) => state.userAnswer.answers[question.id]
     );
+    const showAnwserOnChosen = useSelector(
+      (state: RootState) => state.testConfig.showAnswerOnChose
+    );
     const dispatch = useDispatch();
 
     const answerOptionText = useMemo(() => {
@@ -66,6 +69,25 @@ const CheckboxAnswerOption = memo(
       }
     }, [isTestFininshed]);
 
+    useEffect(() => {
+      if (!showAnwserOnChosen) return;
+
+      setAnswerOptionStatus("");
+
+      if (!userAnswers || userAnswers.length == 0) return;
+      const answerOptionId = Number.parseInt(answerOption.id);
+
+      if (userAnswers && userAnswers.includes(answerOptionId)) {
+        if (!question.correct_answer.includes(answerOptionId)) {
+          setAnswerOptionStatus(" incorrect");
+        }
+      }
+
+      if (question.correct_answer.includes(answerOptionId)) {
+        setAnswerOptionStatus(" correct");
+      }
+    }, [showAnwserOnChosen, userAnswers]);
+
     const onInputChangeHandler = () => {
       if (isTestFininshed) return;
 
@@ -96,8 +118,7 @@ const CheckboxAnswerOption = memo(
               color: "var(--secondary-text-color)",
               padding: "8px",
               margin: "-8px",
-            }}
-          ></Checkbox>
+            }}></Checkbox>
           <span className="AnswerOptionText">{answerOptionText}</span>
         </label>
       </div>
