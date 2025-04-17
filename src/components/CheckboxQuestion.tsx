@@ -48,8 +48,7 @@ const CheckboxQuestion = memo(
             index={index}
             selectedValue={selectedValue}
             setSelectedValue={setSelectedValue}
-            key={`${question.id}_${answerOption.id}`}
-          ></CheckboxAnswerOption>
+            key={`${question.id}_${answerOption.id}`}></CheckboxAnswerOption>
         );
       },
       [selectedValue]
@@ -59,7 +58,7 @@ const CheckboxQuestion = memo(
       <div className={className}>
         <div className="QuestionContainerDirection">
           <p className="QuestionContainerNumber">
-            {`Câu ${index + 1}: (ID-${question.id})`}
+            {`Câu ${index}: (ID-${question.id})`}
           </p>
           <div>{questionDirection}</div>
         </div>

@@ -41,8 +41,7 @@ const RadioQuestion = memo(({ question, index }: IRadioQuestionItemProps) => {
           answerOptionBullet={getAnswerOptionBullet(index)}
           selectedValue={selectedValue}
           setSelectedValue={setSelectedValue}
-          key={`${question.id}_${answerOption.id}`}
-        ></RadioAnswerOption>
+          key={`${question.id}_${answerOption.id}`}></RadioAnswerOption>
       );
     },
     [selectedValue]
@@ -52,7 +51,7 @@ const RadioQuestion = memo(({ question, index }: IRadioQuestionItemProps) => {
     <div className={className}>
       <div className="QuestionContainerDirection">
         <p className="QuestionContainerNumber">
-          {`Câu ${index + 1}: (ID-${question.id})`}
+          {`Câu ${index}: (ID-${question.id})`}
         </p>
         <div>{questionDirection}</div>
       </div>

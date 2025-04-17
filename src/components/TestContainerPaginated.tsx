@@ -21,8 +21,8 @@ const TestContainerPaginated = () => {
     (state: RootState) => state.testConfig
   );
 
-  const [currentQuestionNumber, setCurrentQuestionNumber] = useState(0);
-  const currentQuestion = testQuestions[currentQuestionNumber];
+  const [currentQuestionNumber, setCurrentQuestionNumber] = useState(1);
+  const currentQuestion = testQuestions[currentQuestionNumber - 1];
 
   const dispatch = useDispatch();
 

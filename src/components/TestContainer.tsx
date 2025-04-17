@@ -78,14 +78,14 @@ const TestContainer = () => {
             return (
               <RadioQuestion
                 question={question}
-                index={index}
+                index={index + 1}
                 key={question.id}></RadioQuestion>
             );
           } else {
             return (
               <CheckboxQuestion
                 question={question}
-                index={index}
+                index={index + 1}
                 key={question.id}></CheckboxQuestion>
             );
           }
