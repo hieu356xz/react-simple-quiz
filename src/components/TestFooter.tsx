@@ -72,6 +72,8 @@ const TestFooter = ({
         anchorEl={anchorEl}
         open={open}
         onClose={handleQuesionListMenuClose}
+        disableRestoreFocus={false}
+        closeAfterTransition={true}
         slotProps={{
           paper: {
             sx: {
@@ -85,7 +87,9 @@ const TestFooter = ({
         <div className="QuestionListMenuContent">
           {questionNumbers.map((item) => (
             <button
-              className="QuestionListMenuItem"
+              className={`QuestionListMenuItem${
+                currentQuestionNumber === item ? " selected" : ""
+              }`}
               key={item}
               onClick={() => handleQuesionListMenuItemClick(item)}>
               {item}

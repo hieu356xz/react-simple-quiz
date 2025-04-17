@@ -199,6 +199,12 @@ button {
   transition: color 150ms ease, background-color 150ms ease;
 }
 
+.QuestionListMenuItem.selected {
+  outline-width: 2px;
+  outline-color: #ffffff;
+  outline-style: solid;
+}
+
 .NextQuestionBtn,
 .PreviousQuestionBtn {
   background-color: var(--blue-color-1);
