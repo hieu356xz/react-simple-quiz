@@ -15,6 +15,7 @@ import { styled } from "@mui/material/styles";
 import {
   setQuestionCount,
   toggleShowAnswerOnChosen,
+  toggleShowQuestionByPage,
   toggleShuffleAnswer,
 } from "../redux/TestConfigSlice";
 
@@ -45,11 +46,8 @@ const CourseInfo = () => {
   );
   const currSubject = useSelector((state: RootState) => state.currSubject);
   const currCourse = useSelector((state: RootState) => state.currCourse);
-  const shuffleAnswer = useSelector(
-    (state: RootState) => state.testConfig.shuffleAnswer
-  );
-  const showAnswerOnChosen = useSelector(
-    (state: RootState) => state.testConfig.showAnswerOnChosen
+  const { shuffleAnswer, showAnswerOnChosen, showQuestionByPage } = useSelector(
+    (state: RootState) => state.testConfig
   );
   const [semester, setSemester] = useState({
     semester: null as Semester | null,
@@ -189,6 +187,20 @@ const CourseInfo = () => {
                   }}
                   checked={showAnswerOnChosen}
                   onClick={() => dispatch(toggleShowAnswerOnChosen())}
+                  inputProps={{ "aria-label": "controlled" }}></Checkbox>
+              </td>
+            </tr>
+            <tr className="CourseInfoTableRow">
+              <th>Hiện từng câu hỏi theo trang</th>
+              <td>
+                <Checkbox
+                  sx={{
+                    padding: "4px",
+                    margin: "-4px",
+                    color: "var(--secondary-text-color)",
+                  }}
+                  checked={showQuestionByPage}
+                  onClick={() => dispatch(toggleShowQuestionByPage())}
                   inputProps={{ "aria-label": "controlled" }}></Checkbox>
               </td>
             </tr>
