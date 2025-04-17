@@ -11,9 +11,15 @@ const getShowAnswerPreference = () => {
   return localStorage.getItem("showAnswerOnChoseOption") === "true";
 };
 
+const getshowQuestionPreference = () => {
+  // Default is false
+  return localStorage.getItem("showQuestionByPageOption") === "true";
+};
+
 const initialState = {
   shuffleAnswer: getShufflePreference(),
   showAnswerOnChose: getShowAnswerPreference(),
+  showQuestionByPage: getshowQuestionPreference(),
   questionCount: "15",
 };
 
@@ -35,6 +41,13 @@ const TestConfigSlice = createSlice({
         JSON.stringify(state.showAnswerOnChose)
       );
     },
+    toggleShowQuestionByPage: (state) => {
+      state.showQuestionByPage = !state.showQuestionByPage;
+      localStorage.setItem(
+        "showQuestionByPageOption",
+        JSON.stringify(state.showQuestionByPage)
+      );
+    },
     setQuestionCount: (state, action: PayloadAction<string>) => {
       state.questionCount = action.payload;
     },
@@ -46,5 +59,6 @@ export const {
   toggleShuffleAnswer,
   setQuestionCount,
   toggleShowAnswerOnChosen,
+  toggleShowQuestionByPage,
 } = TestConfigSlice.actions;
 export default TestConfigReducer;
