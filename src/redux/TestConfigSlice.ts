@@ -18,7 +18,7 @@ const getshowQuestionPreference = () => {
 
 const initialState = {
   shuffleAnswer: getShufflePreference(),
-  showAnswerOnChose: getShowAnswerPreference(),
+  showAnswerOnChosen: getShowAnswerPreference(),
   showQuestionByPage: getshowQuestionPreference(),
   questionCount: "15",
 };
@@ -35,10 +35,10 @@ const TestConfigSlice = createSlice({
       );
     },
     toggleShowAnswerOnChosen: (state) => {
-      state.showAnswerOnChose = !state.showAnswerOnChose;
+      state.showAnswerOnChosen = !state.showAnswerOnChosen;
       localStorage.setItem(
         "showAnswerOnChoseOption",
-        JSON.stringify(state.showAnswerOnChose)
+        JSON.stringify(state.showAnswerOnChosen)
       );
     },
     toggleShowQuestionByPage: (state) => {

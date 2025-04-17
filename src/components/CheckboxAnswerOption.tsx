@@ -34,7 +34,7 @@ const CheckboxAnswerOption = memo(
       (state: RootState) => state.userAnswer.answers[question.id]
     );
     const showAnwserOnChosen = useSelector(
-      (state: RootState) => state.testConfig.showAnswerOnChose
+      (state: RootState) => state.testConfig.showAnswerOnChosen
     );
     const dispatch = useDispatch();
 

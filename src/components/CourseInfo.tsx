@@ -49,7 +49,7 @@ const CourseInfo = () => {
     (state: RootState) => state.testConfig.shuffleAnswer
   );
   const showAnswerOnChosen = useSelector(
-    (state: RootState) => state.testConfig.showAnswerOnChose
+    (state: RootState) => state.testConfig.showAnswerOnChosen
   );
   const [semester, setSemester] = useState({
     semester: null as Semester | null,
