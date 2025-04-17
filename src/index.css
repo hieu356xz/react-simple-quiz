@@ -173,6 +173,32 @@ button {
   gap: 8px;
 }
 
+#QuestionListShowBtn {
+  background-color: var(--blue-color-1);
+  color: #e0e0e0;
+  padding: 6px;
+  border-radius: 20px;
+  transition: color 150ms ease, background-color 150ms ease;
+}
+
+.QuestionListMenuContent {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 556px;
+  padding: 8px;
+  gap: 6px;
+}
+
+.QuestionListMenuItem {
+  font-size: 14px;
+  background-color: var(--blue-color-1);
+  color: #e0e0e0;
+  width: 36px;
+  height: 36px;
+  border-radius: 20px;
+  transition: color 150ms ease, background-color 150ms ease;
+}
+
 .NextQuestionBtn,
 .PreviousQuestionBtn {
   background-color: var(--blue-color-1);

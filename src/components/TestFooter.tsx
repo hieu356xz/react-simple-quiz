@@ -1,6 +1,8 @@
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
-import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
+import { FaArrowLeft, FaArrowRight, FaBars } from "react-icons/fa6";
+import { useState, MouseEvent } from "react";
+import Popover from "@mui/material/Popover";
 
 interface ITestFooterProps {
   currentQuestionNumber: number;
@@ -11,6 +13,7 @@ const TestFooter = ({
   currentQuestionNumber,
   setCurrentQuestionNumber,
 }: ITestFooterProps) => {
+  const theme = useSelector((state: RootState) => state.theme.theme);
   const allQuestionCount = useSelector(
     (state: RootState) => state.testQuestion.questions.length
   );
@@ -20,6 +23,23 @@ const TestFooter = ({
 
   const maxQuestionCount =
     questionCount !== "all" ? parseInt(questionCount) : allQuestionCount;
+
+  const questionNumbers = [...Array(maxQuestionCount).keys()].map((v) => v + 1);
+
+  // MUI Menu
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleQuesionListMenuClick = (event: MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleQuesionListMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleQuesionListMenuItemClick = (questionNumber: number) => {
+    setCurrentQuestionNumber(questionNumber);
+    handleQuesionListMenuClose();
+  };
 
   const onNextQuestionBtnClick = () => {
     const nextQuestionNumber = Math.min(
@@ -36,6 +56,44 @@ const TestFooter = ({
 
   return (
     <div className="Footer">
+      <button
+        id="QuestionListShowBtn"
+        aria-controls={open ? "fade-menu" : undefined}
+        aria-haspopup="true"
+        aria-expanded={open ? "true" : undefined}
+        onClick={handleQuesionListMenuClick}>
+        <FaBars className="icon" size={16}></FaBars>
+      </button>
+      <Popover
+        // id="QuestionListMenu"
+        // MenuListProps={{ "aria-labelledby": "QuestionListShowBtn" }}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        transformOrigin={{ vertical: "bottom", horizontal: "right" }}
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleQuesionListMenuClose}
+        slotProps={{
+          paper: {
+            sx: {
+              backgroundColor: "var(--background-color)",
+              color: "var(--primary-text-color)",
+              transform: "translateY(-10px) !important",
+            },
+          },
+        }}
+        data-theme={theme}>
+        <div className="QuestionListMenuContent">
+          {questionNumbers.map((item) => (
+            <button
+              className="QuestionListMenuItem"
+              key={item}
+              onClick={() => handleQuesionListMenuItemClick(item)}>
+              {item}
+            </button>
+          ))}
+        </div>
+      </Popover>
+
       <button
         className="PreviousQuestionBtn"
         onClick={onPreviousQuestionBtnClick}
