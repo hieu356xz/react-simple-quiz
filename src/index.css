@@ -17,7 +17,7 @@ body {
   --question-direction-background-color: #eeeeee;
   --table-border-color: #e2e8f0;
   --footer-btn-disabled-background-color: #e5e5e5;
-  --footer-btn-disabled-text-color: #d7d7d7;
+  --footer-btn-disabled-text-color: #cfcfcf;
 
   --blue-color-1: #1c76da;
   --blue-color-2: #2d69f0;
@@ -104,7 +104,7 @@ button {
     padding: 0px;
     width: 120px;
     height: 46px;
-    color: #ffffff;
+    color: #e0e0e0;
     background: var(--green-color-1);
     border-radius: 4px;
   }
@@ -157,6 +157,7 @@ button {
   justify-content: center;
   background: var(--button-background-color);
   border-radius: 8px;
+  transition: color 150ms ease, background-color 150ms ease;
 }
 
 .Footer {
@@ -175,9 +176,11 @@ button {
 .NextQuestionBtn,
 .PreviousQuestionBtn {
   background-color: var(--blue-color-1);
+  color: #e0e0e0;
   padding: 10px 14px;
   font-size: 14px;
   border-radius: 26px;
+  transition: color 150ms ease, background-color 150ms ease;
 }
 
 .NextQuestionBtn:disabled,
@@ -393,6 +396,7 @@ button {
     background-color: var(--question-direction-background-color);
     border-radius: 8px;
     position: relative;
+    transition: color 150ms ease, background-color 150ms ease;
 
     & span {
       color: inherit !important;
