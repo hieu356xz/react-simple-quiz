@@ -5,9 +5,11 @@ import TestResultPopup from "../components/TestResultPopup";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import TestContainerPaginated from "../components/TestContainerPaginated";
+import TestFooter from "../components/TestFooter";
 
 const TestPage = () => {
   const [hidePopup, setHidePopup] = useState(true);
+  const [currentQuestionNumber, setCurrentQuestionNumber] = useState(1);
 
   const isTestFininshed = useSelector(
     (state: RootState) => state.testResult.isTestFininshed
@@ -36,9 +38,21 @@ const TestPage = () => {
     <>
       <TestNavbar setHidePopup={setHidePopup} />
       <div className="Main">
-        {showQuestionByPage ? <TestContainerPaginated /> : <TestContainer />}
+        {showQuestionByPage ? (
+          <TestContainerPaginated
+            currentQuestionNumber={currentQuestionNumber}
+          />
+        ) : (
+          <TestContainer />
+        )}
         <TestResultPopup hidePopup={hidePopup} setHidePopup={setHidePopup} />
       </div>
+      {showQuestionByPage && (
+        <TestFooter
+          currentQuestionNumber={currentQuestionNumber}
+          setCurrentQuestionNumber={setCurrentQuestionNumber}
+        />
+      )}
     </>
   );
 };

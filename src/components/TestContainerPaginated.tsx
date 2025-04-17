@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import QueryDb from "../data/QueryDb";
 import Question from "../data/Question";
 import RadioQuestion from "./RadioQuestion";
@@ -9,7 +9,11 @@ import CheckboxQuestion from "./CheckboxQuestion";
 import shuffle from "lodash/shuffle";
 import LoadingView from "./LoadingView";
 
-const TestContainerPaginated = () => {
+const TestContainerPaginated = ({
+  currentQuestionNumber,
+}: {
+  currentQuestionNumber: number;
+}) => {
   const testQuestions = useSelector(
     (state: RootState) => state.testQuestion.questions
   );
@@ -20,9 +24,6 @@ const TestContainerPaginated = () => {
   const { shuffleAnswer, questionCount } = useSelector(
     (state: RootState) => state.testConfig
   );
-
-  const [currentQuestionNumber, setCurrentQuestionNumber] = useState(1);
-  const currentQuestion = testQuestions[currentQuestionNumber - 1];
 
   const dispatch = useDispatch();
 
@@ -82,17 +83,31 @@ const TestContainerPaginated = () => {
 
   return (
     <div className="TestContainer">
-      {currentQuestion.question_type === "radio" ? (
-        <RadioQuestion
-          question={currentQuestion}
-          index={currentQuestionNumber}
-          key={currentQuestion.id}></RadioQuestion>
-      ) : (
-        <CheckboxQuestion
-          question={currentQuestion}
-          index={currentQuestionNumber}
-          key={currentQuestion.id}></CheckboxQuestion>
-      )}
+      {testQuestions.map((question, index) => {
+        return question.question_type === "radio" ? (
+          <div
+            className="RadioQuestionWrapper"
+            style={
+              currentQuestionNumber !== index + 1 ? { display: "none" } : {}
+            }
+            key={question.id}>
+            <RadioQuestion
+              question={question}
+              index={index + 1}></RadioQuestion>
+          </div>
+        ) : (
+          <div
+            className="CheckboxQuestionWrapper"
+            style={
+              currentQuestionNumber !== index + 1 ? { display: "none" } : {}
+            }
+            key={question.id}>
+            <CheckboxQuestion
+              question={question}
+              index={index + 1}></CheckboxQuestion>
+          </div>
+        );
+      })}
     </div>
   );
 };

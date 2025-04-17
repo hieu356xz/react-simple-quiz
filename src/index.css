@@ -16,6 +16,8 @@ body {
   --answer-border-color: #ced4da;
   --question-direction-background-color: #eeeeee;
   --table-border-color: #e2e8f0;
+  --footer-btn-disabled-background-color: #e5e5e5;
+  --footer-btn-disabled-text-color: #d7d7d7;
 
   --blue-color-1: #1c76da;
   --blue-color-2: #2d69f0;
@@ -54,10 +56,13 @@ button {
   --answer-border-color: #363641;
   --question-direction-background-color: #222222;
   --table-border-color: #252525;
+  --footer-btn-disabled-background-color: #2e2e2e;
+  --footer-btn-disabled-text-color: #4b4b4b;
 }
 
 .App,
 .Navbar,
+.Footer,
 .Sidebar,
 .Main .TestContainer {
   color: var(--primary-text-color);
@@ -152,6 +157,53 @@ button {
   justify-content: center;
   background: var(--button-background-color);
   border-radius: 8px;
+}
+
+.Footer {
+  position: fixed;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 56px;
+  box-shadow: 0 -2px var(--box-shadow-color);
+  z-index: 3;
+  gap: 8px;
+}
+
+.NextQuestionBtn,
+.PreviousQuestionBtn {
+  background-color: var(--blue-color-1);
+  padding: 10px 14px;
+  font-size: 14px;
+  border-radius: 26px;
+}
+
+.NextQuestionBtn:disabled,
+.PreviousQuestionBtn:disabled {
+  background-color: var(--footer-btn-disabled-background-color);
+  color: var(--footer-btn-disabled-text-color);
+  cursor: default;
+}
+
+@media screen and (max-width: 480px) {
+  .NextQuestionBtnText,
+  .PreviousQuestionBtnText {
+    display: none;
+  }
+
+  .NextQuestionBtn,
+  .PreviousQuestionBtn {
+    padding: 10px;
+  }
+}
+
+@media screen and (min-width: 480px) {
+  .NextQuestionBtnIcon,
+  .PreviousQuestionBtnIcon {
+    display: none;
+  }
 }
 
 .Main {
