@@ -68,29 +68,29 @@ const TestContainer = () => {
     }
   };
 
+  if (!testQuestions || testQuestions.length == 0) {
+    return (
+      <div className="TestContainer">
+        <LoadingView />
+      </div>
+    );
+  }
+
   return (
     <div className="TestContainer">
-      {!testQuestions || testQuestions.length == 0 ? (
-        <LoadingView />
-      ) : (
-        testQuestions.map((question, index) => {
-          if (question.question_type === "radio") {
-            return (
-              <RadioQuestion
-                question={question}
-                index={index + 1}
-                key={question.id}></RadioQuestion>
-            );
-          } else {
-            return (
-              <CheckboxQuestion
-                question={question}
-                index={index + 1}
-                key={question.id}></CheckboxQuestion>
-            );
-          }
-        })
-      )}
+      {testQuestions.map((question, index) => {
+        return question.question_type === "radio" ? (
+          <RadioQuestion
+            question={question}
+            index={index + 1}
+            key={question.id}></RadioQuestion>
+        ) : (
+          <CheckboxQuestion
+            question={question}
+            index={index + 1}
+            key={question.id}></CheckboxQuestion>
+        );
+      })}
     </div>
   );
 };
