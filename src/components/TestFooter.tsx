@@ -3,6 +3,7 @@ import { RootState } from "../redux/store";
 import { FaArrowLeft, FaArrowRight, FaBars } from "react-icons/fa6";
 import { useState, MouseEvent, useMemo } from "react";
 import Popover from "@mui/material/Popover";
+import Question from "../data/Question";
 
 interface ITestFooterProps {
   currentQuestionNumber: number;
@@ -14,16 +15,19 @@ const TestFooter = ({
   setCurrentQuestionNumber,
 }: ITestFooterProps) => {
   const theme = useSelector((state: RootState) => state.theme.theme);
-  const allQuestionCount = useSelector(
-    (state: RootState) => state.testQuestion.questions.length
+  const userAnswers = useSelector(
+    (state: RootState) => state.userAnswer.answers
+  );
+  const testQuestions = useSelector(
+    (state: RootState) => state.testQuestion.questions
   );
   const questionCount = useSelector(
     (state: RootState) => state.testConfig.questionCount
   );
 
   const maxQuestionCount =
-    questionCount !== "all" ? parseInt(questionCount) : allQuestionCount;
-
+    questionCount !== "all" ? parseInt(questionCount) : testQuestions.length;
+  // console.log(testQuestions);
   const questionNumbers = useMemo(
     () => [...Array(maxQuestionCount).keys()].map((v) => v + 1),
     [maxQuestionCount]
@@ -37,6 +41,35 @@ const TestFooter = ({
   };
   const handleQuesionListMenuClose = () => {
     setAnchorEl(null);
+  };
+
+  const getQuestionListMenuItemClassName = (questionNumber: number) => {
+    let className = "QuestionListMenuItem";
+    // console.log("Question data:", {
+    //   type: typeof currentQuestion,
+    //   isInstance: currentQuestion instanceof Question,
+    //   properties: currentQuestion ? Object.keys(currentQuestion) : [],
+    //   id: currentQuestion?.id,
+    //   className: currentQuestion?.constructor?.name,
+    //   questionType: currentQuestion?.question_type,
+    // });
+    try {
+      const currentQuestion = testQuestions[questionNumber - 1];
+
+      if (currentQuestion instanceof Question) {
+        if (
+          !userAnswers ||
+          (userAnswers && !userAnswers[currentQuestion?.id])
+        ) {
+          className += " unanswer";
+        }
+      }
+    } catch {
+      console.log(`Question number ${questionNumber} does not exists`);
+    }
+
+    if (questionNumber === currentQuestionNumber) className += " selected";
+    return className;
   };
 
   const handleQuesionListMenuItemClick = (questionNumber: number) => {
@@ -90,9 +123,7 @@ const TestFooter = ({
         <div className="QuestionListMenuContent">
           {questionNumbers.map((item) => (
             <button
-              className={`QuestionListMenuItem${
-                currentQuestionNumber === item ? " selected" : ""
-              }`}
+              className={getQuestionListMenuItemClassName(item)}
               key={item}
               onClick={() => handleQuesionListMenuItemClick(item)}>
               {item}

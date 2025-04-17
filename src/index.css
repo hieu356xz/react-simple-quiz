@@ -18,6 +18,7 @@ body {
   --table-border-color: #e2e8f0;
   --footer-btn-disabled-background-color: #e5e5e5;
   --footer-btn-disabled-text-color: #cfcfcf;
+  --question-list-item-background-color: #a9c1f7;
 
   --blue-color-1: #1c76da;
   --blue-color-2: #2d69f0;
@@ -58,6 +59,7 @@ button {
   --table-border-color: #252525;
   --footer-btn-disabled-background-color: #2e2e2e;
   --footer-btn-disabled-text-color: #4b4b4b;
+  --question-list-item-background-color: #44567c;
 }
 
 .App,
@@ -199,9 +201,13 @@ button {
   transition: color 150ms ease, background-color 150ms ease;
 }
 
+.QuestionListMenuItem.unanswer {
+  background-color: var(--question-list-item-background-color);
+}
+
 .QuestionListMenuItem.selected {
   outline-width: 2px;
-  outline-color: #ffffff;
+  outline-color: var(--secondary-text-color);
   outline-style: solid;
 }
 
