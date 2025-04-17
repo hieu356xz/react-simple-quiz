@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import { FaArrowLeft, FaArrowRight, FaBars } from "react-icons/fa6";
-import { useState, MouseEvent } from "react";
+import { useState, MouseEvent, useMemo } from "react";
 import Popover from "@mui/material/Popover";
 
 interface ITestFooterProps {
@@ -24,7 +24,10 @@ const TestFooter = ({
   const maxQuestionCount =
     questionCount !== "all" ? parseInt(questionCount) : allQuestionCount;
 
-  const questionNumbers = [...Array(maxQuestionCount).keys()].map((v) => v + 1);
+  const questionNumbers = useMemo(
+    () => [...Array(maxQuestionCount).keys()].map((v) => v + 1),
+    [maxQuestionCount]
+  );
 
   // MUI Menu
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
