@@ -126,4 +126,5 @@ const CheckboxAnswerOption = memo(
   }
 );
 
+CheckboxAnswerOption.displayName = "CheckboxAnswerOption";
 export default CheckboxAnswerOption;

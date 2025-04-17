@@ -118,4 +118,5 @@ const RadioAnswerOption = memo(
   }
 );
 
+RadioAnswerOption.displayName = "RadioAnswerOption";
 export default RadioAnswerOption;

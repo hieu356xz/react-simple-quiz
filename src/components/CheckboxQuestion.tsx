@@ -1,17 +1,23 @@
-import { memo, useCallback, useMemo, useState } from "react";
+import {
+  ComponentPropsWithoutRef,
+  memo,
+  useCallback,
+  useMemo,
+  useState,
+} from "react";
 import Question, { AnswerOption } from "../data/Question";
 import CheckboxAnswerOption from "./CheckboxAnswerOption";
 import parse from "html-react-parser";
 import DOMPurify from "dompurify";
 import HTMLPaserImageOptions from "../utils";
 
-interface ICheckboxQuestionItemProps {
+interface ICheckboxQuestionItemProps extends ComponentPropsWithoutRef<"div"> {
   question: Question;
   index: number;
 }
 
 const CheckboxQuestion = memo(
-  ({ question, index }: ICheckboxQuestionItemProps) => {
+  ({ question, index, ...props }: ICheckboxQuestionItemProps) => {
     const [selectedValue, setSelectedValue] = useState<boolean[]>([
       false,
       false,
@@ -55,7 +61,7 @@ const CheckboxQuestion = memo(
     );
 
     return (
-      <div className={className}>
+      <div className={className} {...props}>
         <div className="QuestionContainerDirection">
           <p className="QuestionContainerNumber">
             {`Câu ${index}: (ID-${question.id})`}
@@ -70,4 +76,5 @@ const CheckboxQuestion = memo(
   }
 );
 
+CheckboxQuestion.displayName = "CheckboxQuestion";
 export default CheckboxQuestion;
