@@ -82,7 +82,7 @@ const TestContainerPaginated = ({
   }
 
   return (
-    <div className="TestContainer">
+    <div className="TestContainer TestContainerPaginated">
       {testQuestions.map((question, index) => {
         return question.question_type === "radio" ? (
           <div

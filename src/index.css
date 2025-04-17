@@ -432,6 +432,11 @@ button {
   }
 }
 
+.TestContainerPaginated .RadioQuestion,
+.CheckboxQuestion {
+  border: none;
+}
+
 .AnswerOptions {
   display: flex;
   flex-wrap: wrap;
