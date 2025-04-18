@@ -7,17 +7,15 @@ import {
 } from "react";
 import Question, { AnswerOption } from "../data/Question";
 import RadioAnswerOption from "./RadioAnswerOption";
-import parse from "html-react-parser";
-import DOMPurify from "dompurify";
-import HTMLPaserImageOptions from "../utils";
+import QuestionDirection from "./QuestionDirection";
 
 interface IRadioQuestionItemProps extends ComponentPropsWithoutRef<"div"> {
   question: Question;
-  index: number;
+  number: number;
 }
 
 const RadioQuestion = memo(
-  ({ question, index, ...props }: IRadioQuestionItemProps) => {
+  ({ question, number, ...props }: IRadioQuestionItemProps) => {
     const [selectedValue, setSelectedValue] = useState("0");
 
     const className = useMemo(() => {
@@ -25,13 +23,6 @@ const RadioQuestion = memo(
         question.correct_answer.includes(0) ? " noAnswer" : ""
       }`;
     }, [question.correct_answer]);
-    const questionDirection = useMemo(() => {
-      const cleanHTML = DOMPurify.sanitize(question.question_direction, {
-        USE_PROFILES: { html: true },
-      });
-
-      return parse(cleanHTML, HTMLPaserImageOptions);
-    }, [question.question_direction]);
 
     const getAnswerOptionBullet = (index: number) => {
       // Giới hạn giá trị trong khoảng [65, 90] tức giá trị A - Z
@@ -56,12 +47,11 @@ const RadioQuestion = memo(
 
     return (
       <div className={className} {...props}>
-        <div className="QuestionContainerDirection">
-          <p className="QuestionContainerNumber">
-            {`Câu ${index}: (ID-${question.id})`}
-          </p>
-          <div>{questionDirection}</div>
-        </div>
+        <QuestionDirection
+          number={number}
+          id={question.id}
+          directionText={question.question_direction}></QuestionDirection>
+
         <div className="AnswerOptions">
           {question.answer_option.map(renderRadioOption)}
         </div>

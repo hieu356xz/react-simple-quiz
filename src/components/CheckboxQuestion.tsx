@@ -7,17 +7,15 @@ import {
 } from "react";
 import Question, { AnswerOption } from "../data/Question";
 import CheckboxAnswerOption from "./CheckboxAnswerOption";
-import parse from "html-react-parser";
-import DOMPurify from "dompurify";
-import HTMLPaserImageOptions from "../utils";
+import QuestionDirection from "./QuestionDirection";
 
 interface ICheckboxQuestionItemProps extends ComponentPropsWithoutRef<"div"> {
   question: Question;
-  index: number;
+  number: number;
 }
 
 const CheckboxQuestion = memo(
-  ({ question, index, ...props }: ICheckboxQuestionItemProps) => {
+  ({ question, number, ...props }: ICheckboxQuestionItemProps) => {
     const [selectedValue, setSelectedValue] = useState<boolean[]>([
       false,
       false,
@@ -30,13 +28,6 @@ const CheckboxQuestion = memo(
         question.correct_answer.includes(0) ? " noAnswer" : ""
       }`;
     }, [question.correct_answer]);
-    const questionDirection = useMemo(() => {
-      const cleanHTML = DOMPurify.sanitize(question.question_direction, {
-        USE_PROFILES: { html: true },
-      });
-
-      return parse(cleanHTML, HTMLPaserImageOptions);
-    }, [question.question_direction]);
 
     const getAnswerOptionBullet = (index: number) => {
       // Giới hạn giá trị trong khoảng [65, 90] tức giá trị A - Z
@@ -62,12 +53,11 @@ const CheckboxQuestion = memo(
 
     return (
       <div className={className} {...props}>
-        <div className="QuestionContainerDirection">
-          <p className="QuestionContainerNumber">
-            {`Câu ${index}: (ID-${question.id})`}
-          </p>
-          <div>{questionDirection}</div>
-        </div>
+        <QuestionDirection
+          number={number}
+          id={question.id}
+          directionText={question.question_direction}></QuestionDirection>
+
         <div className="AnswerOptions">
           {question.answer_option.map(renderAnswerOption)}
         </div>

@@ -82,12 +82,12 @@ const TestContainer = () => {
         return question.question_type === "radio" ? (
           <RadioQuestion
             question={question}
-            index={index + 1}
+            number={index + 1}
             key={question.id}></RadioQuestion>
         ) : (
           <CheckboxQuestion
             question={question}
-            index={index + 1}
+            number={index + 1}
             key={question.id}></CheckboxQuestion>
         );
       })}

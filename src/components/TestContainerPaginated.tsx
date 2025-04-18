@@ -93,7 +93,7 @@ const TestContainerPaginated = ({
             key={question.id}>
             <RadioQuestion
               question={question}
-              index={index + 1}></RadioQuestion>
+              number={index + 1}></RadioQuestion>
           </div>
         ) : (
           <div
@@ -104,7 +104,7 @@ const TestContainerPaginated = ({
             key={question.id}>
             <CheckboxQuestion
               question={question}
-              index={index + 1}></CheckboxQuestion>
+              number={index + 1}></CheckboxQuestion>
           </div>
         );
       })}
