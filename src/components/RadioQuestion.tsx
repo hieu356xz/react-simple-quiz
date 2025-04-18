@@ -18,11 +18,13 @@ const RadioQuestion = memo(
   ({ question, number, ...props }: IRadioQuestionItemProps) => {
     const [selectedValue, setSelectedValue] = useState("0");
 
-    const className = useMemo(() => {
-      return `RadioQuestion${
-        question.correct_answer.includes(0) ? " noAnswer" : ""
-      }`;
+    const haveAnswer = useMemo(() => {
+      return question.correct_answer.some(
+        (x) => x > 0 && x <= question.answer_option.length
+      );
     }, [question.correct_answer]);
+
+    const className = haveAnswer ? "RadioQuestion" : `RadioQuestion noAnswer`;
 
     const getAnswerOptionBullet = (index: number) => {
       // Giới hạn giá trị trong khoảng [65, 90] tức giá trị A - Z
@@ -50,7 +52,8 @@ const RadioQuestion = memo(
         <QuestionDirection
           number={number}
           id={question.id}
-          directionText={question.question_direction}></QuestionDirection>
+          directionText={question.question_direction}
+          haveAnswer={haveAnswer}></QuestionDirection>
 
         <div className="AnswerOptions">
           {question.answer_option.map(renderRadioOption)}

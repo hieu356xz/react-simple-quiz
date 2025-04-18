@@ -7,12 +7,14 @@ interface IQuestionDirectionProps {
   number: number;
   id: number;
   directionText: string;
+  haveAnswer: boolean;
 }
 
 const QuestionDirection = ({
   number,
   id,
   directionText,
+  haveAnswer,
 }: IQuestionDirectionProps) => {
   const parsedQuestionDirection = useMemo(() => {
     const cleanHTML = DOMPurify.sanitize(directionText, {
@@ -24,8 +26,15 @@ const QuestionDirection = ({
 
   return (
     <div className="QuestionContainerDirection">
-      <p className="QuestionContainerNumber">{`Câu ${number}: (ID-${id})`}</p>
-      <div>{parsedQuestionDirection}</div>
+      <div className="QuestionContainerHeader">
+        <span className="QuestionContainerNumber">
+          {`Câu ${number}: (ID-${id})`}
+        </span>
+        {!haveAnswer && (
+          <span className="QuestionNoAnswerMessage">Chưa có đáp án</span>
+        )}
+      </div>
+      <div className="QuestionContainerContent">{parsedQuestionDirection}</div>
     </div>
   );
 };

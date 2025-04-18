@@ -436,13 +436,27 @@ button {
     position: relative;
     transition: color 150ms ease, background-color 150ms ease;
 
-    & span {
+    & .QuestionContainerContent {
       color: inherit !important;
       background-color: inherit !important;
     }
   }
 
-  &.noAnswer .QuestionContainerDirection > p {
+  & .QuestionContainerHeader {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 6px 0;
+    font-weight: 700;
+    column-gap: 32px;
+  }
+
+  & .QuestionNoAnswerMessage {
+    font-size: 14px;
+    color: var(--red-color-1);
+  }
+
+  &.noAnswer .QuestionContainerNumber {
     color: var(--red-color-1);
   }
 
@@ -456,11 +470,6 @@ button {
     display: block;
     clear: both;
     border-bottom: 2px solid var(--box-border-color);
-  }
-
-  & .QuestionContainerNumber {
-    font-weight: 700;
-    line-height: 2.2;
   }
 
   @media screen and (max-width: 768px) {
