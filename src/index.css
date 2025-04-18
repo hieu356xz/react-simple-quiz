@@ -205,6 +205,14 @@ button {
   background-color: var(--question-list-item-background-color);
 }
 
+.QuestionListMenuItem.correct {
+  background-color: var(--green-color-2);
+}
+
+.QuestionListMenuItem.incorrect {
+  background-color: var(--red-color-1);
+}
+
 .QuestionListMenuItem.selected {
   outline-width: 2px;
   outline-color: var(--secondary-text-color);

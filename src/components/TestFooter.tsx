@@ -21,6 +21,9 @@ const TestFooter = ({
   const testQuestions = useSelector(
     (state: RootState) => state.testQuestion.questions
   );
+  const { correctAnswers, wrongAnswers } = useSelector(
+    (state: RootState) => state.testResult
+  );
   const questionCount = useSelector(
     (state: RootState) => state.testConfig.questionCount
   );
@@ -62,6 +65,11 @@ const TestFooter = ({
           (userAnswers && !userAnswers[currentQuestion?.id])
         ) {
           className += " unanswer";
+        } else {
+          if (correctAnswers.includes(currentQuestion?.id))
+            className += " correct";
+          else if (wrongAnswers.includes(currentQuestion?.id))
+            className += " incorrect";
         }
       }
     } catch {
