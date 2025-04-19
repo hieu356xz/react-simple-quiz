@@ -1,5 +1,6 @@
 import {
   ComponentPropsWithoutRef,
+  forwardRef,
   memo,
   useCallback,
   useMemo,
@@ -14,9 +15,10 @@ interface IRadioQuestionItemProps extends ComponentPropsWithoutRef<"div"> {
   number: number;
 }
 
-const RadioQuestion = memo(
-  ({ question, number, ...props }: IRadioQuestionItemProps) => {
+const RadioQuestion = forwardRef<HTMLDivElement, IRadioQuestionItemProps>(
+  ({ question, number, ...props }, ref) => {
     const [selectedValue, setSelectedValue] = useState("0");
+    // console.log(ref);
 
     const haveAnswer = useMemo(() => {
       return question.correct_answer.some(
@@ -48,7 +50,7 @@ const RadioQuestion = memo(
     );
 
     return (
-      <div className={className} {...props}>
+      <div className={className} {...props} ref={ref}>
         <QuestionDirection
           number={number}
           id={question.id}
@@ -64,4 +66,4 @@ const RadioQuestion = memo(
 );
 
 RadioQuestion.displayName = "RadioQuestion";
-export default RadioQuestion;
+export default memo(RadioQuestion);

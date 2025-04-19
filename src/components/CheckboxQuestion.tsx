@@ -1,5 +1,6 @@
 import {
   ComponentPropsWithoutRef,
+  forwardRef,
   memo,
   useCallback,
   useMemo,
@@ -14,8 +15,8 @@ interface ICheckboxQuestionItemProps extends ComponentPropsWithoutRef<"div"> {
   number: number;
 }
 
-const CheckboxQuestion = memo(
-  ({ question, number, ...props }: ICheckboxQuestionItemProps) => {
+const CheckboxQuestion = forwardRef<HTMLDivElement, ICheckboxQuestionItemProps>(
+  ({ question, number, ...props }, ref) => {
     const [selectedValue, setSelectedValue] = useState<boolean[]>([
       false,
       false,
@@ -56,7 +57,7 @@ const CheckboxQuestion = memo(
     );
 
     return (
-      <div className={className} {...props}>
+      <div className={className} {...props} ref={ref}>
         <QuestionDirection
           number={number}
           id={question.id}
@@ -72,4 +73,4 @@ const CheckboxQuestion = memo(
 );
 
 CheckboxQuestion.displayName = "CheckboxQuestion";
-export default CheckboxQuestion;
+export default memo(CheckboxQuestion);
