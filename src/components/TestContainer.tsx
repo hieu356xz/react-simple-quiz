@@ -1,4 +1,10 @@
-import { useEffect } from "react";
+import React, {
+  createRef,
+  RefObject,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import QueryDb from "../data/QueryDb";
 import Question from "../data/Question";
 import RadioQuestion from "./RadioQuestion";
@@ -8,8 +14,15 @@ import { setTestQuestion } from "../redux/TestQuestionSlice";
 import CheckboxQuestion from "./CheckboxQuestion";
 import shuffle from "lodash/shuffle";
 import LoadingView from "./LoadingView";
+import ScrollSpy from "./ScrollSpy";
 
-const TestContainer = () => {
+const TestContainer = ({
+  currentQuestionNumber,
+  setCurrentQuestionNumber,
+}: {
+  currentQuestionNumber: number;
+  setCurrentQuestionNumber: React.Dispatch<React.SetStateAction<number>>;
+}) => {
   const testQuestions = useSelector(
     (state: RootState) => state.testQuestion.questions
   );
@@ -22,6 +35,25 @@ const TestContainer = () => {
   );
   const dispatch = useDispatch();
 
+  // ScrollSpy
+  const questionRefs = useRef<RefObject<HTMLDivElement>[]>([]);
+  const NAVBAR_HEIGHT = 60;
+  const [scrollSpyOffset, setScrollSpyOffset] = useState(-NAVBAR_HEIGHT);
+
+  useEffect(() => {
+    if (window.innerHeight !== 0) {
+      setScrollSpyOffset(-NAVBAR_HEIGHT - window.innerHeight / 4);
+    }
+  }, [window.innerHeight]);
+
+  useEffect(() => {
+    if (questionRefs.current.length === testQuestions.length) return;
+    questionRefs.current = Array(testQuestions.length)
+      .fill(null)
+      .map((_, i) => questionRefs.current[i] || createRef<HTMLDivElement>());
+  }, [testQuestions]);
+
+  // Get test questions
   useEffect(() => {
     if (isTestFininshed) return;
 
@@ -68,7 +100,12 @@ const TestContainer = () => {
     }
   };
 
-  if (!testQuestions || testQuestions.length == 0) {
+  if (
+    !testQuestions ||
+    testQuestions.length == 0 ||
+    !questionRefs.current ||
+    !questionRefs.current.length
+  ) {
     return (
       <div className="TestContainer">
         <LoadingView />
@@ -78,19 +115,29 @@ const TestContainer = () => {
 
   return (
     <div className="TestContainer">
-      {testQuestions.map((question, index) => {
-        return question.question_type === "radio" ? (
-          <RadioQuestion
-            question={question}
-            number={index + 1}
-            key={question.id}></RadioQuestion>
-        ) : (
-          <CheckboxQuestion
-            question={question}
-            number={index + 1}
-            key={question.id}></CheckboxQuestion>
-        );
-      })}
+      <ScrollSpy
+        sectionRefs={questionRefs.current}
+        offset={scrollSpyOffset}
+        currentIndex={currentQuestionNumber}
+        setCurrentIndex={setCurrentQuestionNumber}>
+        {testQuestions.map((question, index) => {
+          return question.question_type === "radio" ? (
+            <RadioQuestion
+              ref={questionRefs.current[index]}
+              question={question}
+              id={`questionNumber_${index + 1}`}
+              number={index + 1}
+              key={question.id}></RadioQuestion>
+          ) : (
+            <CheckboxQuestion
+              ref={questionRefs.current[index]}
+              question={question}
+              id={`questionNumber_${index + 1}`}
+              number={index + 1}
+              key={question.id}></CheckboxQuestion>
+          );
+        })}
+      </ScrollSpy>
     </div>
   );
 };

@@ -43,16 +43,17 @@ const TestPage = () => {
             currentQuestionNumber={currentQuestionNumber}
           />
         ) : (
-          <TestContainer />
+          <TestContainer
+            currentQuestionNumber={currentQuestionNumber}
+            setCurrentQuestionNumber={setCurrentQuestionNumber}
+          />
         )}
         <TestResultPopup hidePopup={hidePopup} setHidePopup={setHidePopup} />
       </div>
-      {showQuestionByPage && (
-        <TestFooter
-          currentQuestionNumber={currentQuestionNumber}
-          setCurrentQuestionNumber={setCurrentQuestionNumber}
-        />
-      )}
+      <TestFooter
+        currentQuestionNumber={currentQuestionNumber}
+        setCurrentQuestionNumber={setCurrentQuestionNumber}
+      />
     </>
   );
 };
