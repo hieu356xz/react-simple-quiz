@@ -25,8 +25,8 @@ const TestFooter = ({
   const { correctAnswers, wrongAnswers } = useSelector(
     (state: RootState) => state.testResult
   );
-  const questionCount = useSelector(
-    (state: RootState) => state.testConfig.questionCount
+  const { questionCount, showQuestionByPage } = useSelector(
+    (state: RootState) => state.testConfig
   );
 
   const maxQuestionCount =
@@ -82,21 +82,52 @@ const TestFooter = ({
   };
 
   const handleQuesionListMenuItemClick = (questionNumber: number) => {
-    setCurrentQuestionNumber(questionNumber);
-    handleQuesionListMenuClose();
+    if (showQuestionByPage) {
+      setCurrentQuestionNumber(questionNumber);
+      handleQuesionListMenuClose();
+    } else {
+      scrollToQuestionNumber(questionNumber);
+    }
   };
 
-  const onNextQuestionBtnClick = () => {
+  const onNextQuestionBtnClick = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
     const nextQuestionNumber = Math.min(
       currentQuestionNumber + 1,
       maxQuestionCount
     );
-    setCurrentQuestionNumber(nextQuestionNumber);
+    /**
+     * Stop focus the button just right before is disabled
+     * to fix scrollTo() from stop working when button is disabled
+     * https://github.com/facebook/react/issues/20770#issuecomment-2085547545
+     */
+    if (currentQuestionNumber >= maxQuestionCount - 1)
+      event.currentTarget.blur();
+
+    if (showQuestionByPage) {
+      setCurrentQuestionNumber(nextQuestionNumber);
+    } else {
+      scrollToQuestionNumber(nextQuestionNumber);
+    }
   };
 
-  const onPreviousQuestionBtnClick = () => {
+  const onPreviousQuestionBtnClick = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    /**
+     * Stop focus the button just right before is disabled
+     * to fix scrollTo() from stop working when button is disabled
+     * https://github.com/facebook/react/issues/20770#issuecomment-2085547545
+     */
+    if (currentQuestionNumber <= 2) event.currentTarget.blur();
+
     const nextQuestionNumber = Math.max(currentQuestionNumber - 1, 1);
-    setCurrentQuestionNumber(nextQuestionNumber);
+    if (showQuestionByPage) {
+      setCurrentQuestionNumber(nextQuestionNumber);
+    } else {
+      scrollToQuestionNumber(nextQuestionNumber);
+    }
   };
 
   return (
@@ -167,6 +198,24 @@ const TestFooter = ({
       </button>
     </div>
   );
+};
+
+const scrollToQuestionNumber = (questionNumber: number, offset: number = 0) => {
+  const questionNode = document.getElementById(
+    `questionNumber_${questionNumber}`
+  );
+  if (!questionNode) return;
+
+  const NAVBAR_HEIGHT = 60;
+  const OFFSET_FROM_TOP = 20;
+
+  const height =
+    questionNode.offsetTop - NAVBAR_HEIGHT - OFFSET_FROM_TOP - offset;
+
+  window.scroll({
+    top: height,
+    behavior: "smooth",
+  });
 };
 
 export default TestFooter;
