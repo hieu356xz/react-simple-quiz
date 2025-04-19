@@ -236,6 +236,47 @@ button {
   cursor: default;
 }
 
+.QuestionNumberIndicatorContainer {
+  width: 212px;
+  overflow: hidden;
+}
+
+.QuestionNumberIndicator {
+  padding: 8px 0;
+  height: inherit;
+  white-space: nowrap;
+  transition: transform 300ms ease;
+}
+
+.QuestionNumberIndicatorItem {
+  width: 32px;
+  height: 32px;
+  margin: 0 4px;
+  color: #e0e0e0;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--blue-color-2);
+  border-radius: 50%;
+  opacity: 0.2;
+}
+
+.QuestionNumberIndicatorItem.fake {
+  visibility: hidden;
+}
+
+.QuestionNumberIndicatorItem.current {
+  height: 40px;
+  width: 40px;
+  opacity: 1;
+}
+
+.QuestionNumberIndicatorItem.neighbour {
+  width: 36px;
+  height: 36px;
+  opacity: 0.6;
+}
+
 @media screen and (max-width: 480px) {
   .NextQuestionBtnText,
   .PreviousQuestionBtnText {

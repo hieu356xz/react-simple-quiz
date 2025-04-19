@@ -4,6 +4,7 @@ import { FaArrowLeft, FaArrowRight, FaBars } from "react-icons/fa6";
 import { useState, MouseEvent, useMemo } from "react";
 import Popover from "@mui/material/Popover";
 import Question from "../data/Question";
+import QuestionNumberIndicator from "./QuestionNumberIndicator";
 
 interface ITestFooterProps {
   currentQuestionNumber: number;
@@ -149,6 +150,11 @@ const TestFooter = ({
           <FaArrowLeft className="icon" />
         </span>
       </button>
+
+      <QuestionNumberIndicator
+        currentIndex={currentQuestionNumber}
+        questionNumbers={questionNumbers}
+      />
 
       <button
         className="NextQuestionBtn"
