@@ -29,6 +29,7 @@ body {
 
   --sidebar-width: min(380px, 100vw);
   --navbar-height: 60px;
+  --footer-height: 56px;
   --test-container-width: 1200px;
 }
 
@@ -169,7 +170,7 @@ button {
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 56px;
+  height: var(--footer-height);
   box-shadow: 0 -2px var(--box-shadow-color);
   z-index: 3;
   gap: 8px;
@@ -464,6 +465,7 @@ button {
   margin-left: auto;
   margin-right: auto;
   width: var(--test-container-width);
+  padding-bottom: var(--footer-height);
 }
 
 .RadioQuestion,
