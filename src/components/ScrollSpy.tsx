@@ -3,7 +3,6 @@ import { ReactNode, RefObject, useEffect } from "react";
 
 interface IScrollSpyProps {
   children: ReactNode;
-  currentIndex: number;
   setCurrentIndex: React.Dispatch<React.SetStateAction<number>>;
   sectionRefs: RefObject<Element>[];
   rootSelector?: string;
@@ -12,7 +11,6 @@ interface IScrollSpyProps {
 
 const ScrollSpy = ({
   children,
-  currentIndex,
   setCurrentIndex,
   sectionRefs,
   rootSelector,

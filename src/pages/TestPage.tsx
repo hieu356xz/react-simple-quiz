@@ -43,10 +43,7 @@ const TestPage = () => {
             currentQuestionNumber={currentQuestionNumber}
           />
         ) : (
-          <TestContainer
-            currentQuestionNumber={currentQuestionNumber}
-            setCurrentQuestionNumber={setCurrentQuestionNumber}
-          />
+          <TestContainer setCurrentQuestionNumber={setCurrentQuestionNumber} />
         )}
         <TestResultPopup hidePopup={hidePopup} setHidePopup={setHidePopup} />
       </div>

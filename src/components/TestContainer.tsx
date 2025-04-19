@@ -17,10 +17,8 @@ import LoadingView from "./LoadingView";
 import ScrollSpy from "./ScrollSpy";
 
 const TestContainer = ({
-  currentQuestionNumber,
   setCurrentQuestionNumber,
 }: {
-  currentQuestionNumber: number;
   setCurrentQuestionNumber: React.Dispatch<React.SetStateAction<number>>;
 }) => {
   const testQuestions = useSelector(
@@ -118,7 +116,6 @@ const TestContainer = ({
       <ScrollSpy
         sectionRefs={questionRefs.current}
         offset={scrollSpyOffset}
-        currentIndex={currentQuestionNumber}
         setCurrentIndex={setCurrentQuestionNumber}>
         {testQuestions.map((question, index) => {
           return question.question_type === "radio" ? (
