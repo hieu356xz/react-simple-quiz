@@ -23,6 +23,10 @@ const SidebarGroupItem = ({ subject }: ISidebarGroupItemProps) => {
   const [isSelected, setIsSelected] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [courseList, setCourseList] = useState<Course[]>([]);
+
+  const className = `SidebarGroupItem ${isSelected ? "selected" : ""} ${
+    isExpanded ? "expanded" : ""
+  }`;
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -58,7 +62,7 @@ const SidebarGroupItem = ({ subject }: ISidebarGroupItemProps) => {
   };
 
   return (
-    <li className={`SidebarGroupItem ${isSelected ? "selected" : ""}`}>
+    <li className={className}>
       <button onClick={onChangeSubjectHanlder}>
         <div className="SidebarGroupItemContainer">
           <span>{subject.name}</span>

@@ -382,7 +382,7 @@ button {
     transform: scaleY(1);
   }
 
-  &.selected .icon {
+  &.expanded .icon {
     transform: rotate(180deg);
   }
 }
