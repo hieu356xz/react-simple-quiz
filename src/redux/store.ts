@@ -9,6 +9,7 @@ import UserAnswerReducer from "./UserAnswerSlice";
 import TestResultReducer from "./TestResultSlice";
 import { useDispatch } from "react-redux";
 import TestConfigReducer from "./TestConfigSlice";
+import testNavigationReducer from "./testNavigationSlice";
 
 const store = configureStore({
   reducer: {
@@ -21,6 +22,7 @@ const store = configureStore({
     userAnswer: UserAnswerReducer,
     testResult: TestResultReducer,
     testConfig: TestConfigReducer,
+    testNavigation: testNavigationReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ serializableCheck: false }),
