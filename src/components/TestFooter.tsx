@@ -145,8 +145,8 @@ const TestFooter = () => {
       <Popover
         // id="QuestionListMenu"
         // MenuListProps={{ "aria-labelledby": "QuestionListShowBtn" }}
-        anchorOrigin={{ vertical: "top", horizontal: "right" }}
-        transformOrigin={{ vertical: "bottom", horizontal: "right" }}
+        anchorOrigin={{ vertical: "top", horizontal: -10 }}
+        transformOrigin={{ vertical: "bottom", horizontal: "left" }}
         anchorEl={anchorEl}
         open={open}
         onClose={handleQuesionListMenuClose}
