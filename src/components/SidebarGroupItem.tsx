@@ -11,28 +11,33 @@ import { setCurrCourse } from "../redux/CurrCourseSlice";
 
 interface ISidebarGroupItemProps {
   subject: Subject;
+  id: number;
+  current: number;
+  select: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const SidebarGroupItem = (props: ISidebarGroupItemProps) => {
+const SidebarGroupItem = ({
+  subject,
+  id,
+  current,
+  select,
+}: ISidebarGroupItemProps) => {
   const currSubject = useSelector(
     (state: RootState) => state.currSubject.subject
   );
   const currCourse = useSelector((state: RootState) => state.currCourse.course);
 
-  const [isItemSelected, setIsItemSelected] = useState(false);
   const [courseList, setCourseList] = useState<Course[]>([]);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    setIsItemSelected(currSubject?.id == props.subject.id);
-  }, [currSubject]);
+  const isSelected = current === id;
 
   useEffect(() => {
     const fetchData = async () => {
       const data = await QueryDb(
         `select *
         from Course
-        where subject_id = ${props.subject.id}`
+        where subject_id = ${subject.id}`
       );
 
       const courseList: Course[] = JSON.parse(data).map(
@@ -47,15 +52,24 @@ const SidebarGroupItem = (props: ISidebarGroupItemProps) => {
   }, []);
 
   const changeSubject = () => {
-    if (currSubject?.id != props.subject.id) dispatch(setCurrCourse(null));
-    dispatch(setCurrSubject(props.subject));
+    if (currSubject?.id != subject.id) dispatch(setCurrCourse(null));
+    dispatch(setCurrSubject(subject));
+  };
+
+  const onClickHandler = () => {
+    if (isSelected) {
+      select(-1);
+    } else {
+      select(id);
+    }
+    changeSubject();
   };
 
   return (
-    <li className={`SidebarGroupItem ${isItemSelected ? "selected" : ""}`}>
-      <button onClick={changeSubject}>
+    <li className={`SidebarGroupItem ${isSelected ? "selected" : ""}`}>
+      <button onClick={onClickHandler}>
         <div className="SidebarGroupItemContainer">
-          <span>{props.subject.name}</span>
+          <span>{subject.name}</span>
           <MdOutlineKeyboardArrowUp
             className="icon"
             style={{ minWidth: "20px", minHeight: "20px" }}
@@ -63,7 +77,7 @@ const SidebarGroupItem = (props: ISidebarGroupItemProps) => {
         </div>
       </button>
 
-      <div className={`SidebarItemsContainer ${isItemSelected ? "show" : ""}`}>
+      <div className={`SidebarItemsContainer ${isSelected ? "show" : ""}`}>
         <ul>
           {courseList.map((course, index) => {
             return (
