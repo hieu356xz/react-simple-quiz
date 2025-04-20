@@ -62,28 +62,23 @@ const CourseInfo = () => {
 
   useEffect(() => {
     const createQuestionCountOptions = () => {
-      const presets = [10, 15, 20, 30, 40, 50, 60, 100, 150];
+      if (!currCourse.course) return;
+
+      const presets = [10, 15, 20, 30, 40, 50, 60, 80, 100, 150];
       const MenuItemList: ReactNode[] = [];
-      let isDefaultValueAdded = false;
+      const defaultValue = currCourse.course.question_per_test;
+
+      // Add default value if not in preset
+      if (!presets.includes(defaultValue)) {
+        presets.push(defaultValue);
+        presets.sort();
+      }
 
       presets.forEach((value) => {
         if (
-          currCourse.course &&
-          value >= currCourse.course?.question_per_test
+          !currCourse.course ||
+          value >= currCourse.course?.questions.length
         ) {
-          if (!isDefaultValueAdded) {
-            const defaultValue = currCourse.course?.question_per_test;
-
-            MenuItemList.push(
-              <MenuItem
-                value={defaultValue}
-                sx={{ fontSize: 14 }}
-                key={defaultValue}>
-                {defaultValue}
-              </MenuItem>
-            );
-            isDefaultValueAdded = true;
-          }
           return;
         }
 
@@ -94,6 +89,7 @@ const CourseInfo = () => {
         );
       });
 
+      // Add all option at the end
       MenuItemList.push(
         <MenuItem value="all" sx={{ fontSize: 14 }} key={"all"}>
           Tất cả
