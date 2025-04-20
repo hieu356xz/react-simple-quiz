@@ -347,6 +347,11 @@ button {
     width: 100%;
     text-align: left;
     box-sizing: border-box;
+    display: block;
+  }
+
+  & .icon {
+    transition: transform 150ms ease;
   }
 
   &.selected > button {
@@ -355,13 +360,12 @@ button {
     border-radius: 12px;
   }
 
-  &.selected span {
-    border-left: 2px solid var(--blue-color-2);
+  &.selected span::before {
+    transform: scaleY(1);
   }
 
   &.selected .icon {
     transform: rotate(180deg);
-    transition: transform 300ms ease;
   }
 }
 
@@ -371,22 +375,28 @@ button {
   align-items: center;
 
   & span {
+    position: relative;
     width: 100%;
     padding: 0px 0px 0px 8px;
-    border-left: 2px solid var(--background-color);
+  }
+
+  & span::before {
+    position: absolute;
+    display: block;
+    left: 0;
+    transform: scaleY(0);
+    height: 100%;
+    transition: transform 150ms ease;
+    content: "";
+    border-left: 2px solid var(--blue-color-2);
   }
 }
 
 .SidebarItemsContainer {
-  display: none;
   font-size: 15px;
-  padding: 8px 10px 0px 10px;
-
-  &.show {
-    display: block;
-  }
 
   & ul {
+    padding: 8px 10px 0px 10px;
     list-style: none;
   }
 

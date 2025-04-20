@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import { setCurrSubject } from "../redux/CurrSubjectSlice";
 import { setCurrCourse } from "../redux/CurrCourseSlice";
+import AnimateHeight from "react-animate-height";
 
 interface ISidebarGroupItemProps {
   subject: Subject;
@@ -77,7 +78,10 @@ const SidebarGroupItem = ({
         </div>
       </button>
 
-      <div className={`SidebarItemsContainer ${isSelected ? "show" : ""}`}>
+      <AnimateHeight
+        height={isSelected ? "auto" : 0}
+        duration={300}
+        className={"SidebarItemsContainer"}>
         <ul>
           {courseList.map((course, index) => {
             return (
@@ -87,7 +91,7 @@ const SidebarGroupItem = ({
             );
           })}
         </ul>
-      </div>
+      </AnimateHeight>
     </li>
   );
 };
