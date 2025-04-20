@@ -33,7 +33,10 @@ const QuestionNumberIndicator = ({
   useEffect(() => {
     if (!defaultItemWidth || !questionListOffset) return;
     if (questionListRef.current && containerRef.current) {
-      const index = currentIndex - 1 + FAKE_ITEM_COUNT;
+      // Set default to 1 if ScrollSpy has not finished initialization
+      const index =
+        (currentIndex !== -1 ? currentIndex : 1) - 1 + FAKE_ITEM_COUNT;
+
       const itemList = questionListRef.current.querySelectorAll(
         ".QuestionNumberIndicatorItem"
       );
