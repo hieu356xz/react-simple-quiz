@@ -98,12 +98,7 @@ const TestContainer = ({
     }
   };
 
-  if (
-    !testQuestions ||
-    testQuestions.length == 0 ||
-    !questionRefs.current ||
-    !questionRefs.current.length
-  ) {
+  if (!testQuestions || testQuestions.length == 0 || !questionRefs.current) {
     return (
       <div className="TestContainer">
         <LoadingView />
