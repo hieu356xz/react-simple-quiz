@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import SidebarGroupItem from "./SidebarGroupItem";
 import QueryDb from "../data/QueryDb";
 import Subject from "../data/Subject";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import LoadingView from "./LoadingView";
+import { toggleSidebar } from "../redux/SidebarOpenSlice";
 
 const Sidebar = () => {
   const isSidebarOpen = useSelector(
@@ -12,6 +13,7 @@ const Sidebar = () => {
   );
   const [selectedItem, setSelectedItem] = useState(0);
   const [subjects, setSubjects] = useState([]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -41,6 +43,9 @@ const Sidebar = () => {
           })}
         </ul>
       )}
+      <div
+        className="SidebarOverlay"
+        onClick={() => dispatch(toggleSidebar())}></div>
     </div>
   );
 };
