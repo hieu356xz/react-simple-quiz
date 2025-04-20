@@ -1,20 +1,13 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import { FaArrowLeft, FaArrowRight, FaBars } from "react-icons/fa6";
 import { useState, MouseEvent, useMemo } from "react";
 import Popover from "@mui/material/Popover";
 import Question from "../data/Question";
 import QuestionNumberIndicator from "./QuestionNumberIndicator";
+import { setCurrentQuestion } from "../redux/testNavigationSlice";
 
-interface ITestFooterProps {
-  currentQuestionNumber: number;
-  setCurrentQuestionNumber: React.Dispatch<React.SetStateAction<number>>;
-}
-
-const TestFooter = ({
-  currentQuestionNumber,
-  setCurrentQuestionNumber,
-}: ITestFooterProps) => {
+const TestFooter = () => {
   const theme = useSelector((state: RootState) => state.theme.theme);
   const userAnswers = useSelector(
     (state: RootState) => state.userAnswer.answers
@@ -28,6 +21,11 @@ const TestFooter = ({
   const { questionCount, showQuestionByPage } = useSelector(
     (state: RootState) => state.testConfig
   );
+  const currentQuestionNumber = useSelector(
+    (state: RootState) => state.testNavigation.currentQuestionNumber
+  );
+
+  const dispatch = useDispatch();
 
   const maxQuestionCount =
     questionCount !== "all" ? parseInt(questionCount) : testQuestions.length;
@@ -83,7 +81,7 @@ const TestFooter = ({
 
   const handleQuesionListMenuItemClick = (questionNumber: number) => {
     if (showQuestionByPage) {
-      setCurrentQuestionNumber(questionNumber);
+      dispatch(setCurrentQuestion(questionNumber));
       handleQuesionListMenuClose();
     } else {
       scrollToQuestionNumber(questionNumber);
@@ -106,7 +104,7 @@ const TestFooter = ({
       event.currentTarget.blur();
 
     if (showQuestionByPage) {
-      setCurrentQuestionNumber(nextQuestionNumber);
+      dispatch(setCurrentQuestion(nextQuestionNumber));
     } else {
       scrollToQuestionNumber(nextQuestionNumber);
     }
@@ -122,11 +120,11 @@ const TestFooter = ({
      */
     if (currentQuestionNumber <= 2) event.currentTarget.blur();
 
-    const nextQuestionNumber = Math.max(currentQuestionNumber - 1, 1);
+    const prevQuestionNumber = Math.max(currentQuestionNumber - 1, 1);
     if (showQuestionByPage) {
-      setCurrentQuestionNumber(nextQuestionNumber);
+      dispatch(setCurrentQuestion(prevQuestionNumber));
     } else {
-      scrollToQuestionNumber(nextQuestionNumber);
+      scrollToQuestionNumber(prevQuestionNumber);
     }
   };
 

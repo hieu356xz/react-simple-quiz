@@ -1,4 +1,4 @@
-import React, {
+import {
   createRef,
   RefObject,
   useEffect,
@@ -15,13 +15,9 @@ import { setTestQuestion } from "../redux/TestQuestionSlice";
 import CheckboxQuestion from "./CheckboxQuestion";
 import shuffle from "lodash/shuffle";
 import LoadingView from "./LoadingView";
-import ScrollSpy from "./ScrollSpy";
+import QuestionScrollSpy from "./QuestionScrollSpy";
 
-const TestContainer = ({
-  setCurrentQuestionNumber,
-}: {
-  setCurrentQuestionNumber: React.Dispatch<React.SetStateAction<number>>;
-}) => {
+const TestContainer = () => {
   const testQuestions = useSelector(
     (state: RootState) => state.testQuestion.questions
   );
@@ -109,10 +105,9 @@ const TestContainer = ({
 
   return (
     <div className="TestContainer">
-      <ScrollSpy
+      <QuestionScrollSpy
         sectionRefs={questionRefs.current}
-        offset={scrollSpyOffset}
-        setCurrentIndex={setCurrentQuestionNumber}>
+        offset={scrollSpyOffset}>
         {testQuestions.map((question, index) => {
           return question.question_type === "radio" ? (
             <RadioQuestion
@@ -130,7 +125,7 @@ const TestContainer = ({
               key={question.id}></CheckboxQuestion>
           );
         })}
-      </ScrollSpy>
+      </QuestionScrollSpy>
     </div>
   );
 };

@@ -9,11 +9,7 @@ import CheckboxQuestion from "./CheckboxQuestion";
 import shuffle from "lodash/shuffle";
 import LoadingView from "./LoadingView";
 
-const TestContainerPaginated = ({
-  currentQuestionNumber,
-}: {
-  currentQuestionNumber: number;
-}) => {
+const TestContainerPaginated = () => {
   const testQuestions = useSelector(
     (state: RootState) => state.testQuestion.questions
   );
@@ -21,6 +17,9 @@ const TestContainerPaginated = ({
     (state: RootState) => state.testResult.isTestFininshed
   );
   const currCourse = useSelector((state: RootState) => state.currCourse.course);
+  const currentQuestionNumber = useSelector(
+    (state: RootState) => state.testNavigation.currentQuestionNumber
+  );
   const { shuffleAnswer, questionCount } = useSelector(
     (state: RootState) => state.testConfig
   );

@@ -1,17 +1,17 @@
 import { useScrollspy } from "@makotot/ghostui";
 import { ReactNode, RefObject, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { setCurrentQuestion } from "../redux/testNavigationSlice";
 
 interface IScrollSpyProps {
   children: ReactNode;
-  setCurrentIndex: React.Dispatch<React.SetStateAction<number>>;
   sectionRefs: RefObject<Element>[];
   rootSelector?: string;
   offset?: number;
 }
 
-const ScrollSpy = ({
+const QuestionScrollSpy = ({
   children,
-  setCurrentIndex,
   sectionRefs,
   rootSelector,
   offset,
@@ -22,11 +22,14 @@ const ScrollSpy = ({
     offset: offset,
   });
 
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    setCurrentIndex(scrollSpy.currentElementIndexInViewport + 1);
+    if (scrollSpy.currentElementIndexInViewport === -1) return;
+    dispatch(setCurrentQuestion(scrollSpy.currentElementIndexInViewport + 1));
   }, [scrollSpy]);
 
-  return children;
+  return <>{children}</>;
 };
 
-export default ScrollSpy;
+export default QuestionScrollSpy;

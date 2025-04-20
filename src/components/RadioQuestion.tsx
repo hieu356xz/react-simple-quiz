@@ -18,7 +18,6 @@ interface IRadioQuestionItemProps extends ComponentPropsWithoutRef<"div"> {
 const RadioQuestion = forwardRef<HTMLDivElement, IRadioQuestionItemProps>(
   ({ question, number, ...props }, ref) => {
     const [selectedValue, setSelectedValue] = useState("0");
-    // console.log(ref);
 
     const haveAnswer = useMemo(() => {
       return question.correct_answer.some(

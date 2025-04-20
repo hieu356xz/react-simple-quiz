@@ -9,7 +9,6 @@ import TestFooter from "../components/TestFooter";
 
 const TestPage = () => {
   const [hidePopup, setHidePopup] = useState(true);
-  const [currentQuestionNumber, setCurrentQuestionNumber] = useState(1);
 
   const isTestFininshed = useSelector(
     (state: RootState) => state.testResult.isTestFininshed
@@ -38,19 +37,10 @@ const TestPage = () => {
     <>
       <TestNavbar setHidePopup={setHidePopup} />
       <div className="Main">
-        {showQuestionByPage ? (
-          <TestContainerPaginated
-            currentQuestionNumber={currentQuestionNumber}
-          />
-        ) : (
-          <TestContainer setCurrentQuestionNumber={setCurrentQuestionNumber} />
-        )}
+        {showQuestionByPage ? <TestContainerPaginated /> : <TestContainer />}
         <TestResultPopup hidePopup={hidePopup} setHidePopup={setHidePopup} />
       </div>
-      <TestFooter
-        currentQuestionNumber={currentQuestionNumber}
-        setCurrentQuestionNumber={setCurrentQuestionNumber}
-      />
+      <TestFooter />
     </>
   );
 };
