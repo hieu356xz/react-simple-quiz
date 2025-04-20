@@ -1,25 +1,38 @@
 import { useScrollspy } from "@makotot/ghostui";
-import { ReactNode, RefObject, useEffect } from "react";
+import {
+  ComponentPropsWithoutRef,
+  ComponentType,
+  ElementType,
+  ReactNode,
+  RefObject,
+  useEffect,
+} from "react";
 import { useDispatch } from "react-redux";
 import { setCurrentQuestion } from "../redux/testNavigationSlice";
 
-interface IScrollSpyProps {
+type QuestionScrollSpyProps<C extends ElementType | ComponentType = "div"> = {
   children: ReactNode;
   sectionRefs: RefObject<Element>[];
   rootSelector?: string;
   offset?: number;
-}
+  as?: C;
+} & Omit<
+  ComponentPropsWithoutRef<C>,
+  "children" | "sectionRefs" | "rootSelector" | "offset" | "as"
+>;
 
-const QuestionScrollSpy = ({
+const QuestionScrollSpy = <C extends ElementType | ComponentType = "div">({
   children,
   sectionRefs,
   rootSelector,
   offset,
-}: IScrollSpyProps) => {
+  as,
+  ...props
+}: QuestionScrollSpyProps<C>) => {
   const scrollSpy = useScrollspy({
-    sectionRefs: sectionRefs,
-    rootSelector: rootSelector,
-    offset: offset,
+    sectionRefs,
+    rootSelector,
+    offset,
   });
 
   const dispatch = useDispatch();
@@ -29,7 +42,8 @@ const QuestionScrollSpy = ({
     dispatch(setCurrentQuestion(scrollSpy.currentElementIndexInViewport + 1));
   }, [scrollSpy]);
 
-  return <>{children}</>;
+  const Component = as || "div";
+  return <Component {...props}>{children}</Component>;
 };
 
 export default QuestionScrollSpy;

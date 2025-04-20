@@ -104,29 +104,29 @@ const TestContainer = () => {
   }
 
   return (
-    <div className="TestContainer">
-      <QuestionScrollSpy
-        sectionRefs={questionRefs.current}
-        offset={scrollSpyOffset}>
-        {testQuestions.map((question, index) => {
-          return question.question_type === "radio" ? (
-            <RadioQuestion
-              ref={questionRefs.current[index]}
-              question={question}
-              id={`questionNumber_${index + 1}`}
-              number={index + 1}
-              key={question.id}></RadioQuestion>
-          ) : (
-            <CheckboxQuestion
-              ref={questionRefs.current[index]}
-              question={question}
-              id={`questionNumber_${index + 1}`}
-              number={index + 1}
-              key={question.id}></CheckboxQuestion>
-          );
-        })}
-      </QuestionScrollSpy>
-    </div>
+    <QuestionScrollSpy
+      as="div"
+      className="TestContainer"
+      sectionRefs={questionRefs.current}
+      offset={scrollSpyOffset}>
+      {testQuestions.map((question, index) => {
+        return question.question_type === "radio" ? (
+          <RadioQuestion
+            ref={questionRefs.current[index]}
+            question={question}
+            id={`questionNumber_${index + 1}`}
+            number={index + 1}
+            key={question.id}></RadioQuestion>
+        ) : (
+          <CheckboxQuestion
+            ref={questionRefs.current[index]}
+            question={question}
+            id={`questionNumber_${index + 1}`}
+            number={index + 1}
+            key={question.id}></CheckboxQuestion>
+        );
+      })}
+    </QuestionScrollSpy>
   );
 };
 
