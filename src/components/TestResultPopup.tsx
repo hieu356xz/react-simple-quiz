@@ -27,6 +27,8 @@ const TestResultPopup = ({
       setTestResultBoxClassName("lowScore");
     } else if (score < 8) {
       setTestResultBoxClassName("mediumScore");
+    } else {
+      setTestResultBoxClassName("");
     }
   }, [isTestFininshed]);
 
