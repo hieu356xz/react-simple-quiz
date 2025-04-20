@@ -126,6 +126,7 @@ const measureWidths = (parent: HTMLElement, containerWidth: number) => {
   testItem.style.position = "absolute";
   testItem.style.top = "0";
   testItem.style.left = "0";
+  testItem.style.transition = "none";
   parent.appendChild(testItem);
 
   // Measure default state
