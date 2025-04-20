@@ -2,6 +2,7 @@ import React, {
   createRef,
   RefObject,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
@@ -44,12 +45,12 @@ const TestContainer = ({
     }
   }, [window.innerHeight]);
 
-  useEffect(() => {
+  useMemo(() => {
     if (questionRefs.current.length === testQuestions.length) return;
     questionRefs.current = Array(testQuestions.length)
       .fill(null)
       .map((_, i) => questionRefs.current[i] || createRef<HTMLDivElement>());
-  }, [testQuestions]);
+  }, [testQuestions.length]);
 
   // Get test questions
   useEffect(() => {
