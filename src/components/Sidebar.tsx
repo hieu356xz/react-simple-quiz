@@ -11,7 +11,6 @@ const Sidebar = () => {
   const isSidebarOpen = useSelector(
     (state: RootState) => state.sidebarOpen.sidebarOpen
   );
-  const [selectedItem, setSelectedItem] = useState(0);
   const [subjects, setSubjects] = useState([]);
   const dispatch = useDispatch();
 
@@ -31,15 +30,7 @@ const Sidebar = () => {
       ) : (
         <ul>
           {subjects.map((subject: Subject, index) => {
-            return (
-              <SidebarGroupItem
-                subject={subject}
-                id={index}
-                current={selectedItem}
-                select={setSelectedItem}
-                key={index}
-              />
-            );
+            return <SidebarGroupItem subject={subject} key={index} />;
           })}
         </ul>
       )}

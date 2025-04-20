@@ -12,26 +12,23 @@ import AnimateHeight from "react-animate-height";
 
 interface ISidebarGroupItemProps {
   subject: Subject;
-  id: number;
-  current: number;
-  select: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const SidebarGroupItem = ({
-  subject,
-  id,
-  current,
-  select,
-}: ISidebarGroupItemProps) => {
+const SidebarGroupItem = ({ subject }: ISidebarGroupItemProps) => {
   const currSubject = useSelector(
     (state: RootState) => state.currSubject.subject
   );
   const currCourse = useSelector((state: RootState) => state.currCourse.course);
 
+  const [isSelected, setIsSelected] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
   const [courseList, setCourseList] = useState<Course[]>([]);
   const dispatch = useDispatch();
 
-  const isSelected = current === id;
+  useEffect(() => {
+    setIsSelected(currSubject?.id === subject.id);
+    setIsExpanded(currSubject?.id === subject.id);
+  }, [currSubject]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -52,23 +49,17 @@ const SidebarGroupItem = ({
     fetchData();
   }, []);
 
-  const changeSubject = () => {
-    if (currSubject?.id != subject.id) dispatch(setCurrCourse(null));
-    dispatch(setCurrSubject(subject));
-  };
+  const onChangeSubjectHanlder = () => {
+    // If current course not in current subject then reset
+    if (currSubject?.id !== subject.id) dispatch(setCurrCourse(null));
 
-  const onClickHandler = () => {
-    if (isSelected) {
-      select(-1);
-    } else {
-      select(id);
-    }
-    changeSubject();
+    dispatch(setCurrSubject(subject));
+    setIsExpanded((prev) => !prev);
   };
 
   return (
     <li className={`SidebarGroupItem ${isSelected ? "selected" : ""}`}>
-      <button onClick={onClickHandler}>
+      <button onClick={onChangeSubjectHanlder}>
         <div className="SidebarGroupItemContainer">
           <span>{subject.name}</span>
           <MdOutlineKeyboardArrowUp
@@ -79,7 +70,7 @@ const SidebarGroupItem = ({
       </button>
 
       <AnimateHeight
-        height={isSelected ? "auto" : 0}
+        height={isExpanded ? "auto" : 0}
         duration={300}
         className={"SidebarItemsContainer"}>
         <ul>
