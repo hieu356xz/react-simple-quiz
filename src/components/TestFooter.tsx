@@ -130,6 +130,10 @@ const TestFooter = ({
     }
   };
 
+  if (!testQuestions || testQuestions.length == 0) {
+    return <div className="Footer"></div>;
+  }
+
   return (
     <div className="Footer">
       <button
