@@ -228,6 +228,7 @@ button {
   font-size: 14px;
   border-radius: 26px;
   transition: color 150ms ease, background-color 150ms ease;
+  white-space: nowrap;
 }
 
 .NextQuestionBtn:disabled,
