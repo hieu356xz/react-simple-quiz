@@ -5,6 +5,7 @@ import RadioQuestion from "./RadioQuestion";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import { setTestQuestion } from "../redux/TestQuestionSlice";
+import { setCurrentQuestion } from "../redux/testNavigationSlice";
 import CheckboxQuestion from "./CheckboxQuestion";
 import shuffle from "lodash/shuffle";
 import LoadingView from "./LoadingView";
@@ -27,6 +28,8 @@ const TestContainerPaginated = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    // Reset current question number on new test
+    if (!isTestFininshed) dispatch(setCurrentQuestion(1));
     if (isTestFininshed) return;
 
     dispatch(setTestQuestion([]));
