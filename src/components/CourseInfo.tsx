@@ -156,16 +156,30 @@ const CourseInfo = () => {
     dispatch(setQuestionCount(value));
   };
 
+  if (
+    semester.loading ||
+    currCourse.loading ||
+    currSubject.loading ||
+    questionWithAnswerCount.loading
+  ) {
+    return (
+      <div className={`CourseInfo ${isSidebarOpen ? "shrink" : ""}`}>
+        <LoadingView />
+      </div>
+    );
+  }
+
+  if (!currSubject.subject || !currCourse.course) {
+    return (
+      <div className={`CourseInfo ${isSidebarOpen ? "shrink" : ""}`}>
+        <span>Hãy chọn một bài để bắt đầu</span>
+      </div>
+    );
+  }
+
   return (
     <div className={`CourseInfo ${isSidebarOpen ? "shrink" : ""}`}>
-      {semester.loading ||
-      currCourse.loading ||
-      currSubject.loading ||
-      questionWithAnswerCount.loading ? (
-        <LoadingView />
-      ) : !(currSubject.subject && currCourse.course) ? (
-        <span>Hãy chọn một bài để bắt đầu</span>
-      ) : (
+      <div className="CourseInfoTable">
         <table>
           <tbody>
             <tr className="CourseInfoTableHeader">
@@ -275,7 +289,7 @@ const CourseInfo = () => {
             </tr>
           </tbody>
         </table>
-      )}
+      </div>
     </div>
   );
 };
