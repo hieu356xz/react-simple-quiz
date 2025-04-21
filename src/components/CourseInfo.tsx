@@ -58,6 +58,10 @@ const CourseInfo = () => {
   );
   // State từ redux không đồng bồ với state cục bộ (?) nên cần tạo state cục bộ
   const [localQuestionCount, setLocalQuestionCount] = useState("");
+  const [questionWithAnswerCount, setQuestionWithAnswerCount] = useState({
+    value: 0,
+    loading: false,
+  });
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -123,6 +127,27 @@ const CourseInfo = () => {
       setLocalQuestionCount(defaultQuestionCount.toString());
       dispatch(setQuestionCount(defaultQuestionCount.toString()));
     }
+
+    const getQuestionWithAnswerCount = async () => {
+      if (!currCourse.course) return;
+      // The first 3 lines in the condition is to check when correct answer is a json array
+      // The last line is to check when correct answer is a number (0 or 1)
+      const data = await QueryDb(`
+        SELECT COUNT(DISTINCT Question.id) as count
+        FROM Question
+        WHERE id IN (${currCourse.course.questions.join(",")})
+        AND (
+          (json_valid(correct_answer)
+          AND json_array_length(correct_answer) > 0
+          AND EXISTS (SELECT 1 FROM json_each(correct_answer) WHERE json_each.value > 0))
+          OR correct_answer != 0
+        )
+      `);
+      const result = JSON.parse(data)[0].count;
+      setQuestionWithAnswerCount({ value: result, loading: false });
+    };
+
+    getQuestionWithAnswerCount();
   }, [currCourse.course]);
 
   const handleQuestionCountChange = (event: SelectChangeEvent) => {
@@ -133,7 +158,10 @@ const CourseInfo = () => {
 
   return (
     <div className={`CourseInfo ${isSidebarOpen ? "shrink" : ""}`}>
-      {semester.loading || currCourse.loading || currSubject.loading ? (
+      {semester.loading ||
+      currCourse.loading ||
+      currSubject.loading ||
+      questionWithAnswerCount.loading ? (
         <LoadingView />
       ) : !(currSubject.subject && currCourse.course) ? (
         <span>Hãy chọn một bài để bắt đầu</span>
@@ -154,6 +182,10 @@ const CourseInfo = () => {
             <tr className="CourseInfoTableRow">
               <th>Số lượng câu hỏi hiện có</th>
               <td>{currCourse.course?.questions.length}</td>
+            </tr>
+            <tr className="CourseInfoTableRow">
+              <th>Số lượng câu hỏi đã có đáp án</th>
+              <td>{questionWithAnswerCount.value}</td>
             </tr>
             <tr className="CourseInfoTableHeader">
               <th colSpan={2}>Tùy chỉnh</th>
