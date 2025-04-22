@@ -280,7 +280,7 @@ button {
   opacity: 0.6;
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 600px) {
   .NextQuestionBtnText,
   .PreviousQuestionBtnText {
     display: none;
@@ -292,7 +292,7 @@ button {
   }
 }
 
-@media screen and (min-width: 480px) {
+@media screen and not (max-width: 600px) {
   .NextQuestionBtnIcon,
   .PreviousQuestionBtnIcon {
     display: none;
