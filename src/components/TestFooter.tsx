@@ -82,10 +82,11 @@ const TestFooter = () => {
   const handleQuesionListMenuItemClick = (questionNumber: number) => {
     if (showQuestionByPage) {
       dispatch(setCurrentQuestion(questionNumber));
-      handleQuesionListMenuClose();
     } else {
       scrollToQuestionNumber(questionNumber);
     }
+
+    handleQuesionListMenuClose();
   };
 
   const onNextQuestionBtnClick = (
