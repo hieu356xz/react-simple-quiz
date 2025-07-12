@@ -75,12 +75,9 @@ const Sidebar = () => {
     }
   };
 
-  const isLoading =
-    !subjects || subjects.length === 0 || !semesters || semesters.length === 0;
-
   return (
     <div className={`Sidebar ${isSidebarOpen ? "" : "hide"}`}>
-      {isLoading ? (
+      {!subjects || !semesters ? (
         <LoadingView />
       ) : (
         <>
@@ -101,11 +98,17 @@ const Sidebar = () => {
               </MenuItem>
             ))}
           </Select>
-          <ul>
-            {subjectsBySemester.map((subject: Subject, index) => {
-              return <SidebarGroupItem subject={subject} key={index} />;
-            })}
-          </ul>
+          {!subjectsBySemester || subjectsBySemester.length === 0 ? (
+            <div className="SidebarEmpty">
+              <p>Không có môn học nào trong học kỳ này</p>
+            </div>
+          ) : (
+            <ul>
+              {subjectsBySemester.map((subject: Subject, index) => {
+                return <SidebarGroupItem subject={subject} key={index} />;
+              })}
+            </ul>
+          )}
         </>
       )}
       <div
