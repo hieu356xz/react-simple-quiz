@@ -104,8 +104,8 @@ const Sidebar = () => {
             </div>
           ) : (
             <ul>
-              {subjectsBySemester.map((subject: Subject, index) => {
-                return <SidebarGroupItem subject={subject} key={index} />;
+              {subjectsBySemester.map((subject: Subject) => {
+                return <SidebarGroupItem subject={subject} key={subject.id} />;
               })}
             </ul>
           )}
