@@ -41,6 +41,14 @@ body {
   line-height: 1.5;
 }
 
+code {
+  font-family: monospace;
+  background-color: var(--question-direction-background-color);
+  border: solid 1px var(--box-border-color);
+  padding: 16px;
+  border-radius: 4px;
+}
+
 button {
   all: unset;
   cursor: pointer;
