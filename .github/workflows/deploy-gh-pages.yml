@@ -26,7 +26,10 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
       - run: npm ci
-      - run: npm run build --if-present
+      - name: Build with npm
+        run: npm run build
+        env:
+          VITE_MODE: github-pages
       - run: npm test --if-present
 
       - name: Deploy with gh-pages
