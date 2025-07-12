@@ -4,6 +4,7 @@ import { RootState, useAppDispatch } from "./redux/store";
 import TestPage from "./pages/TestPage";
 import { loadCurrCourse } from "./redux/CurrCourseSlice";
 import { loadCurrSubject } from "./redux/CurrSubjectSlice";
+import { loadCurrSemester } from "./redux/CurrSemesterSlice";
 import { useEffect } from "react";
 
 const App = () => {
@@ -16,6 +17,7 @@ const App = () => {
   useEffect(() => {
     dispatch(loadCurrSubject());
     dispatch(loadCurrCourse());
+    dispatch(loadCurrSemester());
   }, []);
 
   return (

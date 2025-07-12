@@ -10,6 +10,7 @@ import TestResultReducer from "./TestResultSlice";
 import { useDispatch } from "react-redux";
 import TestConfigReducer from "./TestConfigSlice";
 import testNavigationReducer from "./testNavigationSlice";
+import CurrSemesterReducer from "./CurrSemesterSlice";
 
 const store = configureStore({
   reducer: {
@@ -17,6 +18,7 @@ const store = configureStore({
     sidebarOpen: SidebarOpenReducer,
     currSubject: CurrSubjectReducer,
     currCourse: CurrCourseReducer,
+    currSemester: CurrSemesterReducer,
     activeTest: ActiveTestReducer,
     testQuestion: TestQuestionReducer,
     userAnswer: UserAnswerReducer,

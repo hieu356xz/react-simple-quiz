@@ -295,3 +295,4 @@ const CourseInfo = () => {
 };
 
 export default CourseInfo;
+export { BootstrapInput };
