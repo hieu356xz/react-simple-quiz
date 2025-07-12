@@ -17,7 +17,8 @@ CREATE TABLE Question (
     answer_option nvarchar,
     correct_answer nvarchar,
     cdr int,
-    shuffleable int
+    shuffleable int,
+    group_id int
 );
 
 CREATE TABLE Course (
@@ -33,7 +34,8 @@ CREATE TRIGGER Question_QuestionType_Check_Insert
 BEFORE INSERT ON Question
 BEGIN
     SELECT
-        CASE WHEN NEW.question_type != 'checkbox' AND NEW.question_type != 'radio' THEN
+        CASE WHEN NEW.question_type != 'checkbox' AND NEW.question_type != 'radio'
+        AND NEW.question_type != 'drag_drop' THEN
             RAISE (ABORT, 'question_type can only be checkbox or radio')
         END;
 END;
@@ -42,7 +44,8 @@ CREATE TRIGGER Question_question_type_Check_Update
 BEFORE UPDATE ON Question
 BEGIN
     SELECT
-        CASE WHEN NEW.question_type != 'checkbox' AND NEW.question_type != 'radio' THEN
+        CASE WHEN NEW.question_type != 'checkbox' AND NEW.question_type != 'radio'
+        AND NEW.question_type != 'drag_drop' THEN
             RAISE (ABORT, 'QuestionType can only be checkbox or radio')
         END;
 END;
