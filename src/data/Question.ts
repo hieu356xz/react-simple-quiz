@@ -5,6 +5,7 @@ class Question {
   private _answer_option?: AnswerOption[];
   private _correct_answer?: number[];
   cdr!: number;
+  group_id!: number;
   private _shuffleable?: boolean;
 
   get question_direction(): string {
