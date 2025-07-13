@@ -617,13 +617,42 @@ button {
   }
 }
 
+.DragDropInputQuestions {
+  gap: 16px;
+}
+
+.DragDropInputQuestions.card {
+  gap: 0px;
+
+  .DragDropInputQuestion {
+    grid-template-columns: 1fr;
+    flex-basis: 50%;
+    padding: 10px 12px;
+    gap: 0px;
+    align-items: end;
+
+    & .DragDropInputTextDirection {
+      background-color: transparent;
+      padding-bottom: 4px;
+    }
+
+    & .DragDropInputContainer {
+      border-width: 2px;
+    }
+
+    & .DragDropInputDroppable {
+      min-height: 162px;
+    }
+  }
+}
+
 .DragDropInputQuestion {
   display: grid;
   grid-template-columns: 1fr 33%;
   width: 100%;
   gap: 16px;
   font-size: 15px;
-  align-items: center;
+  align-items: start;
 
   & .DragDropInputTextDirection {
     display: inline-block;
@@ -636,12 +665,10 @@ button {
     display: inline-flex;
     position: relative;
     width: 100%;
-    min-height: 59px;
     border: 1px dashed var(--box-border-color);
     border-radius: 4px;
     justify-content: center;
     align-items: center;
-    margin: 8px;
   }
 
   & .DragDropInputDroppable {

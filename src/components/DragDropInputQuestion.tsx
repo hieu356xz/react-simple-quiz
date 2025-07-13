@@ -12,7 +12,6 @@ interface IDragDropInputQuestionProps {
   question: Question;
   selectedAnswerMap: Record<number, number[]>;
   selectedAnswers: number[];
-  variant?: "card" | "row";
   children?: React.ReactNode[];
 }
 
@@ -20,7 +19,6 @@ const DragDropInputQuestion = ({
   question,
   // selectedAnswerMap,
   selectedAnswers,
-  variant = "row",
   children,
 }: IDragDropInputQuestionProps) => {
   const { setNodeRef, isOver } = useDroppable({
@@ -108,7 +106,7 @@ const DragDropInputQuestion = ({
   }, [selectedAnswers]);
 
   return (
-    <div className={`DragDropInputQuestion ${variant}${answerOptionStatus}`}>
+    <div className={`DragDropInputQuestion${answerOptionStatus}`}>
       <span className="DragDropInputTextDirection">
         {parsedQuestionDirection}
       </span>

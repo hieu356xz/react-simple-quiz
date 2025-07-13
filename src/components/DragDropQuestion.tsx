@@ -136,13 +136,15 @@ const DragDropQuestion = forwardRef<HTMLDivElement, IDragDropQuestionItemProps>(
             </DragDropAnswerOptions>
           </QuestionDirection>
 
-          <div className="DragDropInputQuestions">
+          <div
+            className={`DragDropInputQuestions ${
+              isMultipleChoice ? "card" : "row"
+            }`}>
             {inputQuestions.map((inputQuestion) => (
               <DragDropInputQuestion
                 question={inputQuestion}
                 selectedAnswerMap={seletedAnswerMap}
                 selectedAnswers={seletedAnswerMap[inputQuestion.id] || []}
-                variant={isMultipleChoice ? "card" : "row"}
                 key={inputQuestion.id}>
                 {seletedAnswerMap[inputQuestion.id] &&
                   dragQuestion.answer_option
