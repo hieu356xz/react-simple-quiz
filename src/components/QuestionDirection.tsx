@@ -1,13 +1,14 @@
 import parse from "html-react-parser";
 import DOMPurify from "dompurify";
 import HTMLPaserImageOptions from "../utils";
-import { memo, useMemo } from "react";
+import { memo, useMemo, ReactNode } from "react";
 
 interface IQuestionDirectionProps {
   number: number;
   id: number;
   directionText: string;
   haveAnswer: boolean;
+  children?: ReactNode;
 }
 
 const QuestionDirection = ({
@@ -15,6 +16,7 @@ const QuestionDirection = ({
   id,
   directionText,
   haveAnswer,
+  children,
 }: IQuestionDirectionProps) => {
   const parsedQuestionDirection = useMemo(() => {
     const cleanHTML = DOMPurify.sanitize(directionText, {
@@ -35,6 +37,9 @@ const QuestionDirection = ({
         )}
       </div>
       <div className="QuestionContainerContent">{parsedQuestionDirection}</div>
+      {children && (
+        <div className="QuestionContainerAdditional">{children}</div>
+      )}
     </div>
   );
 };
