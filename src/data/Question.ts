@@ -4,6 +4,7 @@ class Question {
   question_type!: string;
   private _answer_option?: AnswerOption[];
   private _correct_answer?: number[];
+  input_correct_answer?: string;
   cdr!: number;
   group_id!: number;
   private _shuffleable?: boolean;

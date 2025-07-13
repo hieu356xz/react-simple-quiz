@@ -16,6 +16,7 @@ CREATE TABLE Question (
     question_type nvarchar,
     answer_option nvarchar,
     correct_answer nvarchar,
+    input_correct_answer nvarchar,
     cdr int,
     shuffleable int,
     group_id int
