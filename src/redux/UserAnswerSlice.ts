@@ -38,6 +38,16 @@ const UserAnswerSlice = createSlice({
       }
     },
 
+    updateUserAnswer: (
+      state,
+      action: PayloadAction<{ id: number; answers: string[] | number[] }>
+    ) => {
+      const answers = action.payload.answers
+        .map(Number)
+        .filter((x) => !isNaN(x));
+      state.answers[action.payload.id] = answers;
+    },
+
     removeAllUserAnswerById: (state, action: PayloadAction<number>) => {
       if (state.answers[action.payload]) {
         state.answers[action.payload] = [];
@@ -54,6 +64,7 @@ const UserAnswerReducer = UserAnswerSlice.reducer;
 export const {
   addUserAnswer,
   removeUserAnswer,
+  updateUserAnswer,
   removeAllUserAnswerById,
   resetUserAnwser,
 } = UserAnswerSlice.actions;

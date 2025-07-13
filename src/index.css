@@ -19,6 +19,8 @@ body {
   --footer-btn-disabled-background-color: #e5e5e5;
   --footer-btn-disabled-text-color: #cfcfcf;
   --question-list-item-background-color: #a9c1f7;
+  --drag-drop-answer-option-background-color: #e5ecf3;
+  --drag-drop-answer-option-border-color: #dee4ec;
 
   --blue-color-1: #1c76da;
   --blue-color-2: #2d69f0;
@@ -69,6 +71,8 @@ button {
   --footer-btn-disabled-background-color: #2e2e2e;
   --footer-btn-disabled-text-color: #4b4b4b;
   --question-list-item-background-color: #44567c;
+  --drag-drop-answer-option-background-color: #1e2328;
+  --drag-drop-answer-option-border-color: #1e252c;
 }
 
 .App,
@@ -331,7 +335,10 @@ button {
   & ul {
     overflow-y: scroll;
     height: 100%;
-    z-index: inherit;
+  }
+
+  & > * {
+    z-index: 2;
   }
 
   &.hide {
@@ -529,7 +536,8 @@ button {
 }
 
 .RadioQuestion,
-.CheckboxQuestion {
+.CheckboxQuestion,
+.DragDropQuestion {
   display: flex;
   flex-direction: column;
   font-size: 16px;
@@ -595,7 +603,8 @@ button {
   border: none;
 }
 
-.AnswerOptions {
+.AnswerOptions,
+.DragDropInputQuestions {
   display: flex;
   flex-wrap: wrap;
   margin-top: auto;
@@ -606,6 +615,88 @@ button {
     padding-left: 4px;
     padding-right: 4px;
   }
+}
+
+.DragDropInputQuestion {
+  display: grid;
+  grid-template-columns: 1fr 33%;
+  width: 100%;
+  gap: 16px;
+  font-size: 15px;
+  align-items: center;
+
+  & .DragDropInputTextDirection {
+    display: inline-block;
+    background-color: var(--question-direction-background-color);
+    border-radius: 8px;
+    padding: 12px;
+  }
+
+  & .DragDropInputContainer {
+    display: inline-flex;
+    position: relative;
+    width: 100%;
+    min-height: 59px;
+    border: 1px dashed var(--box-border-color);
+    border-radius: 4px;
+    justify-content: center;
+    align-items: center;
+    margin: 8px;
+  }
+
+  & .DragDropInputDroppable {
+    width: 100%;
+    min-height: 57px;
+    padding: 2px;
+
+    & > span {
+      margin: 2px;
+    }
+  }
+
+  & .DragDropInputMessage {
+    position: absolute;
+    opacity: 0.5;
+    padding: 12px;
+  }
+
+  & .DragDropInputContainer::after {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    content: "";
+    border-radius: 4px;
+  }
+
+  &.correct {
+    & .DragDropInputContainer::after {
+      display: block;
+      border: 3px dashed var(--green-color-2);
+    }
+  }
+
+  &.incorrect {
+    & .DragDropInputContainer::after {
+      display: block;
+      border: 3px dashed var(--red-color-1);
+    }
+  }
+
+  &.unanswer {
+    & .DragDropInputContainer::after {
+      display: block;
+      border: 3px dashed var(--yellow-color);
+    }
+  }
+}
+
+.DragDropAnswerOptions {
+  margin-top: 24px;
+  padding: 8px;
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  min-height: 66px;
 }
 
 .RadioAnswerOption,
@@ -627,20 +718,6 @@ button {
     border: 1px solid var(--answer-border-color);
     transition: border-color 300ms ease;
     gap: 16px;
-  }
-
-  .AnswerOptionBullet {
-    font-weight: 700;
-    margin: 22px 12px auto;
-  }
-
-  .AnswerOptionText {
-    font-size: 15px;
-
-    & span {
-      color: inherit !important;
-      background-color: inherit !important;
-    }
   }
 
   @media screen and (max-width: 900px) {
@@ -683,6 +760,32 @@ button {
   }
 }
 
+.AnswerOptionBullet {
+  font-weight: 700;
+  margin: 22px 12px auto;
+}
+
+.AnswerOptionText {
+  font-size: 15px;
+
+  & span {
+    color: inherit !important;
+    background-color: inherit !important;
+  }
+}
+
+.DragDropAnswerOption {
+  display: inline-block;
+  position: relative;
+  padding: 12px;
+  color: var(--blue-color-1);
+  background-color: var(--drag-drop-answer-option-background-color);
+  border: 1px solid var(--drag-drop-answer-option-border-color);
+  border-radius: 4px;
+  z-index: 2;
+  cursor: move;
+}
+
 .TestResultPopup {
   width: 100%;
   height: 100%;
@@ -690,6 +793,7 @@ button {
   align-content: center;
   background-color: #2e2e2e52;
   transition: opacity 300ms ease;
+  z-index: 999;
 
   & .TestResultBox {
     position: relative;

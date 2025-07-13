@@ -8,11 +8,12 @@ import {
 } from "react";
 import QueryDb from "../data/QueryDb";
 import Question from "../data/Question";
-import RadioQuestion from "./RadioQuestion";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import { setTestQuestion } from "../redux/TestQuestionSlice";
+import RadioQuestion from "./RadioQuestion";
 import CheckboxQuestion from "./CheckboxQuestion";
+import DragDropQuestion from "./DragDropQuestion";
 import shuffle from "lodash/shuffle";
 import LoadingView from "./LoadingView";
 import QuestionScrollSpy from "./QuestionScrollSpy";
@@ -95,6 +96,32 @@ const TestContainer = () => {
     }
   };
 
+  const filterQuestions = (questions: Question[]) => {
+    const filteredQuestions: Question[] = [];
+    const groupedQuestions: Record<number, Question[]> = {};
+
+    questions.forEach((question) => {
+      const isGrouping =
+        question.question_type === "grouping" ||
+        (question.question_type === "group-input" && question.group_id) ||
+        (question.question_type === "drag_drop" && question.group_id);
+
+      if (isGrouping) {
+        groupedQuestions[question.group_id] = [
+          ...(groupedQuestions[question.group_id] || []),
+          question,
+        ];
+      } else {
+        filteredQuestions.push(question);
+      }
+    });
+
+    return { filteredQuestions, groupedQuestions };
+  };
+
+  const { filteredQuestions, groupedQuestions } =
+    filterQuestions(testQuestions);
+
   if (!testQuestions || testQuestions.length == 0 || !questionRefs.current) {
     return (
       <div className="TestContainer">
@@ -109,7 +136,7 @@ const TestContainer = () => {
       className="TestContainer"
       sectionRefs={questionRefs.current}
       offset={scrollSpyOffset}>
-      {testQuestions.map((question, index) => {
+      {filteredQuestions.map((question, index) => {
         return question.question_type === "radio" ? (
           <RadioQuestion
             ref={questionRefs.current[index]}
@@ -117,6 +144,14 @@ const TestContainer = () => {
             id={`questionNumber_${index + 1}`}
             number={index + 1}
             key={question.id}></RadioQuestion>
+        ) : question.question_type === "drag_drop" ? (
+          <DragDropQuestion
+            ref={questionRefs.current[index]}
+            dragQuestion={question}
+            inputQuestions={groupedQuestions[question.id] || []}
+            id={`questionNumber_${index + 1}`}
+            number={index + 1}
+            key={question.id}></DragDropQuestion>
         ) : (
           <CheckboxQuestion
             ref={questionRefs.current[index]}
