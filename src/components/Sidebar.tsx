@@ -83,7 +83,9 @@ const Sidebar = () => {
         <>
           <Select
             name="semester"
-            value={currentSemester ? currentSemester.id : -1}
+            value={
+              currentSemester && semesters.length > 0 ? currentSemester.id : -1
+            }
             onChange={handleSemesterChange}
             input={<BootstrapInput />}
             MenuProps={{
