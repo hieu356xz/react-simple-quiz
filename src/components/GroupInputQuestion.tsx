@@ -14,9 +14,9 @@ const GroupInputQuestion = forwardRef<
   IGroupInputQuestionItemProps
 >(({ topicQuestion: dragQuestion, inputQuestions, number, ...props }, ref) => {
   const haveAnswer = useMemo(() => {
-    return inputQuestions.some(
-      (question) => question.input_correct_answer !== null
-    );
+    return !inputQuestions.some((question) => {
+      return question.input_correct_answer === null;
+    });
   }, [inputQuestions]);
 
   const className = haveAnswer
