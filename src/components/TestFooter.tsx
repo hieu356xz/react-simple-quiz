@@ -12,8 +12,8 @@ const TestFooter = () => {
   const userAnswers = useSelector(
     (state: RootState) => state.userAnswer.answers
   );
-  const testQuestions = useSelector(
-    (state: RootState) => state.testQuestion.questions
+  const filteredQuestion = useSelector(
+    (state: RootState) => state.testQuestion.filteredQuestions
   );
   const { correctAnswers, wrongAnswers } = useSelector(
     (state: RootState) => state.testResult
@@ -28,7 +28,7 @@ const TestFooter = () => {
   const dispatch = useDispatch();
 
   const maxQuestionCount =
-    questionCount !== "all" ? parseInt(questionCount) : testQuestions.length;
+    questionCount !== "all" ? parseInt(questionCount) : filteredQuestion.length;
   // console.log(testQuestions);
   const questionNumbers = useMemo(
     () => [...Array(maxQuestionCount).keys()].map((v) => v + 1),
@@ -56,7 +56,7 @@ const TestFooter = () => {
     //   questionType: currentQuestion?.question_type,
     // });
     try {
-      const currentQuestion = testQuestions[questionNumber - 1];
+      const currentQuestion = filteredQuestion[questionNumber - 1];
 
       if (currentQuestion instanceof Question) {
         if (
@@ -129,7 +129,7 @@ const TestFooter = () => {
     }
   };
 
-  if (!testQuestions || testQuestions.length == 0) {
+  if (!filteredQuestion || filteredQuestion.length == 0) {
     return <div className="Footer"></div>;
   }
 

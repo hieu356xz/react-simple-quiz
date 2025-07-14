@@ -7,7 +7,8 @@ import {
   RefObject,
   useEffect,
 } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../redux/store";
 import { setCurrentQuestion } from "../redux/testNavigationSlice";
 
 type QuestionScrollSpyProps<C extends ElementType | ComponentType = "div"> = {
@@ -35,10 +36,17 @@ const QuestionScrollSpy = <C extends ElementType | ComponentType = "div">({
     offset,
   });
 
+  const currentQuestionNumber = useSelector(
+    (state: RootState) => state.testNavigation.currentQuestionNumber
+  );
+
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (scrollSpy.currentElementIndexInViewport === -1) return;
+    const newQuestionNumber = scrollSpy.currentElementIndexInViewport + 1;
+    if (newQuestionNumber === currentQuestionNumber) return;
+
     dispatch(setCurrentQuestion(scrollSpy.currentElementIndexInViewport + 1));
   }, [scrollSpy]);
 
