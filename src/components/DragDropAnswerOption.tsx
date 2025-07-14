@@ -2,7 +2,7 @@ import Question, { AnswerOption } from "../data/Question";
 import { memo, useMemo } from "react";
 import parse from "html-react-parser";
 import DOMPurify from "dompurify";
-import HTMLPaserImageOptions from "../utils";
+import { HTMLPaserImageOptions } from "../utils";
 import { useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
 

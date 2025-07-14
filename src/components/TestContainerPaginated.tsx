@@ -1,18 +1,23 @@
 import { useEffect } from "react";
 import QueryDb from "../data/QueryDb";
 import Question from "../data/Question";
-import RadioQuestion from "./RadioQuestion";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import { setTestQuestion } from "../redux/TestQuestionSlice";
 import { setCurrentQuestion } from "../redux/testNavigationSlice";
+import RadioQuestion from "./RadioQuestion";
 import CheckboxQuestion from "./CheckboxQuestion";
+import DragDropQuestion from "./DragDropQuestion";
+import GroupInputQuestion from "./GroupInputQuestion";
 import shuffle from "lodash/shuffle";
 import LoadingView from "./LoadingView";
 
 const TestContainerPaginated = () => {
-  const testQuestions = useSelector(
-    (state: RootState) => state.testQuestion.questions
+  const filteredQuestions = useSelector(
+    (state: RootState) => state.testQuestion.filteredQuestions
+  );
+  const groupedQuestions = useSelector(
+    (state: RootState) => state.testQuestion.groupedQuestions
   );
   const isTestFininshed = useSelector(
     (state: RootState) => state.testResult.isTestFininshed
@@ -75,7 +80,7 @@ const TestContainerPaginated = () => {
     }
   };
 
-  if (!testQuestions || testQuestions.length == 0) {
+  if (!filteredQuestions || filteredQuestions.length == 0) {
     return (
       <div className="TestContainer">
         <LoadingView />
@@ -85,7 +90,7 @@ const TestContainerPaginated = () => {
 
   return (
     <div className="TestContainer TestContainerPaginated">
-      {testQuestions.map((question, index) => {
+      {filteredQuestions.map((question, index) => {
         return question.question_type === "radio" ? (
           <div
             className="RadioQuestionWrapper"
@@ -96,6 +101,30 @@ const TestContainerPaginated = () => {
             <RadioQuestion
               question={question}
               number={index + 1}></RadioQuestion>
+          </div>
+        ) : question.question_type === "drag_drop" ? (
+          <div
+            className="DragDropQuestionWrapper"
+            style={
+              currentQuestionNumber !== index + 1 ? { display: "none" } : {}
+            }
+            key={question.id}>
+            <DragDropQuestion
+              dragQuestion={question}
+              inputQuestions={groupedQuestions[question.id] || []}
+              number={index + 1}></DragDropQuestion>
+          </div>
+        ) : question.question_type === "group-input" ? (
+          <div
+            className="GroupInputQuestionWrapper"
+            style={
+              currentQuestionNumber !== index + 1 ? { display: "none" } : {}
+            }
+            key={question.id}>
+            <GroupInputQuestion
+              topicQuestion={question}
+              inputQuestions={groupedQuestions[question.id] || []}
+              number={index + 1}></GroupInputQuestion>
           </div>
         ) : (
           <div

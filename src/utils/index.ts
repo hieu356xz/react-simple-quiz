@@ -1,4 +1,5 @@
 import { HTMLReactParserOptions, Element } from "html-react-parser";
+import Question from "../data/Question";
 
 const HTMLPaserImageOptions: HTMLReactParserOptions = {
   replace(domNode) {
@@ -11,4 +12,27 @@ const HTMLPaserImageOptions: HTMLReactParserOptions = {
   },
 };
 
-export default HTMLPaserImageOptions;
+const questionFilter = (questions: Question[]) => {
+  const filteredQuestions: Question[] = [];
+  const groupedQuestions: Record<number, Question[]> = {};
+
+  questions.forEach((question) => {
+    const isGrouping =
+      question.question_type === "grouping" ||
+      (question.question_type === "group-input" && question.group_id) ||
+      (question.question_type === "drag_drop" && question.group_id);
+
+    if (isGrouping) {
+      groupedQuestions[question.group_id] = [
+        ...(groupedQuestions[question.group_id] || []),
+        question,
+      ];
+    } else {
+      filteredQuestions.push(question);
+    }
+  });
+
+  return { filteredQuestions, groupedQuestions };
+};
+
+export { HTMLPaserImageOptions, questionFilter };

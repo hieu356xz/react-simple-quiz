@@ -5,7 +5,7 @@ import { RootState } from "../redux/store";
 import { useEffect, useMemo, useState } from "react";
 import parse from "html-react-parser";
 import DOMPurify from "dompurify";
-import HTMLPaserImageOptions from "../utils";
+import { HTMLPaserImageOptions } from "../utils";
 import { useDroppable } from "@dnd-kit/core";
 
 interface IDragDropInputQuestionProps {

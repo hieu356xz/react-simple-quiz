@@ -1,6 +1,6 @@
 import parse from "html-react-parser";
 import DOMPurify from "dompurify";
-import HTMLPaserImageOptions from "../utils";
+import { HTMLPaserImageOptions } from "../utils";
 import { memo, useMemo, ReactNode } from "react";
 
 interface IQuestionDirectionProps {

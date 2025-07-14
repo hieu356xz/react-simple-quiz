@@ -20,8 +20,11 @@ import LoadingView from "./LoadingView";
 import QuestionScrollSpy from "./QuestionScrollSpy";
 
 const TestContainer = () => {
-  const testQuestions = useSelector(
-    (state: RootState) => state.testQuestion.questions
+  const filteredQuestions = useSelector(
+    (state: RootState) => state.testQuestion.filteredQuestions
+  );
+  const groupedQuestions = useSelector(
+    (state: RootState) => state.testQuestion.groupedQuestions
   );
   const isTestFininshed = useSelector(
     (state: RootState) => state.testResult.isTestFininshed
@@ -44,11 +47,11 @@ const TestContainer = () => {
   }, [window.innerHeight]);
 
   useMemo(() => {
-    if (questionRefs.current.length === testQuestions.length) return;
-    questionRefs.current = Array(testQuestions.length)
+    if (questionRefs.current.length === filteredQuestions.length) return;
+    questionRefs.current = Array(filteredQuestions.length)
       .fill(null)
       .map((_, i) => questionRefs.current[i] || createRef<HTMLDivElement>());
-  }, [testQuestions.length]);
+  }, [filteredQuestions.length]);
 
   // Get test questions
   useEffect(() => {
@@ -97,33 +100,11 @@ const TestContainer = () => {
     }
   };
 
-  const filterQuestions = (questions: Question[]) => {
-    const filteredQuestions: Question[] = [];
-    const groupedQuestions: Record<number, Question[]> = {};
-
-    questions.forEach((question) => {
-      const isGrouping =
-        question.question_type === "grouping" ||
-        (question.question_type === "group-input" && question.group_id) ||
-        (question.question_type === "drag_drop" && question.group_id);
-
-      if (isGrouping) {
-        groupedQuestions[question.group_id] = [
-          ...(groupedQuestions[question.group_id] || []),
-          question,
-        ];
-      } else {
-        filteredQuestions.push(question);
-      }
-    });
-
-    return { filteredQuestions, groupedQuestions };
-  };
-
-  const { filteredQuestions, groupedQuestions } =
-    filterQuestions(testQuestions);
-
-  if (!testQuestions || testQuestions.length == 0 || !questionRefs.current) {
+  if (
+    !filteredQuestions ||
+    filteredQuestions.length == 0 ||
+    !questionRefs.current
+  ) {
     return (
       <div className="TestContainer">
         <LoadingView />
