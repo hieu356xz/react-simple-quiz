@@ -2,6 +2,7 @@ import { ReactNode, useEffect, useState } from "react";
 import { FiEdit } from "react-icons/fi";
 import QueryDb from "../data/QueryDb";
 import Semester from "../data/Semester";
+import Question from "../data/Question";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import { toggleActiveTest } from "../redux/ActiveTestSlice";
@@ -18,6 +19,7 @@ import {
   toggleShowQuestionByPage,
   toggleShuffleAnswer,
 } from "../redux/TestConfigSlice";
+import { questionFilter } from "../utils";
 
 const BootstrapInput = styled(OutlinedInput)(() => ({
   "& .MuiInputBase-input": {
@@ -58,7 +60,11 @@ const CourseInfo = () => {
   );
   // State từ redux không đồng bồ với state cục bộ (?) nên cần tạo state cục bộ
   const [localQuestionCount, setLocalQuestionCount] = useState("");
-  const [questionWithAnswerCount, setQuestionWithAnswerCount] = useState({
+  const [questionsHavingAnswerCount, setQuestionsHavingAnswerCount] = useState({
+    value: 0,
+    loading: false,
+  });
+  const [totalQuestionCount, setTotalQuestionCount] = useState({
     value: 0,
     loading: false,
   });
@@ -128,26 +134,56 @@ const CourseInfo = () => {
       dispatch(setQuestionCount(defaultQuestionCount.toString()));
     }
 
-    const getQuestionWithAnswerCount = async () => {
+    const getQuestions = async () => {
       if (!currCourse.course) return;
-      // The first 3 lines in the condition is to check when correct answer is a json array
-      // The last line is to check when correct answer is a number (0 or 1)
       const data = await QueryDb(`
-        SELECT COUNT(DISTINCT Question.id) as count
+        SELECT *
         FROM Question
         WHERE id IN (${currCourse.course.questions.join(",")})
-        AND (
-          (json_valid(correct_answer)
-          AND json_array_length(correct_answer) > 0
-          AND EXISTS (SELECT 1 FROM json_each(correct_answer) WHERE json_each.value > 0))
-          OR correct_answer != 0
-        )
       `);
-      const result = JSON.parse(data)[0].count;
-      setQuestionWithAnswerCount({ value: result, loading: false });
+      const questions: Question[] = JSON.parse(data).map(
+        (question: Question) => new Question(question)
+      );
+
+      const { filteredQuestions, groupedQuestions } = questionFilter(questions);
+      const totalQuestionCount = filteredQuestions.length;
+
+      // Count total questions having answers
+      let questionsHavingAnswerCount = filteredQuestions.filter(
+        (question) =>
+          !question.correct_answer.some((x) => x <= 0) &&
+          (question.question_type === "radio" ||
+            question.question_type === "checkbox")
+      ).length;
+
+      for (const key in groupedQuestions) {
+        if (groupedQuestions.hasOwnProperty(key)) {
+          let haveAnswer = true;
+          groupedQuestions[key].forEach((question) => {
+            if (question.question_type !== "group-input") {
+              if (question.correct_answer.some((x) => x <= 0)) {
+                haveAnswer = false;
+              }
+            } else {
+              if (!question.input_correct_answer) {
+                haveAnswer = false;
+              }
+            }
+          });
+          if (haveAnswer) {
+            questionsHavingAnswerCount++;
+          }
+        }
+      }
+
+      setQuestionsHavingAnswerCount({
+        value: questionsHavingAnswerCount,
+        loading: false,
+      });
+      setTotalQuestionCount({ value: totalQuestionCount, loading: false });
     };
 
-    getQuestionWithAnswerCount();
+    getQuestions();
   }, [currCourse.course]);
 
   const handleQuestionCountChange = (event: SelectChangeEvent) => {
@@ -160,7 +196,8 @@ const CourseInfo = () => {
     semester.loading ||
     currCourse.loading ||
     currSubject.loading ||
-    questionWithAnswerCount.loading
+    questionsHavingAnswerCount.loading ||
+    totalQuestionCount.loading
   ) {
     return (
       <div className={`CourseInfo ${isSidebarOpen ? "shrink" : ""}`}>
@@ -195,11 +232,11 @@ const CourseInfo = () => {
             </tr>
             <tr className="CourseInfoTableRow">
               <th>Số lượng câu hỏi hiện có</th>
-              <td>{currCourse.course?.questions.length}</td>
+              <td>{totalQuestionCount.value}</td>
             </tr>
             <tr className="CourseInfoTableRow">
               <th>Số lượng câu hỏi đã có đáp án</th>
-              <td>{questionWithAnswerCount.value}</td>
+              <td>{questionsHavingAnswerCount.value}</td>
             </tr>
             <tr className="CourseInfoTableHeader">
               <th colSpan={2}>Tùy chỉnh</th>
