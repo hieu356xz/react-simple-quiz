@@ -127,7 +127,7 @@ const DragDropQuestion = forwardRef<HTMLDivElement, IDragDropQuestionItemProps>(
             id={dragQuestion.id}
             directionText={dragQuestion.question_direction}
             haveAnswer={haveAnswer}>
-            <DragDropAnswerOptions id={dragQuestion.id}>
+            <DragDropAnswerOptions questionId={dragQuestion.id}>
               {dragQuestion.answer_option
                 .filter((option) =>
                   seletedAnswerMap[dragQuestion.id].includes(Number(option.id))
@@ -140,10 +140,10 @@ const DragDropQuestion = forwardRef<HTMLDivElement, IDragDropQuestionItemProps>(
             className={`DragDropInputQuestions ${
               isMultipleChoice ? "card" : "row"
             }`}>
-            {inputQuestions.map((inputQuestion) => (
+            {inputQuestions.map((inputQuestion, index) => (
               <DragDropInputQuestion
                 question={inputQuestion}
-                selectedAnswerMap={seletedAnswerMap}
+                index={isMultipleChoice ? index + 1 : undefined}
                 selectedAnswers={seletedAnswerMap[inputQuestion.id] || []}
                 key={inputQuestion.id}>
                 {seletedAnswerMap[inputQuestion.id] &&
@@ -165,15 +165,15 @@ const DragDropQuestion = forwardRef<HTMLDivElement, IDragDropQuestionItemProps>(
 
 interface IDragDropAnswerOptionsProps {
   children: ReactNode[];
-  id: number;
+  questionId: number;
 }
 
 const DragDropAnswerOptions = ({
   children,
-  id,
+  questionId,
 }: IDragDropAnswerOptionsProps) => {
   const { setNodeRef } = useDroppable({
-    id: id,
+    id: questionId,
   });
 
   return (

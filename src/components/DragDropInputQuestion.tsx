@@ -10,14 +10,14 @@ import { useDroppable } from "@dnd-kit/core";
 
 interface IDragDropInputQuestionProps {
   question: Question;
-  selectedAnswerMap: Record<number, number[]>;
+  index?: number;
   selectedAnswers: number[];
   children?: React.ReactNode[];
 }
 
 const DragDropInputQuestion = ({
   question,
-  // selectedAnswerMap,
+  index,
   selectedAnswers,
   children,
 }: IDragDropInputQuestionProps) => {
@@ -108,7 +108,9 @@ const DragDropInputQuestion = ({
   return (
     <div className={`DragDropInputQuestion${answerOptionStatus}`}>
       <span className="DragDropInputTextDirection">
-        {parsedQuestionDirection}
+        {index
+          ? `${index}) ${parsedQuestionDirection}`
+          : parsedQuestionDirection}
       </span>
       <span className="DragDropInputContainer">
         <div className="DragDropInputDroppable" ref={setNodeRef}>
