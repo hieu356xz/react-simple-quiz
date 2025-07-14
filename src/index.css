@@ -668,13 +668,14 @@ input {
   width: 100%;
   gap: 16px;
   font-size: 15px;
-  align-items: start;
+  align-items: center;
 
   & .DragDropInputTextDirection {
     display: inline-block;
     background-color: var(--question-direction-background-color);
     border-radius: 8px;
     padding: 12px;
+    font-weight: 500;
   }
 
   & .DragDropInputContainer {
@@ -738,12 +739,14 @@ input {
   flex-direction: column;
   flex-basis: 50%;
   gap: 8px;
+  font-size: 15px;
   padding: 20px 12px;
 
   & .GroupInputInputTextDirection {
     display: block;
     width: 100%;
     padding: 2px;
+    font-weight: 500;
   }
 
   & .GroupInputInputContainer > input {
