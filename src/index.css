@@ -39,7 +39,7 @@ code {
   font-family: monospace;
   background-color: var(--question-direction-background-color);
   border: solid 1px var(--box-border-color);
-  padding: 16px;
+  padding: 4px;
   border-radius: 4px;
 }
 
@@ -804,6 +804,10 @@ input {
     border: 1px solid var(--answer-border-color);
     transition: border-color 300ms ease;
     gap: 16px;
+  }
+
+  & code {
+    padding: 16px;
   }
 
   @media screen and (max-width: 900px) {
