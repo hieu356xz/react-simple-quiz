@@ -24,8 +24,11 @@ const TestNavbar = ({ setHidePopup }: ITestNavbarProps) => {
   const currSubject = useSelector(
     (state: RootState) => state.currSubject.subject
   );
-  const testQuestions = useSelector(
-    (state: RootState) => state.testQuestion.questions
+  const filteredQuestions = useSelector(
+    (state: RootState) => state.testQuestion.filteredQuestions
+  );
+  const groupedQuestions = useSelector(
+    (state: RootState) => state.testQuestion.groupedQuestions
   );
   const testResult = useSelector((state: RootState) => state.testResult);
   const dispatch = useDispatch();
@@ -52,29 +55,91 @@ const TestNavbar = ({ setHidePopup }: ITestNavbarProps) => {
     dispatch(resetUserAnwser());
   };
 
+  const compareAnswers = (
+    userAnswer: number[] | string,
+    correctAnswer: number[] | string
+  ) => {
+    if (Array.isArray(userAnswer) && Array.isArray(correctAnswer)) {
+      return (
+        JSON.stringify(userAnswer.sort()) ===
+        JSON.stringify(correctAnswer.sort())
+      );
+    } else if (
+      typeof userAnswer === "string" &&
+      typeof correctAnswer === "string"
+    ) {
+      return userAnswer.toLowerCase() === correctAnswer.toLowerCase();
+    }
+    return false; // Fallback for unexpected types
+  };
+
   const onSubmitTest = () => {
     const state = store.getState();
     const userAnswers = state.userAnswer.answers;
+    const inputUserAnswers = state.userAnswer.input_answers;
     let correctAnswersCount = 0;
 
-    testQuestions.forEach((question) => {
-      const correctAnswerStringify = JSON.stringify(
-        question.correct_answer.sort()
-      );
-      const userAnswerStringify = JSON.stringify(
-        // Copy and sort array using spread operator because state is immutatable
-        userAnswers[question.id] && [...userAnswers[question.id]].sort()
-      );
+    filteredQuestions.forEach((question) => {
+      // Handle grouped questions
+      if (groupedQuestions[question.id]) {
+        let isCorrect = true;
+        groupedQuestions[question.id].forEach((q) => {
+          if (q.question_type !== "group-input") {
+            // Handle other question types
+            const cloneUserAnswer = userAnswers[q.id] || [];
+            if (!compareAnswers(cloneUserAnswer, q.correct_answer)) {
+              isCorrect = false;
+            }
+          } else {
+            // Handle group-input question type
+            const inputUserAnswer = inputUserAnswers[q.id] || null;
+            if (!inputUserAnswer || !q.input_correct_answer) {
+              isCorrect = false;
+            } else {
+              if (!compareAnswers(inputUserAnswer, q.input_correct_answer)) {
+                isCorrect = false;
+              }
+            }
+          }
+        });
 
-      if (correctAnswerStringify === userAnswerStringify) {
-        correctAnswersCount++;
-        dispatch(addCorrectAnswer(question.id));
+        if (isCorrect) {
+          correctAnswersCount++;
+          dispatch(addCorrectAnswer(question.id));
+        } else {
+          dispatch(addWrongAnswer(question.id));
+        }
       } else {
-        dispatch(addWrongAnswer(question.id));
+        // Handle single questions
+        let isCorrect = true;
+        if (question.question_type !== "group-input") {
+          const cloneUserAnswer = userAnswers[question.id] || [];
+          if (!compareAnswers(cloneUserAnswer, question.correct_answer)) {
+            isCorrect = false;
+          }
+        } else {
+          const inputUserAnswer = inputUserAnswers[question.id] || null;
+          if (!inputUserAnswer || !question.input_correct_answer) {
+            isCorrect = false;
+          } else {
+            if (
+              !compareAnswers(inputUserAnswer, question.input_correct_answer)
+            ) {
+              isCorrect = false;
+            }
+          }
+        }
+
+        if (isCorrect) {
+          correctAnswersCount++;
+          dispatch(addCorrectAnswer(question.id));
+        } else {
+          dispatch(addWrongAnswer(question.id));
+        }
       }
 
       const score = parseFloat(
-        ((correctAnswersCount / testQuestions.length) * 10).toFixed(2)
+        ((correctAnswersCount / filteredQuestions.length) * 10).toFixed(2)
       );
       dispatch(setScore(score));
     });
@@ -110,7 +175,7 @@ const TestNavbar = ({ setHidePopup }: ITestNavbarProps) => {
                   <div>Điểm: {testResult.score}</div>
                   <div>
                     Kết quả: {testResult.correctAnswers.length}/
-                    {testQuestions.length}
+                    {filteredQuestions.length}
                   </div>
                 </button>
               </NavbarItem>

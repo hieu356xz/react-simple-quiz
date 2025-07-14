@@ -14,8 +14,8 @@ const TestResultPopup = ({
   const { score, isTestFininshed, correctAnswers } = useSelector(
     (state: RootState) => state.testResult
   );
-  const testQuestions = useSelector(
-    (state: RootState) => state.testQuestion.questions
+  const filteredQuestion = useSelector(
+    (state: RootState) => state.testQuestion.filteredQuestions
   );
 
   const [testResultBoxClassName, setTestResultBoxClassName] = useState("");
@@ -39,7 +39,8 @@ const TestResultPopup = ({
           <h1>Kết quả</h1>
           <p>Điểm của bạn: {score}</p>
           <p>
-            Số câu trả lời đúng: {correctAnswers.length}/{testQuestions.length}
+            Số câu trả lời đúng: {correctAnswers.length}/
+            {filteredQuestion.length}
           </p>
           <button onClick={() => setHidePopup(true)}>Đóng</button>
         </div>
