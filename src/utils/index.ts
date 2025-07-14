@@ -18,7 +18,7 @@ const questionFilter = (questions: Question[]) => {
 
   questions.forEach((question) => {
     const isGrouping =
-      question.question_type === "grouping" ||
+      (question.question_type === "grouping" && question.group_id) ||
       (question.question_type === "group-input" && question.group_id) ||
       (question.question_type === "drag_drop" && question.group_id);
 

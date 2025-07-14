@@ -126,7 +126,8 @@ const TestContainer = () => {
             id={`questionNumber_${index + 1}`}
             number={index + 1}
             key={question.id}></RadioQuestion>
-        ) : question.question_type === "drag_drop" ? (
+        ) : question.question_type === "drag_drop" ||
+          question.question_type === "grouping" ? (
           <DragDropQuestion
             ref={questionRefs.current[index]}
             dragQuestion={question}
