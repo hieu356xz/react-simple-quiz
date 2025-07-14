@@ -566,8 +566,12 @@ input {
     transition: color 150ms ease, background-color 150ms ease;
 
     & .QuestionContainerContent {
-      color: inherit !important;
-      background-color: inherit !important;
+      span,
+      p,
+      div {
+        background-color: inherit !important;
+        color: inherit !important;
+      }
     }
   }
 
@@ -791,6 +795,7 @@ input {
   flex-basis: 50%;
   align-items: start;
   padding: 10px 24px 10px 0px;
+  font-size: 15px;
   gap: 8px;
 
   & label {
@@ -855,12 +860,14 @@ input {
   margin: 22px 12px auto;
 }
 
-.AnswerOptionText {
-  font-size: 15px;
-
-  & span {
-    color: inherit !important;
+.AnswerOptionText,
+.GroupInputInputTextDirection,
+.DragDropInputTextDirection {
+  span,
+  p,
+  div {
     background-color: inherit !important;
+    color: inherit !important;
   }
 }
 
