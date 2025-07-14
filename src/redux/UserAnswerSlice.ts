@@ -1,11 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface AnswersState {
-  [key: number]: number[];
+interface UserAnswerSlice {
+  answers: Record<number, number[]>;
+  input_answers: Record<number, string | null>;
 }
 
-const initialState: { answers: AnswersState } = {
+const initialState: UserAnswerSlice = {
   answers: {},
+  input_answers: {},
 };
 
 const UserAnswerSlice = createSlice({
@@ -48,14 +50,31 @@ const UserAnswerSlice = createSlice({
       state.answers[action.payload.id] = answers;
     },
 
+    setInputAnswer: (
+      state,
+      action: PayloadAction<{ id: number; answer: string | null }>
+    ) => {
+      state.input_answers[action.payload.id] = action.payload.answer;
+    },
+
+    removeInputAnswer: (state, action: PayloadAction<number>) => {
+      if (state.input_answers[action.payload]) {
+        delete state.input_answers[action.payload];
+      }
+    },
+
     removeAllUserAnswerById: (state, action: PayloadAction<number>) => {
       if (state.answers[action.payload]) {
         state.answers[action.payload] = [];
+      }
+      if (state.input_answers[action.payload]) {
+        delete state.input_answers[action.payload];
       }
     },
 
     resetUserAnwser: (state) => {
       state.answers = {};
+      state.input_answers = {};
     },
   },
 });
@@ -65,6 +84,8 @@ export const {
   addUserAnswer,
   removeUserAnswer,
   updateUserAnswer,
+  setInputAnswer,
+  removeInputAnswer,
   removeAllUserAnswerById,
   resetUserAnwser,
 } = UserAnswerSlice.actions;
