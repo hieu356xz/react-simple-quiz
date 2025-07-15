@@ -36,11 +36,15 @@ body {
 }
 
 code {
+  display: inline-block;
   font-family: monospace;
   background-color: var(--question-direction-background-color);
   border: solid 1px var(--box-border-color);
   padding: 4px;
   border-radius: 4px;
+  white-space: normal;
+  word-wrap: break-word;
+  word-break: break-all;
 }
 
 button {
