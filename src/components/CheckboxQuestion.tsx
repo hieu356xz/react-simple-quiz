@@ -6,6 +6,7 @@ import {
   useMemo,
   useState,
 } from "react";
+import { BsInfoCircleFill } from "react-icons/bs";
 import Question, { AnswerOption } from "../data/Question";
 import CheckboxAnswerOption from "./CheckboxAnswerOption";
 import QuestionDirection from "./QuestionDirection";
@@ -25,9 +26,7 @@ const CheckboxQuestion = forwardRef<HTMLDivElement, ICheckboxQuestionItemProps>(
     ]);
 
     const haveAnswer = useMemo(() => {
-      return question.correct_answer.some(
-        (x) => x > -1
-      );
+      return question.correct_answer.some((x) => x > -1);
     }, [question.correct_answer]);
 
     const className = haveAnswer
@@ -62,8 +61,12 @@ const CheckboxQuestion = forwardRef<HTMLDivElement, ICheckboxQuestionItemProps>(
           number={number}
           id={question.id}
           directionText={question.question_direction}
-          haveAnswer={haveAnswer}></QuestionDirection>
-
+          haveAnswer={haveAnswer}>
+          <span className="NumberCorrectAnswer">
+            <BsInfoCircleFill className="NumberCorrectAnswerIcon" />
+            Sinh viên chọn {question.number_answer_correct} phương án đúng nhất
+          </span>
+        </QuestionDirection>
         <div className="AnswerOptions">
           {question.answer_option.map(renderAnswerOption)}
         </div>

@@ -617,11 +617,42 @@ input {
   }
 }
 
+.CheckboxQuestion {
+  & .NumberCorrectAnswer {
+    display: inline-flex;
+    font-size: 14px;
+    margin-top: 8px;
+    background-color: #fff3cd;
+    color: #7c5e02;
+    padding: 6px 12px;
+    border-radius: 16px;
+    gap: 6px;
+    line-height: 1.4;
+  }
+
+  & .NumberCorrectAnswerIcon {
+    color: #ef5d29;
+    vertical-align: middle;
+    height: 18px;
+    width: 18px;
+  }
+}
+
+[data-theme="dark"] {
+  & .CheckboxQuestion {
+    & .NumberCorrectAnswer {
+      background-color: #706526;
+      color: #fff7df;
+    }
+  }
+}
+
 .TestContainerPaginated {
   .RadioQuestion,
   .CheckboxQuestion,
   .DragDropQuestion,
-  .GroupInputQuestion {
+  .GroupInputQuestion,
+  .GroupRadioQuestion {
     border: none;
   }
 }
