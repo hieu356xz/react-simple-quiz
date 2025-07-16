@@ -96,21 +96,19 @@ const GroupRadioAnswerOption = memo(
     };
 
     return (
-      <div className={`GroupRadioAnswerOption${answerOptionStatus}`}>
-        <label>
-          <Radio
-            name={`question_${question.id}`}
-            checked={selectedValue === answerOption.id}
-            value={answerOption.id}
-            onChange={onInputChangeHandler}
-            sx={{
-              color: "var(--secondary-text-color)",
-              padding: "8px",
-              margin: "-8px",
-            }}></Radio>
-          <span className="AnswerOptionText">{answerOptionText}</span>
-        </label>
-      </div>
+      <label className={`GroupRadioAnswerOption${answerOptionStatus}`}>
+        <Radio
+          name={`question_${question.id}`}
+          checked={selectedValue === answerOption.id}
+          value={answerOption.id}
+          onChange={onInputChangeHandler}
+          sx={{
+            color: "var(--secondary-text-color)",
+            padding: "8px",
+            margin: "-8px",
+          }}></Radio>
+        <span className="AnswerOptionText">{answerOptionText}</span>
+      </label>
     );
   }
 );

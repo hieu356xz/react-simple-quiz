@@ -30,7 +30,7 @@ const GroupRadioInputQuestion = ({
         className="GroupRadioInputTextDirection">
         {`${index}) ${parsedQuestionDirection}`}
       </label>
-      <span className="GroupRadioInputContainer">
+      <div className="GroupRadioInputContainer">
         {question.answer_option.map((answerOption) => (
           <GroupRadioAnswerOption
             key={answerOption.id}
@@ -40,7 +40,7 @@ const GroupRadioInputQuestion = ({
             setSelectedValue={setSelectedValue}
           />
         ))}
-      </span>
+      </div>
     </div>
   );
 };

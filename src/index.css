@@ -790,6 +790,63 @@ input {
   }
 }
 
+.GroupRadioInputQuestion {
+  display: flex;
+  flex-basis: 50%;
+  flex-direction: column;
+  align-items: start;
+  padding: 10px 24px 10px 0px;
+  font-size: 15px;
+  gap: 8px;
+
+  & .GroupRadioInputContainer {
+    display: flex;
+    width: 100%;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  & .GroupRadioInputTextDirection {
+    width: 100%;
+    padding: 2px;
+    font-weight: 500;
+  }
+
+  & .GroupRadioAnswerOption {
+    position: relative;
+    display: flex;
+    align-items: start;
+    min-width: 120px;
+    cursor: pointer;
+    padding: 12px;
+    border-radius: 6px;
+    gap: 12px;
+    border: 1px solid var(--answer-border-color);
+    transition: background-color 300ms ease, color 300ms ease;
+
+    &:has(input:checked) {
+      background-color: var(--blue-color-1);
+      color: #ffffff;
+
+      & .Mui-checked {
+        color: #ffffff;
+      }
+    }
+
+    &.correct {
+      background-color: var(--green-color-2) !important;
+    }
+
+    &.incorrect {
+      background-color: var(--red-color-1) !important;
+    }
+
+    &.unanswer {
+      background-color: var(--yellow-color) !important;
+    }
+  }
+}
+
 .DragDropAnswerOptions {
   margin-top: 24px;
   padding: 8px;
@@ -843,7 +900,7 @@ input {
   }
 
   & label:has(input:checked) {
-    border-color: #1c76da;
+    border-color: var(--blue-color-1);
   }
 
   &.correct label {
