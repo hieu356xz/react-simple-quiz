@@ -551,7 +551,8 @@ input {
 .RadioQuestion,
 .CheckboxQuestion,
 .DragDropQuestion,
-.GroupInputQuestion {
+.GroupInputQuestion,
+.GroupRadioQuestion {
   display: flex;
   flex-direction: column;
   font-size: 16px;
@@ -627,7 +628,8 @@ input {
 
 .AnswerOptions,
 .DragDropInputQuestions,
-.GroupInputInputQuestions {
+.GroupInputInputQuestions,
+.GroupRadioInputQuestions {
   display: flex;
   flex-wrap: wrap;
   margin-top: auto;

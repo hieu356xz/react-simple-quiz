@@ -9,6 +9,7 @@ import RadioQuestion from "./RadioQuestion";
 import CheckboxQuestion from "./CheckboxQuestion";
 import DragDropQuestion from "./DragDropQuestion";
 import GroupInputQuestion from "./GroupInputQuestion";
+import GroupRadioQuestion from "./GroupRadioQuestion";
 import shuffle from "lodash/shuffle";
 import LoadingView from "./LoadingView";
 
@@ -125,6 +126,18 @@ const TestContainerPaginated = () => {
               topicQuestion={question}
               inputQuestions={groupedQuestions[question.id] || []}
               number={index + 1}></GroupInputQuestion>
+          </div>
+        ) : question.question_type === "group-radio" ? (
+          <div
+            className="GroupRadioQuestionWrapper"
+            style={
+              currentQuestionNumber !== index + 1 ? { display: "none" } : {}
+            }
+            key={question.id}>
+            <GroupRadioQuestion
+              topicQuestion={question}
+              inputQuestions={groupedQuestions[question.id] || []}
+              number={index + 1}></GroupRadioQuestion>
           </div>
         ) : (
           <div

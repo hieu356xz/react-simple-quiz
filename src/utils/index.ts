@@ -20,7 +20,8 @@ const questionFilter = (questions: Question[]) => {
     const isGrouping =
       (question.question_type === "grouping" && question.group_id) ||
       (question.question_type === "group-input" && question.group_id) ||
-      (question.question_type === "drag_drop" && question.group_id);
+      (question.question_type === "drag_drop" && question.group_id) ||
+      (question.question_type === "group-radio" && question.group_id);
 
     if (isGrouping) {
       groupedQuestions[question.group_id] = [

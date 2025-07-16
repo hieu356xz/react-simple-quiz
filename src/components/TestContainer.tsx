@@ -15,6 +15,7 @@ import RadioQuestion from "./RadioQuestion";
 import CheckboxQuestion from "./CheckboxQuestion";
 import DragDropQuestion from "./DragDropQuestion";
 import GroupInputQuestion from "./GroupInputQuestion";
+import GroupRadioQuestion from "./GroupRadioQuestion";
 import shuffle from "lodash/shuffle";
 import LoadingView from "./LoadingView";
 import QuestionScrollSpy from "./QuestionScrollSpy";
@@ -143,6 +144,14 @@ const TestContainer = () => {
             id={`questionNumber_${index + 1}`}
             number={index + 1}
             key={question.id}></GroupInputQuestion>
+        ) : question.question_type === "group-radio" ? (
+          <GroupRadioQuestion
+            ref={questionRefs.current[index]}
+            topicQuestion={question}
+            inputQuestions={groupedQuestions[question.id] || []}
+            id={`questionNumber_${index + 1}`}
+            number={index + 1}
+            key={question.id}></GroupRadioQuestion>
         ) : (
           <CheckboxQuestion
             ref={questionRefs.current[index]}
