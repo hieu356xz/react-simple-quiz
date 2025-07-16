@@ -669,6 +669,10 @@ input {
     & .DragDropInputDroppable {
       min-height: 162px;
     }
+
+    @media screen and (max-width: 900px) {
+      flex-basis: 100%;
+    }
   }
 }
 
@@ -788,6 +792,10 @@ input {
       border: 3px solid var(--yellow-color);
     }
   }
+
+  @media screen and (max-width: 900px) {
+    flex-basis: 100%;
+  }
 }
 
 .GroupRadioInputQuestion {
@@ -801,7 +809,6 @@ input {
 
   & .GroupRadioInputContainer {
     display: flex;
-    width: 100%;
     gap: 20px;
     flex-wrap: wrap;
   }
@@ -845,6 +852,11 @@ input {
       background-color: var(--yellow-color) !important;
     }
   }
+
+  @media screen and (max-width: 900px) {
+    flex-basis: 100%;
+    padding-right: 8px;
+  }
 }
 
 .DragDropAnswerOptions {
@@ -883,10 +895,8 @@ input {
   }
 
   @media screen and (max-width: 900px) {
-    & {
-      flex-basis: 100%;
-      padding-right: 8px;
-    }
+    flex-basis: 100%;
+    padding-right: 8px;
 
     .AnswerOptionBullet {
       margin-left: 6px;
