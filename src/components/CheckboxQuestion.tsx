@@ -26,7 +26,7 @@ const CheckboxQuestion = forwardRef<HTMLDivElement, ICheckboxQuestionItemProps>(
 
     const haveAnswer = useMemo(() => {
       return question.correct_answer.some(
-        (x) => x > 0 && x <= question.correct_answer.length
+        (x) => x > -1
       );
     }, [question.correct_answer]);
 

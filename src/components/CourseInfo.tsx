@@ -151,7 +151,7 @@ const CourseInfo = () => {
       // Count total questions having answers
       let questionsHavingAnswerCount = filteredQuestions.filter(
         (question) =>
-          !question.correct_answer.some((x) => x <= 0) &&
+          !question.correct_answer.some((x) => x < 0) &&
           (question.question_type === "radio" ||
             question.question_type === "checkbox")
       ).length;
@@ -161,7 +161,7 @@ const CourseInfo = () => {
           let haveAnswer = true;
           groupedQuestions[key].forEach((question) => {
             if (question.question_type !== "group-input") {
-              if (question.correct_answer.some((x) => x <= 0)) {
+              if (question.correct_answer.some((x) => x < 0)) {
                 haveAnswer = false;
               }
             } else {

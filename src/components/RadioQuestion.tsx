@@ -21,7 +21,7 @@ const RadioQuestion = forwardRef<HTMLDivElement, IRadioQuestionItemProps>(
 
     const haveAnswer = useMemo(() => {
       return question.correct_answer.some(
-        (x) => x > 0 && x <= question.answer_option.length
+        (x) => x > -1
       );
     }, [question.correct_answer]);
 

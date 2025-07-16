@@ -35,7 +35,7 @@ const DragDropQuestion = forwardRef<HTMLDivElement, IDragDropQuestionItemProps>(
     const haveAnswer = useMemo(() => {
       let result = true;
       inputQuestions.forEach((question) => {
-        if (!question.correct_answer.some((x) => x > 0)) {
+        if (!question.correct_answer.some((x) => x > -1)) {
           result = false;
         }
       });
