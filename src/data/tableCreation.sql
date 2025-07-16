@@ -19,7 +19,8 @@ CREATE TABLE Question (
     input_correct_answer nvarchar,
     cdr int,
     shuffleable int,
-    group_id int
+    group_id int,
+    number_answer_correct int
 );
 
 CREATE TABLE Course (

@@ -8,6 +8,7 @@ class Question {
   cdr!: number;
   group_id!: number;
   private _shuffleable?: boolean;
+  number_answer_correct!: number;
 
   get question_direction(): string {
     return this._question_direction ?? "";
