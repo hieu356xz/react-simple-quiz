@@ -46,7 +46,7 @@ const GroupInputInputQuestion = ({
       return;
     }
 
-    if (question?.input_correct_answer === userAnswers) {
+    if (question?.input_correct_answer?.toLowerCase() === userAnswers.toLowerCase()) {
       setAnswerOptionStatus(" correct");
     } else {
       setAnswerOptionStatus(" incorrect");
@@ -60,7 +60,7 @@ const GroupInputInputQuestion = ({
 
     if (!userAnswers) return;
 
-    if (question?.input_correct_answer === userAnswers) {
+    if (question?.input_correct_answer?.toLowerCase() === userAnswers.toLowerCase()) {
       setAnswerOptionStatus(" correct");
     } else {
       setAnswerOptionStatus(" incorrect");
