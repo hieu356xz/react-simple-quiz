@@ -19,15 +19,17 @@ const SidebarItem = ({ children, ...props }: ISidebarItemProps) => {
   const screenMatches = useMediaQuery("screen and (max-width: 768px)");
 
   useEffect(() => {
-    props.currCourse
-      ? setIsItemSelected(props.currCourse.id == props.course.id)
-      : setIsItemSelected(false);
+    if (props.currCourse) {
+      setIsItemSelected(props.currCourse.id == props.course.id);
+    } else {
+      setIsItemSelected(false);
+    }
   }, [props.currCourse]);
 
   const changeCourse = () => {
     dispatch(setCurrCourse(props.course));
     // Tự động đóng sidebar trên màn hình nhỏ
-    screenMatches && dispatch(setIsSidebarOpen(false));
+    if (screenMatches) dispatch(setIsSidebarOpen(false));
   };
 
   return (

@@ -20,7 +20,7 @@ const fetchSubject = async (id: string) => {
 };
 
 const getSubjectFromLocal = async () => {
-  let savedSubjectId = localStorage.getItem("SubjectId");
+  const savedSubjectId = localStorage.getItem("SubjectId");
 
   if (savedSubjectId) {
     const subject = await fetchSubject(savedSubjectId);

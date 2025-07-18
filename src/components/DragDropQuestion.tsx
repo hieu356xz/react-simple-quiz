@@ -65,7 +65,7 @@ const DragDropQuestion = forwardRef<HTMLDivElement, IDragDropQuestionItemProps>(
         let oldInputContainer = -1;
         for (const key in newMap) {
           if (
-            newMap.hasOwnProperty(key) &&
+            Object.prototype.hasOwnProperty.call(newMap, key) &&
             newMap[key].includes(answerOptionId)
           ) {
             oldInputContainer = Number(key);

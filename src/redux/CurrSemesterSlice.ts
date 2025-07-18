@@ -20,7 +20,7 @@ const fetchSemester = async (id: string) => {
 };
 
 const getSemesterFromLocal = async () => {
-  let savedSemesterId = localStorage.getItem("SemesterId");
+  const savedSemesterId = localStorage.getItem("SemesterId");
 
   if (savedSemesterId) {
     const semester = await fetchSemester(savedSemesterId);

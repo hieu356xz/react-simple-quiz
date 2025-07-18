@@ -21,7 +21,11 @@ const TestResultPopup = ({
   const [testResultBoxClassName, setTestResultBoxClassName] = useState("");
 
   useEffect(() => {
-    isTestFininshed ? setHidePopup(false) : setHidePopup(true);
+    if (isTestFininshed) {
+      setHidePopup(false);
+    } else {
+      setHidePopup(true);
+    }
 
     if (score < 5) {
       setTestResultBoxClassName("lowScore");

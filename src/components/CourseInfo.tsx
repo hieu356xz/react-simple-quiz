@@ -124,7 +124,7 @@ const CourseInfo = () => {
       setSemester({ semester: new Semester(data[0]), loading: false });
     };
 
-    currSubject.subject && fetchData();
+    if (currSubject.subject) fetchData();
   }, [currSubject.subject]);
 
   useEffect(() => {
@@ -157,7 +157,7 @@ const CourseInfo = () => {
       ).length;
 
       for (const key in groupedQuestions) {
-        if (groupedQuestions.hasOwnProperty(key)) {
+        if (Object.prototype.hasOwnProperty.call(groupedQuestions, key)) {
           let haveAnswer = true;
           groupedQuestions[key].forEach((question) => {
             if (question.question_type !== "group-input") {
