@@ -36,13 +36,13 @@ const SidebarGroupItem = ({ subject }: ISidebarGroupItemProps) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await QueryDb(
+      const data = await QueryDb<Course>(
         `select *
         from Course
         where subject_id = ${subject.id}`
       );
 
-      const courseList: Course[] = JSON.parse(data).map(
+      const courseList: Course[] = data.map(
         (course: Course) => new Course(course)
       );
       if (courseList) {

@@ -45,7 +45,7 @@ const QueryDbRaw = async (query: string) => {
   }
 };
 
-const QueryDb = async (query: string) => {
+const QueryDb = async <T>(query: string): Promise<T[]> => {
   const db = await SQLDatabase.getInstance();
   try {
     const stmt = db.prepare(query);
@@ -56,7 +56,7 @@ const QueryDb = async (query: string) => {
     }
 
     stmt.free();
-    return JSON.stringify(results);
+    return results as T[];
   } catch (error) {
     console.error("Error executing query:", error, "Query:", query);
     throw error;

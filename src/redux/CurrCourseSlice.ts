@@ -4,14 +4,14 @@ import { QueryDb } from "../data/SQLDatabase";
 
 const fetchCourse = async (id: string) => {
   try {
-    const data = await QueryDb(
+    const data = await QueryDb<Course>(
       `select *
             from Course 
             where id = ${id}
             limit 1`
     );
 
-    const course = new Course(JSON.parse(data)[0]);
+    const course = new Course(data[0]);
     return course;
   } catch (error) {
     console.error("Error fetching data:", error);

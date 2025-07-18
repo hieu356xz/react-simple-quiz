@@ -40,16 +40,14 @@ const TestContainerPaginated = () => {
 
     dispatch(setTestQuestion([]));
     const fetchData = async () => {
-      const data = await QueryDb(`
+      const data = await QueryDb<Question>(`
         select * from Question
         where id in (select json_each.value
                       from Course, json_each(questions)
                       where Course.id = ${currCourse?.id})`);
 
-      const questionList: Question[] = JSON.parse(data).map(
-        (question: Question) => {
-          return new Question(question);
-        }
+      const questionList: Question[] = data.map(
+        (question: Question) => new Question(question)
       );
 
       const shuffledQuestions = handleShuffleQuestion(questionList);

@@ -115,13 +115,13 @@ const CourseInfo = () => {
   useEffect(() => {
     const fetchData = async () => {
       setSemester({ ...semester, loading: true });
-      const data = await QueryDb(
+      const data = await QueryDb<Semester>(
         `select *
         from Semester
         where id = ${currSubject.subject?.semester_id}`
       );
 
-      setSemester({ semester: JSON.parse(data)[0], loading: false });
+      setSemester({ semester: new Semester(data[0]), loading: false });
     };
 
     currSubject.subject && fetchData();
@@ -136,12 +136,12 @@ const CourseInfo = () => {
 
     const getQuestions = async () => {
       if (!currCourse.course) return;
-      const data = await QueryDb(`
+      const data = await QueryDb<Question>(`
         SELECT *
         FROM Question
         WHERE id IN (${currCourse.course.questions.join(",")})
       `);
-      const questions: Question[] = JSON.parse(data).map(
+      const questions: Question[] = data.map(
         (question: Question) => new Question(question)
       );
 

@@ -37,18 +37,22 @@ const Sidebar = () => {
   const currentSemester = useSelector(
     (state: RootState) => state.currSemester.semester
   );
-  const [subjects, setSubjects] = useState([]);
-  const [semesters, setSemesters] = useState([]);
-  const [subjectsBySemester, setSubjectsBySemester] = useState([]);
+  const [subjects, setSubjects] = useState<Subject[]>([]);
+  const [semesters, setSemesters] = useState<Semester[]>([]);
+  const [subjectsBySemester, setSubjectsBySemester] = useState<Subject[]>([]);
   const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await QueryDb("select * from Subject");
-      setSubjects(JSON.parse(data));
+      const data = await QueryDb<Subject>("select * from Subject");
+      const subjects = data.map((subject: Subject) => new Subject(subject));
+      setSubjects(subjects);
 
-      const semesterData = await QueryDb("select * from Semester");
-      setSemesters(JSON.parse(semesterData));
+      const semesterData = await QueryDb<Semester>("select * from Semester");
+      const semesters = semesterData.map(
+        (semester: Semester) => new Semester(semester)
+      );
+      setSemesters(semesters);
     };
 
     fetchData();
