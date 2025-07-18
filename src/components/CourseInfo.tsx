@@ -85,10 +85,7 @@ const CourseInfo = () => {
       }
 
       presets.forEach((value) => {
-        if (
-          !currCourse.course ||
-          value >= currCourse.course?.questions.length
-        ) {
+        if (!currCourse.course || value >= totalQuestionCount.value) {
           return;
         }
 
@@ -110,7 +107,7 @@ const CourseInfo = () => {
     };
 
     createQuestionCountOptions();
-  }, [currCourse.course]);
+  }, [currCourse.course, totalQuestionCount.value]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -288,7 +285,9 @@ const CourseInfo = () => {
               <td>
                 <FormControl sx={{ m: 0, minWidth: 120 }} size="small">
                   <Select
-                    value={localQuestionCount}
+                    value={
+                      questionCountOptions.length > 1 ? localQuestionCount : ""
+                    }
                     onChange={handleQuestionCountChange}
                     displayEmpty
                     inputProps={{ "aria-label": "Without label" }}
