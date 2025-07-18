@@ -1,6 +1,6 @@
 import { ReactNode, useEffect, useState } from "react";
 import { FiEdit } from "react-icons/fi";
-import QueryDb from "../data/QueryDb";
+import { QueryDb } from "../data/SQLDatabase";
 import Semester from "../data/Semester";
 import Question from "../data/Question";
 import { useDispatch, useSelector } from "react-redux";

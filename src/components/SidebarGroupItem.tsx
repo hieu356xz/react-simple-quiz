@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { MdOutlineKeyboardArrowUp } from "react-icons/md";
 import Subject from "../data/Subject";
 import Course from "../data/Course";
-import QueryDb from "../data/QueryDb";
+import { QueryDb } from "../data/SQLDatabase";
 import SidebarItem from "./SidebarItem";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";

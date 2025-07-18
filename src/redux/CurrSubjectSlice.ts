@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import Subject from "../data/Subject";
-import QueryDb from "../data/QueryDb";
+import { QueryDb } from "../data/SQLDatabase";
 
 const fetchSubject = async (id: string) => {
   try {

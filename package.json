@@ -27,7 +27,7 @@
     "react-icons": "^5.4.0",
     "react-loader-spinner": "^6.1.6",
     "react-redux": "^9.2.0",
-    "sql.js-httpvfs": "^0.8.12"
+    "sql.js": "^1.13.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.15.0",
@@ -35,6 +35,7 @@
     "@types/node": "^24.0.13",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
+    "@types/sql.js": "^1.4.9",
     "@vitejs/plugin-react": "^4.3.4",
     "eslint": "^9.15.0",
     "eslint-plugin-react-hooks": "^5.0.0",

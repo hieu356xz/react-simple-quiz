@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import SidebarGroupItem from "./SidebarGroupItem";
-import QueryDb from "../data/QueryDb";
+import { QueryDb } from "../data/SQLDatabase";
 import Subject from "../data/Subject";
 import Semester from "../data/Semester";
 import { useDispatch, useSelector } from "react-redux";

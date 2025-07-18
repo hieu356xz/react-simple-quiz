@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import QueryDb from "../data/QueryDb";
+import { QueryDb } from "../data/SQLDatabase";
 import Question from "../data/Question";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
