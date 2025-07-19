@@ -18,12 +18,9 @@ interface ICheckboxQuestionItemProps extends ComponentPropsWithoutRef<"div"> {
 
 const CheckboxQuestion = forwardRef<HTMLDivElement, ICheckboxQuestionItemProps>(
   ({ question, number, ...props }, ref) => {
-    const [selectedValue, setSelectedValue] = useState<boolean[]>([
-      false,
-      false,
-      false,
-      false,
-    ]);
+    const [selectedValue, setSelectedValue] = useState<boolean[]>(
+      Array(question.answer_option.length).fill(false)
+    );
 
     const haveAnswer = useMemo(() => {
       return question.correct_answer.some((x) => x > -1);
