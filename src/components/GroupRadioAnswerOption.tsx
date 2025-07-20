@@ -79,11 +79,9 @@ const GroupRadioAnswerOption = memo(
       if (userAnswers && userAnswers.includes(answerOptionId)) {
         if (!question.correct_answer.includes(answerOptionId)) {
           setAnswerOptionStatus(" incorrect");
+        } else {
+          setAnswerOptionStatus(" correct");
         }
-      }
-
-      if (question.correct_answer.includes(answerOptionId)) {
-        setAnswerOptionStatus(" correct");
       }
     }, [showAnwserOnChosen, userAnswers]);
 

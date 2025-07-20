@@ -27,7 +27,8 @@ body {
   --green-color-1: #1fbb58;
   --green-color-2: #28a745;
   --red-color-1: #dc3545;
-  --yellow-color: #ffc107;
+  --yellow-color-1: #ffc107;
+  --yellow-color-2: #cfa900;
 
   --sidebar-width: min(380px, 100vw);
   --navbar-height: 60px;
@@ -778,7 +779,7 @@ input {
   &.unanswer {
     & .DragDropInputContainer::after {
       opacity: 1;
-      border: 3px dashed var(--yellow-color);
+      border: 3px dashed var(--yellow-color-1);
     }
   }
 }
@@ -820,7 +821,7 @@ input {
   &.unanswer {
     & .GroupInputInputContainer > input {
       margin: -2px;
-      border: 3px solid var(--yellow-color);
+      border: 3px solid var(--yellow-color-1);
     }
   }
 
@@ -866,21 +867,36 @@ input {
       background-color: var(--blue-color-1);
       color: #ffffff;
 
-      & .Mui-checked {
+      & .MuiRadio-root {
         color: #ffffff;
       }
     }
 
     &.correct {
       background-color: var(--green-color-2) !important;
+      color: #ffffff;
+
+      & .MuiRadio-root {
+        color: #ffffff;
+      }
     }
 
     &.incorrect {
       background-color: var(--red-color-1) !important;
+      color: #ffffff;
+
+      & .MuiRadio-root {
+        color: #ffffff;
+      }
     }
 
     &.unanswer {
-      background-color: var(--yellow-color) !important;
+      background-color: var(--yellow-color-2) !important;
+      color: #ffffff;
+
+      & .MuiRadio-root {
+        color: #ffffff;
+      }
     }
   }
 
@@ -957,7 +973,7 @@ input {
   }
 
   &.unanswer label {
-    border-color: var(--yellow-color) !important;
+    border-color: var(--yellow-color-1) !important;
     border-width: 3px;
     margin: -2px;
   }
@@ -1038,7 +1054,7 @@ input {
     }
 
     &.mediumScore p {
-      color: var(--yellow-color);
+      color: var(--yellow-color-1);
     }
 
     &.lowScore p {
