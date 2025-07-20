@@ -46,7 +46,10 @@ const GroupInputInputQuestion = ({
       return;
     }
 
-    if (question?.input_correct_answer?.toLowerCase() === userAnswers.toLowerCase()) {
+    if (
+      question?.input_correct_answer?.toLowerCase() ===
+      userAnswers.toLowerCase()
+    ) {
       setAnswerOptionStatus(" correct");
     } else {
       setAnswerOptionStatus(" incorrect");
@@ -60,18 +63,25 @@ const GroupInputInputQuestion = ({
 
     if (!userAnswers) return;
 
-    if (question?.input_correct_answer?.toLowerCase() === userAnswers.toLowerCase()) {
+    if (
+      question?.input_correct_answer?.toLowerCase() ===
+      userAnswers.toLowerCase()
+    ) {
       setAnswerOptionStatus(" correct");
     } else {
       setAnswerOptionStatus(" incorrect");
     }
   }, [showAnwserOnChosen, userAnswers]);
 
+  // Debounce longer for first input
+  const debounceTimeout = userAnswers ? 350 : 1000;
+
+  // Debounce to avoid too many dispatches when user types quickly
   const debouncedSetInputAnswer = useCallback(
     debounce((value: string) => {
       dispatch(setInputAnswer({ id: question.id, answer: value }));
-    }, 350),
-    [dispatch, question.id]
+    }, debounceTimeout),
+    [dispatch, question.id, debounceTimeout]
   );
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
