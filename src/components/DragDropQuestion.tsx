@@ -15,22 +15,22 @@ import DragDropInputQuestion from "./DragDropInputQuestion";
 import QuestionDirection from "./QuestionDirection";
 
 interface IDragDropQuestionItemProps extends ComponentPropsWithoutRef<"div"> {
-  dragQuestion: Question;
+  topicQuestion: Question;
   inputQuestions: Question[];
   number: number;
 }
 
 const DragDropQuestion = forwardRef<HTMLDivElement, IDragDropQuestionItemProps>(
-  ({ dragQuestion, inputQuestions, number, ...props }, ref) => {
+  ({ topicQuestion, inputQuestions, number, ...props }, ref) => {
     const [seletedAnswerMap, setSelectedAnswerMap] = useState<
       Record<number, number[]>
     >({
-      [dragQuestion.id]: dragQuestion.answer_option.map((option) =>
+      [topicQuestion.id]: topicQuestion.answer_option.map((option) =>
         Number(option.id)
       ),
     });
 
-    const isMultipleChoice = dragQuestion.question_type === "grouping";
+    const isMultipleChoice = topicQuestion.question_type === "grouping";
 
     const haveAnswer = useMemo(() => {
       let result = true;
@@ -76,7 +76,7 @@ const DragDropQuestion = forwardRef<HTMLDivElement, IDragDropQuestionItemProps>(
         if (oldInputContainer !== -1) {
           if (
             !isMultipleChoice &&
-            newInputContainer !== dragQuestion.id &&
+            newInputContainer !== topicQuestion.id &&
             newMap[newInputContainer] &&
             newMap[newInputContainer].length >= 1
           ) {
@@ -110,11 +110,11 @@ const DragDropQuestion = forwardRef<HTMLDivElement, IDragDropQuestionItemProps>(
         return (
           <DragDropAnswerOption
             answerOption={answerOption}
-            question={dragQuestion}
-            key={`${dragQuestion.id}_${answerOption.id}`}></DragDropAnswerOption>
+            question={topicQuestion}
+            key={`${topicQuestion.id}_${answerOption.id}`}></DragDropAnswerOption>
         );
       },
-      [dragQuestion]
+      [topicQuestion]
     );
 
     return (
@@ -124,13 +124,13 @@ const DragDropQuestion = forwardRef<HTMLDivElement, IDragDropQuestionItemProps>(
           modifiers={[restrictToWindowEdges]}>
           <QuestionDirection
             number={number}
-            id={dragQuestion.id}
-            directionText={dragQuestion.question_direction}
+            id={topicQuestion.id}
+            directionText={topicQuestion.question_direction}
             haveAnswer={haveAnswer}>
-            <DragDropAnswerOptions questionId={dragQuestion.id}>
-              {dragQuestion.answer_option
+            <DragDropAnswerOptions questionId={topicQuestion.id}>
+              {topicQuestion.answer_option
                 .filter((option) =>
-                  seletedAnswerMap[dragQuestion.id].includes(Number(option.id))
+                  seletedAnswerMap[topicQuestion.id].includes(Number(option.id))
                 )
                 .map(renderDragDropOption)}
             </DragDropAnswerOptions>
@@ -143,11 +143,12 @@ const DragDropQuestion = forwardRef<HTMLDivElement, IDragDropQuestionItemProps>(
             {inputQuestions.map((inputQuestion, index) => (
               <DragDropInputQuestion
                 question={inputQuestion}
+                answerOption={topicQuestion.answer_option}
                 index={isMultipleChoice ? index + 1 : undefined}
                 selectedAnswers={seletedAnswerMap[inputQuestion.id] || []}
                 key={inputQuestion.id}>
                 {seletedAnswerMap[inputQuestion.id] &&
-                  dragQuestion.answer_option
+                  topicQuestion.answer_option
                     .filter((option) =>
                       seletedAnswerMap[inputQuestion.id].includes(
                         Number(option.id)

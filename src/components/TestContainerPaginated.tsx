@@ -109,7 +109,7 @@ const TestContainerPaginated = () => {
             }
             key={question.id}>
             <DragDropQuestion
-              dragQuestion={question}
+              topicQuestion={question}
               inputQuestions={groupedQuestions[question.id] || []}
               number={index + 1}></DragDropQuestion>
           </div>

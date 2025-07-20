@@ -1,4 +1,4 @@
-import Question from "../data/Question";
+import Question, { AnswerOption } from "../data/Question";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUserAnswer } from "../redux/UserAnswerSlice";
 import { RootState } from "../redux/store";
@@ -10,6 +10,7 @@ import { useDroppable } from "@dnd-kit/core";
 
 interface IDragDropInputQuestionProps {
   question: Question;
+  answerOption: AnswerOption[];
   index?: number;
   selectedAnswers: number[];
   children?: React.ReactNode[];
@@ -17,6 +18,7 @@ interface IDragDropInputQuestionProps {
 
 const DragDropInputQuestion = ({
   question,
+  answerOption,
   index,
   selectedAnswers,
   children,
@@ -36,6 +38,18 @@ const DragDropInputQuestion = ({
     (state: RootState) => state.testConfig.showAnswerOnChosen
   );
   const dispatch = useDispatch();
+
+  const correctAnswerString = useMemo(() => {
+    const filleredAnswer = answerOption.filter((x) =>
+      question.correct_answer.includes(Number(x.id))
+    );
+
+    if (filleredAnswer.length > 1) {
+      return filleredAnswer.map((x) => `[${x.value}]`).join(", ");
+    } else {
+      return filleredAnswer.map((x) => x.value).join(", ");
+    }
+  }, [answerOption, question.correct_answer]);
 
   const parsedQuestionDirection = useMemo(() => {
     const cleanHTML = DOMPurify.sanitize(question.question_direction, {
@@ -107,21 +121,28 @@ const DragDropInputQuestion = ({
 
   return (
     <div className={`DragDropInputQuestion${answerOptionStatus}`}>
-      <span className="DragDropInputTextDirection">
-        {index
-          ? `${index}) ${parsedQuestionDirection}`
-          : parsedQuestionDirection}
-      </span>
-      <span className="DragDropInputContainer">
-        <div className="DragDropInputDroppable" ref={setNodeRef}>
-          {children}
-        </div>
-        <p
-          className="DragDropInputMessage"
-          style={isOver || children?.length ? { display: "none" } : {}}>
-          Kéo và thẻ các đáp án vào đây
-        </p>
-      </span>
+      <div className="DragDropInputWrapper">
+        <span className="DragDropInputTextDirection">
+          {index
+            ? `${index}) ${parsedQuestionDirection}`
+            : parsedQuestionDirection}
+        </span>
+        <span className="DragDropInputContainer">
+          <div className="DragDropInputDroppable" ref={setNodeRef}>
+            {children}
+          </div>
+          <p
+            className="DragDropInputMessage"
+            style={isOver || children?.length ? { display: "none" } : {}}>
+            Kéo và thẻ các đáp án vào đây
+          </p>
+        </span>
+      </div>
+      {correctAnswerString && (
+        <span className="DragDropInputCorrectAnswer">
+          Đáp án đúng: {correctAnswerString}
+        </span>
+      )}
     </div>
   );
 };

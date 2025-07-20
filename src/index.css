@@ -683,11 +683,14 @@ input {
   gap: 0px;
 
   .DragDropInputQuestion {
-    grid-template-columns: 1fr;
-    flex-basis: 50%;
     padding: 10px 12px;
-    gap: 0px;
-    align-items: end;
+    flex-basis: 50%;
+
+    & .DragDropInputWrapper {
+      grid-template-columns: 1fr;
+      gap: 0px;
+      align-items: end;
+    }
 
     & .DragDropInputTextDirection {
       background-color: transparent;
@@ -708,13 +711,34 @@ input {
   }
 }
 
+.DragDropInputQuestions.row {
+  @media screen and (max-width: 900px) {
+    & .DragDropInputWrapper {
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+  }
+}
+
 .DragDropInputQuestion {
-  display: grid;
-  grid-template-columns: 1fr 33%;
   width: 100%;
-  gap: 16px;
   font-size: 15px;
-  align-items: center;
+  display: flex;
+  gap: 8px;
+  flex-direction: column;
+
+  & .DragDropInputWrapper {
+    display: grid;
+    grid-template-columns: 1fr 33%;
+    gap: 16px;
+    align-items: center;
+  }
+
+  & .DragDropInputCorrectAnswer {
+    display: none;
+    color: var(--green-color-2);
+    padding: 0 12px;
+  }
 
   & .DragDropInputTextDirection {
     display: inline-block;
@@ -738,10 +762,6 @@ input {
     width: 100%;
     min-height: 57px;
     padding: 2px;
-
-    & > span {
-      margin: 2px;
-    }
   }
 
   & .DragDropInputMessage {
@@ -767,6 +787,10 @@ input {
       opacity: 1;
       border: 3px dashed var(--green-color-2);
     }
+
+    & .DragDropInputCorrectAnswer {
+      display: inline-block;
+    }
   }
 
   &.incorrect {
@@ -774,12 +798,20 @@ input {
       opacity: 1;
       border: 3px dashed var(--red-color-1);
     }
+
+    & .DragDropInputCorrectAnswer {
+      display: inline-block;
+    }
   }
 
   &.unanswer {
     & .DragDropInputContainer::after {
       opacity: 1;
       border: 3px dashed var(--yellow-color-1);
+    }
+
+    & .DragDropInputCorrectAnswer {
+      display: inline-block;
     }
   }
 }
@@ -869,7 +901,6 @@ input {
   }
 
   & .GroupRadioAnswerOption {
-    position: relative;
     display: flex;
     align-items: start;
     min-width: 120px;
@@ -926,9 +957,6 @@ input {
 .DragDropAnswerOptions {
   margin-top: 24px;
   padding: 8px;
-  display: flex;
-  justify-content: center;
-  gap: 4px;
   min-height: 66px;
 }
 
@@ -1016,12 +1044,18 @@ input {
   display: inline-block;
   position: relative;
   padding: 12px;
+  font-size: 15px;
   color: var(--blue-color-1);
   background-color: var(--drag-drop-answer-option-background-color);
   border: 1px solid var(--drag-drop-answer-option-border-color);
   border-radius: 4px;
   z-index: 2;
   cursor: move;
+  margin: 2px;
+
+  &[aria-pressed="true"] {
+    z-index: 999;
+  }
 }
 
 .TestResultPopup {

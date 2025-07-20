@@ -129,7 +129,7 @@ const TestContainer = () => {
           question.question_type === "grouping" ? (
           <DragDropQuestion
             ref={questionRefs.current[index]}
-            dragQuestion={question}
+            topicQuestion={question}
             inputQuestions={groupedQuestions[question.id] || []}
             id={`questionNumber_${index + 1}`}
             number={index + 1}
