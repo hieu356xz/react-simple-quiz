@@ -799,6 +799,11 @@ input {
     font-weight: 500;
   }
 
+  & .GroupInputInputCorrectAnswer {
+    display: none;
+    color: var(--green-color-2);
+  }
+
   & .GroupInputInputContainer > input {
     width: 100%;
     transition: border-color 300ms ease;
@@ -809,6 +814,10 @@ input {
       margin: -2px;
       border: 3px solid var(--green-color-2);
     }
+
+    & .GroupInputInputCorrectAnswer {
+      display: inline-block;
+    }
   }
 
   &.incorrect {
@@ -816,12 +825,20 @@ input {
       margin: -2px;
       border: 3px solid var(--red-color-1);
     }
+
+    & .GroupInputInputCorrectAnswer {
+      display: inline-block;
+    }
   }
 
   &.unanswer {
     & .GroupInputInputContainer > input {
       margin: -2px;
       border: 3px solid var(--yellow-color-1);
+    }
+
+    & .GroupInputInputCorrectAnswer {
+      display: inline-block;
     }
   }
 

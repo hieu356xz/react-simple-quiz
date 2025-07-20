@@ -106,8 +106,16 @@ const GroupInputInputQuestion = ({
           value={inputValue}
           onInput={handleInputChange}
           spellCheck={false}
+          style={{
+            cursor: isTestFininshed ? "default" : "text",
+          }}
         />
       </span>
+      {question.input_correct_answer && (
+        <span className="GroupInputInputCorrectAnswer">
+          Đáp án đúng: {question.input_correct_answer}
+        </span>
+      )}
     </div>
   );
 };
