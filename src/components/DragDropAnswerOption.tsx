@@ -5,6 +5,8 @@ import DOMPurify from "dompurify";
 import { HTMLPaserImageOptions } from "../utils";
 import { useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
 
 interface IDragDropQuestionOptionItemProps {
   answerOption: AnswerOption;
@@ -13,6 +15,10 @@ interface IDragDropQuestionOptionItemProps {
 
 const DragDropAnswerOption = memo(
   ({ answerOption, question }: IDragDropQuestionOptionItemProps) => {
+    const isTestFininshed = useSelector(
+      (state: RootState) => state.testResult.isTestFininshed
+    );
+
     const answerOptionText = useMemo(() => {
       const cleanHTML = DOMPurify.sanitize(answerOption.value, {
         USE_PROFILES: { html: true },
@@ -27,6 +33,7 @@ const DragDropAnswerOption = memo(
         answerOptionId: answerOption.id,
         questionId: question.id,
       },
+      disabled: isTestFininshed,
     });
 
     const style = {
