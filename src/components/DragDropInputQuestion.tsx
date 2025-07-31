@@ -37,6 +37,7 @@ const DragDropInputQuestion = ({
   const showAnwserOnChosen = useSelector(
     (state: RootState) => state.testConfig.showAnswerOnChosen
   );
+  const [startShowAnswerOnChosen, setStartShowAnswerOnChosen] = useState(false);
   const dispatch = useDispatch();
 
   const correctAnswerString = useMemo(() => {
@@ -89,6 +90,10 @@ const DragDropInputQuestion = ({
     setAnswerOptionStatus("");
 
     if (!userAnswers || userAnswers.length == 0) return;
+    setStartShowAnswerOnChosen((prev) =>
+      prev ? prev : userAnswers.length >= question.correct_answer.length
+    );
+    if (!startShowAnswerOnChosen) return;
 
     const correctAnswerStringify = JSON.stringify(
       question.correct_answer.sort()
@@ -103,7 +108,7 @@ const DragDropInputQuestion = ({
     } else {
       setAnswerOptionStatus(" incorrect");
     }
-  }, [showAnwserOnChosen, userAnswers]);
+  }, [showAnwserOnChosen, startShowAnswerOnChosen, userAnswers]);
 
   useEffect(() => {
     if (isTestFininshed) return;

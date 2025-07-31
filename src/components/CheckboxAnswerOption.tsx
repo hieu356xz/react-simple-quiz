@@ -36,6 +36,8 @@ const CheckboxAnswerOption = memo(
     const showAnwserOnChosen = useSelector(
       (state: RootState) => state.testConfig.showAnswerOnChosen
     );
+    const [startShowAnswerOnChosen, setStartShowAnswerOnChosen] =
+      useState(false);
     const dispatch = useDispatch();
 
     const answerOptionText = useMemo(() => {
@@ -75,6 +77,11 @@ const CheckboxAnswerOption = memo(
       setAnswerOptionStatus("");
 
       if (!userAnswers || userAnswers.length == 0) return;
+      setStartShowAnswerOnChosen((prev) =>
+        prev ? prev : userAnswers.length >= question.correct_answer.length
+      );
+      if (!startShowAnswerOnChosen) return;
+
       const answerOptionId = Number.parseInt(answerOption.id);
 
       if (userAnswers && userAnswers.includes(answerOptionId)) {
@@ -86,7 +93,7 @@ const CheckboxAnswerOption = memo(
       if (question.correct_answer.includes(answerOptionId)) {
         setAnswerOptionStatus(" correct");
       }
-    }, [showAnwserOnChosen, userAnswers]);
+    }, [showAnwserOnChosen, startShowAnswerOnChosen, userAnswers]);
 
     const onInputChangeHandler = () => {
       if (isTestFininshed) return;
