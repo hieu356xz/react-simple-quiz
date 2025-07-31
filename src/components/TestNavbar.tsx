@@ -60,15 +60,18 @@ const TestNavbar = ({ setHidePopup }: ITestNavbarProps) => {
     correctAnswer: number[] | string
   ) => {
     if (Array.isArray(userAnswer) && Array.isArray(correctAnswer)) {
-      return (
-        JSON.stringify(userAnswer.sort()) ===
-        JSON.stringify(correctAnswer.sort())
-      );
+      // Create copies before sorting to avoid mutating read-only arrays
+      const correctAnswerStringify = JSON.stringify([...correctAnswer].sort());
+      const userAnswerStringify = JSON.stringify([...userAnswer].sort());
+
+      return correctAnswerStringify === userAnswerStringify;
     } else if (
       typeof userAnswer === "string" &&
       typeof correctAnswer === "string"
     ) {
-      return userAnswer.toLowerCase() === correctAnswer.toLowerCase();
+      return (
+        userAnswer.toLowerCase().trim() === correctAnswer.toLowerCase().trim()
+      );
     }
     return false; // Fallback for unexpected types
   };
