@@ -10,13 +10,12 @@ import { QueryDb } from "../data/SQLDatabase";
 import Question from "../data/Question";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
-import { setTestQuestion } from "../redux/TestQuestionSlice";
+import { setTestQuestion, clearTestQuestion } from "../redux/TestQuestionSlice";
 import RadioQuestion from "./RadioQuestion";
 import CheckboxQuestion from "./CheckboxQuestion";
 import DragDropQuestion from "./DragDropQuestion";
 import GroupInputQuestion from "./GroupInputQuestion";
 import GroupRadioQuestion from "./GroupRadioQuestion";
-import shuffle from "lodash/shuffle";
 import LoadingView from "./LoadingView";
 import QuestionScrollSpy from "./QuestionScrollSpy";
 
@@ -58,7 +57,7 @@ const TestContainer = () => {
   useEffect(() => {
     if (isTestFininshed) return;
 
-    dispatch(setTestQuestion([]));
+    dispatch(clearTestQuestion());
     const fetchData = async () => {
       const data = await QueryDb<Question>(`
         select * from Question
@@ -70,34 +69,17 @@ const TestContainer = () => {
         (question: Question) => new Question(question)
       );
 
-      const shuffledQuestions = handleShuffleQuestion(questionList);
-      hanldeShuffleAnswer(shuffledQuestions);
-      dispatch(setTestQuestion(shuffledQuestions));
+      dispatch(
+        setTestQuestion({
+          questions: questionList,
+          count: Number.parseInt(questionCount) || -1,
+          shuffleAnswer: shuffleAnswer,
+        })
+      );
     };
 
     fetchData();
   }, [isTestFininshed]);
-
-  const hanldeShuffleAnswer = (questions: Question[]) => {
-    questions.forEach((question) => {
-      if (shuffleAnswer && question.shuffleable) {
-        question.answer_option = shuffle(question.answer_option);
-      }
-    });
-  };
-
-  const handleShuffleQuestion = (questions: Question[]) => {
-    const shuffledQuestions = shuffle(questions);
-    shuffledQuestions.sort((a, b) => a.cdr - b.cdr);
-    if (
-      questionCount === "all" ||
-      Number.isNaN(Number.parseInt(questionCount))
-    ) {
-      return shuffledQuestions;
-    } else {
-      return shuffledQuestions.slice(0, Number.parseInt(questionCount));
-    }
-  };
 
   if (
     !filteredQuestions ||

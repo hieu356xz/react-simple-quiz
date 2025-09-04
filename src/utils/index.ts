@@ -1,5 +1,6 @@
 import { HTMLReactParserOptions, Element } from "html-react-parser";
 import Question from "../data/Question";
+import shuffle from "lodash/shuffle";
 
 const HTMLPaserImageOptions: HTMLReactParserOptions = {
   replace(domNode) {
@@ -36,4 +37,27 @@ const questionFilter = (questions: Question[]) => {
   return { filteredQuestions, groupedQuestions };
 };
 
-export { HTMLPaserImageOptions, questionFilter };
+const shuffleAnswer = (questions: Question[]) => {
+  questions.forEach((question) => {
+    if (question.shuffleable) {
+      question.answer_option = shuffle(question.answer_option);
+    }
+  });
+};
+
+const shuffleQuestion = (questions: Question[], count: number) => {
+  const shuffledQuestions = shuffle(questions);
+  shuffledQuestions.sort((a, b) => a.cdr - b.cdr);
+  if (count < 0) {
+    return shuffledQuestions;
+  } else {
+    return shuffledQuestions.slice(0, count);
+  }
+};
+
+export {
+  HTMLPaserImageOptions,
+  questionFilter,
+  shuffleAnswer,
+  shuffleQuestion,
+};
