@@ -10,7 +10,6 @@ import CheckboxQuestion from "./CheckboxQuestion";
 import DragDropQuestion from "./DragDropQuestion";
 import GroupInputQuestion from "./GroupInputQuestion";
 import GroupRadioQuestion from "./GroupRadioQuestion";
-import shuffle from "lodash/shuffle";
 import LoadingView from "./LoadingView";
 
 const TestContainerPaginated = () => {
