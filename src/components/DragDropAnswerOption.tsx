@@ -39,6 +39,7 @@ const DragDropAnswerOption = memo(
     const style = {
       transform: CSS.Translate.toString(transform),
       cursor: isTestFininshed ? "default" : "move",
+      touchAction: "none",
     };
 
     return (
